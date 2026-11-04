@@ -1,0 +1,49 @@
+{#
+  scenario_id: restructure_outline
+  scenario_category: D
+  preconditions: first outline has >= 2 acts each with >= 2 chapters
+  description: |
+    User wants to reorganize chapters across acts. Multi-step: read structure,
+    discuss with outline_planner sub-agent, then patch positions.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set outlines = project.outlines | default([]) -%}
+{%- if outlines | length >= 1 -%}
+{%- set outline = outlines[0] -%}
+{%- set acts = outline.acts | default([]) -%}
+{%- if acts | length >= 2 and acts[0].chapters | length >= 2 and acts[1].chapters | length >= 1 -%}
+{%- set act1 = acts[0] -%}
+{%- set act2 = acts[1] -%}
+{%- set moving_ch = act1.chapters[-1] -%}
+{%- set target_pos = act2.chapters | length -%}
+{%- set title = project.basic_info.title -%}
+{%- set tree_result = {"title": title, "outlines": [{"name": outline.name, "acts": acts | map(attribute="name") | list}]} -%}
+{%- set read_result = {"id": outline.id, "kind": "outline", "name": outline.name, "acts": [{"id": act1.id, "name": act1.name, "chapters": act1.chapters | map(attribute="name") | list}, {"id": act2.id, "name": act2.name, "chapters": act2.chapters | map(attribute="name") | list}]} -%}
+{%- set agent_input = "Analyze the outline structure for " ~ title ~ ". " ~ act1.name ~ " has chapters: " ~ (act1.chapters | map(attribute="name") | list | join(", ")) ~ ". " ~ act2.name ~ " has chapters: " ~ (act2.chapters | map(attribute="name") | list | join(", ")) ~ ". The user wants to move '" ~ moving_ch.name ~ "' from " ~ act1.name ~ " to the end of " ~ act2.name ~ ". Does this make structural sense? Consider pacing and narrative flow." -%}
+{%- set agent_result = "[SUBAGENT_RESPONSE]" -%}
+{%- set patch_args = {"id": moving_ch.id, "field": "name", "old": moving_ch.name, "new": moving_ch.name, "parentId": act2.id, "position": target_pos} -%}
+{%- set patch_result = {"ok": true, "updated_at": now_iso()} -%}
+{%- set answer1_text = "Here's the current structure:\n\n**" ~ act1.name ~ "**: " ~ (act1.chapters | map(attribute="name") | list | join(", ")) ~ "\n**" ~ act2.name ~ "**: " ~ (act2.chapters | map(attribute="name") | list | join(", ")) ~ "\n\nWhich chapter would you like to move, and where?" -%}
+{%- set answer2_text = "Outline Planner reviewed the move. [ASSISTANT_RESPONSE_0]" -%}
+{%- set answer3_text = "Moved **" ~ moving_ch.name ~ "** from " ~ act1.name ~ " to the end of " ~ act2.name ~ ". [ASSISTANT_RESPONSE_1]" -%}
+{
+  "scenario_id": "restructure_outline",
+  "scenario_category": "D",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_outline", "patch_outline", "call_outline_planner"]) }},
+  "messages": [
+    {{ m.user_msg("I think the last chapter of " ~ act1.name ~ " would work better in " ~ act2.name ~ ". Can you show me the current structure?") }},
+    {{ m.assistant_tool_turn(0, "read_outline", {"id": outline.id}) }},
+    {{ m.tool_result("read_outline", read_result) }},
+    {{ m.assistant_answer(1, answer1_text) }},
+    {{ m.user_msg("Move \"" ~ moving_ch.name ~ "\" to the end of " ~ act2.name ~ ". But first check if it makes sense structurally.") }},
+    {{ m.assistant_tool_turn(2, "call_outline_planner", {"input": agent_input}) }},
+    {{ m.tool_result("call_outline_planner", agent_result) }},
+    {{ m.assistant_answer(3, answer2_text) }},
+    {{ m.assistant_tool_turn(4, "patch_outline", patch_args) }},
+    {{ m.tool_result("patch_outline", patch_result) }},
+    {{ m.assistant_answer(5, answer3_text) }}
+  ]
+}
+{%- endif -%}
+{%- endif -%}

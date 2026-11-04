@@ -1,0 +1,260 @@
+/* Flows with the document, so it only scrolls when the content does not fit. */
+.about {
+  position: relative;
+  min-height: 100dvh;
+  /* Entrance transforms must not add scrollable height. */
+  overflow: clip;
+  background: var(--main-dark);
+  font-family: var(--heading);
+  color: var(--main-light);
+  --cb-from: var(--ai-from);
+  --cb-to: var(--ai-to);
+  --cb-line: oklch(from var(--main-light) l c h / 0.12);
+  --about-foot-h: calc(var(--home-control-h) + var(--home-foot-y) * 2);
+}
+
+/* Mobile header uses the shared progressive-blur stack from Section.css. */
+.about__header {
+  display: none;
+}
+
+/* Top padding clears the masthead; bottom padding lets the last row scroll clear
+   of the foot band. */
+.about__content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  min-height: 100dvh;
+  padding-top: clamp(128px, 16vh, 176px);
+  padding-bottom: var(--about-foot-h);
+}
+
+/* Content dissolves here before it reaches the floating contact bar. */
+.about__foot-band {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--about-foot-h);
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(
+    to top in oklch,
+    oklch(from var(--main-dark) l c h / 0.92) 40%,
+    oklch(from var(--main-dark) l c h / 0)
+  );
+}
+
+/* The shared stack is built for a top edge. */
+.about__foot-band .progressive-blur {
+  transform: scaleY(-1);
+}
+
+/* Same column as the project pages. */
+.about__hero,
+.about__band {
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--content-pad-x);
+}
+
+/* Hero: portrait | spine | text. */
+.about__hero {
+  align-self: center;
+  padding-bottom: clamp(32px, 5vh, 56px);
+  display: grid;
+  grid-template-columns: auto clamp(32px, 5vw, 80px) minmax(0, 1fr);
+  align-items: center;
+}
+
+/* Size from viewport height to keep the 4:5 portrait within the desktop grid. */
+.about__portrait {
+  display: block;
+  height: clamp(240px, 44vh, 410px);
+  aspect-ratio: 4 / 5;
+  object-fit: contain;
+}
+
+.about__spine {
+  justify-self: center;
+  width: 1px;
+  height: 100%;
+  background: var(--cb-line);
+}
+
+.about__text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(12px, 2vh, 24px);
+  min-width: 0;
+}
+
+.about__eyebrow,
+.about__tech-label {
+  display: inline-block;
+  font-family: var(--heading);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg in oklch, var(--cb-from), var(--cb-to));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.about__eyebrow {
+  font-size: clamp(11px, 1vw, 14px);
+}
+
+.about__name {
+  margin: 0;
+  font-family: var(--heading);
+  font-weight: 300;
+  font-size: clamp(36px, 4.2vw, 60px);
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+
+.about__rule {
+  width: 64px;
+  height: 2px;
+  border-radius: 2px;
+  transform-origin: left center;
+  background: linear-gradient(90deg in oklch, var(--cb-from), var(--cb-to));
+}
+
+.about__title {
+  font-family: var(--mono);
+  font-size: clamp(11px, 1vw, 14px);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: oklch(from var(--main-light) l c h / 0.6);
+}
+
+.about__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+  max-width: 46ch;
+  margin-top: clamp(4px, 1vh, 12px);
+}
+
+.about__para {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: clamp(13px, 1vw, 17px);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: oklch(from var(--main-light) l c h / 0.82);
+}
+
+.about__tech {
+  padding-top: clamp(20px, 3vh, 32px);
+  border-top: 1px solid var(--cb-line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2vh clamp(20px, 3vw, 48px);
+}
+
+.about__tech-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.about__tech-group--wide {
+  flex-basis: 100%;
+}
+
+.about__tech-label {
+  font-size: clamp(10px, 0.85vw, 12px);
+}
+
+.about__chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.about__chip {
+  padding: 5px 11px;
+  border: 1px solid var(--cb-line);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: clamp(10px, 0.9vw, 13px);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: oklch(from var(--main-light) l c h / 0.85);
+}
+
+@media (max-width: 768px) {
+  /* Pin the blur band while content scrolls underneath. */
+  .about__header {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: clamp(64px, 12vh, 110px);
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom in oklch,
+      oklch(from var(--main-dark) l c h / 0.92),
+      oklch(from var(--main-dark) l c h / 0)
+    );
+  }
+
+  .about__content {
+    padding-top: 12vh;
+  }
+
+  .about__hero {
+    grid-template-columns: 1fr;
+    row-gap: clamp(20px, 4vh, 40px);
+    justify-items: center;
+  }
+
+  .about__portrait {
+    height: auto;
+    width: min(280px, 70vw);
+  }
+
+  .about__spine {
+    display: none;
+  }
+
+  .about__text {
+    align-items: center;
+    text-align: center;
+  }
+
+  .about__rule {
+    align-self: center;
+    transform-origin: center;
+  }
+
+  .about__intro {
+    max-width: 60ch;
+  }
+
+  .about__tech {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .about__tech-group {
+    align-items: center;
+  }
+
+  .about__chips {
+    justify-content: center;
+  }
+}

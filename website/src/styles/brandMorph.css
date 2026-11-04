@@ -1,0 +1,243 @@
+/* One persistent brand and contact bar span the home/about view transition.
+   The brand scrolls with the document; the contact bar floats over it. */
+.brand-shell {
+  /* Geometry shared with Home.css and AboutMe.css. */
+  --home-mark: clamp(40px, 3.6vw, 54px);
+  --home-brand-h: calc(var(--home-mark) * 0.77); /* logo aspect 154:200 */
+  --home-pad-y: clamp(24px, 5vh, 56px);
+  --home-foot-y: var(--home-pad-y);
+  --home-control-h: 44px;
+  position: relative;
+  min-height: 100dvh;
+  background: var(--main-dark);
+  font-family: var(--heading);
+  color: var(--main-light);
+}
+
+.brand-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Keep category exit transforms separate from the inner brand’s layout morph. */
+.brand-exit {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  pointer-events: none;
+}
+
+.brand-stage[data-mode='home'] .brand-exit {
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: var(--home-pad-y) var(--content-pad-x);
+}
+.brand-stage[data-mode='home'] .brand {
+  min-height: var(--home-brand-h);
+}
+
+.brand-stage[data-mode='about'] .brand-exit {
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: var(--brand-top, 2rem);
+}
+
+/* Flex places the brand; reset base centering so it cannot fight Motion layout. */
+.brand-stage .brand {
+  position: static;
+  inset: auto;
+  transform: none;
+  flex-direction: row;
+  gap: clamp(8px, 1.2vmin, 16px);
+  align-items: center;
+  pointer-events: auto;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* Animate the wrapper: SVG layout animation is unreliable. */
+.brand-stage .brand__mark-wrap {
+  display: block;
+  width: var(--home-mark);
+  flex: none;
+  line-height: 0;
+}
+.brand-stage[data-mode='about'] .brand__mark-wrap {
+  width: 3rem;
+}
+.brand-stage .brand__mark {
+  width: 100%;
+}
+
+/* Keep the wordmark aspect ratio constant during the layout morph. */
+.brand-stage .brand__name {
+  line-height: 1.3;
+  text-indent: 0;
+  white-space: nowrap;
+}
+.brand-stage[data-mode='home'] .brand__name {
+  font-size: clamp(11px, 1vw, 15px);
+}
+.brand-stage[data-mode='about'] .brand__name {
+  margin-left: 0.7em;
+}
+
+/* Floating contact bar: links | view switch. Only the controls receive pointer events. */
+.brand-controls {
+  --float-shadow:
+    inset 0 1px 0 oklch(from var(--main-light) l c h / 0.08),
+    0 12px 28px -10px rgba(0, 0, 0, 0.85);
+  position: fixed;
+  left: var(--content-pad-x);
+  right: var(--content-pad-x);
+  bottom: var(--home-foot-y);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.brand-controls__links {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.brand-controls__link,
+.brand-controls__switch {
+  height: var(--home-control-h);
+  border: 1px solid oklch(from var(--main-light) l c h / 0.16);
+  border-radius: 999px;
+  /* Slightly lighter than the page, so the controls read as raised above it. */
+  background: oklch(from var(--main-dark) calc(l + 0.07) c h / 0.72);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--float-shadow);
+  color: inherit;
+  text-decoration: none;
+  pointer-events: auto;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.brand-controls__link:hover,
+.brand-controls__switch:hover {
+  border-color: oklch(from var(--main-light) l c h / 0.4);
+  box-shadow: var(--float-shadow), 0 0 18px -6px oklch(from var(--main-light) l c h / 0.35);
+}
+
+.brand-controls__link {
+  display: grid;
+  place-items: center;
+  width: var(--home-control-h);
+}
+
+/* Mask external SVGs so they adopt the theme color. */
+.brand-controls__icon {
+  width: 18px;
+  height: 18px;
+  background-color: oklch(from var(--main-light) l c h / 0.82);
+  -webkit-mask: var(--brand-icon) center / contain no-repeat;
+  mask: var(--brand-icon) center / contain no-repeat;
+}
+
+.brand-controls__sep {
+  flex: none;
+  width: 1px;
+  height: var(--home-control-h);
+  margin-inline: 12px;
+  background: oklch(from var(--main-light) l c h / 0.28);
+  transition: opacity 0.3s ease;
+}
+
+.brand-controls[data-mode='about'] .brand-controls__sep {
+  opacity: 0;
+}
+
+.brand-controls__switch {
+  display: grid;
+  place-items: center;
+  /* Compensate for trailing letter-spacing. */
+  padding-inline: 16px calc(16px - 0.2em);
+  font-weight: 300;
+  font-size: clamp(11px, 0.9vw, 13px);
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+}
+
+.brand-controls[data-mode='about'] .brand-controls__switch {
+  margin-left: auto;
+}
+
+.brand-controls__label {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.brand-controls__label[data-on='true'] {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .brand-shell {
+    --home-brand-h: 44px;
+    --home-pad-y: 24px;
+    --home-foot-y: clamp(12px, 2dvh, 24px);
+    --home-control-h: 36px;
+  }
+
+  .brand-shell[data-mode='home'] {
+    --home-brand-h: calc(var(--home-mark) * 0.77);
+    --home-pad-y: clamp(12px, 2dvh, 24px);
+  }
+
+  .brand-controls__links {
+    gap: 6px;
+  }
+
+  .brand-controls__icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .brand-controls__sep {
+    display: none;
+  }
+
+  .brand-controls__switch {
+    margin-left: auto;
+    padding-inline: 12px calc(12px - 0.2em);
+  }
+
+  /* About keeps its masthead pinned over the blur band. */
+  .brand-stage[data-mode='about'] {
+    position: fixed;
+  }
+  .brand-stage[data-mode='about'] .brand-exit {
+    padding-top: clamp(16px, 4vh, 32px);
+  }
+  .brand-stage[data-mode='about'] .brand__mark-wrap {
+    width: clamp(40px, 9vw, 60px);
+  }
+}
+
+@media (max-width: 360px) {
+  .brand-controls {
+    gap: 6px;
+  }
+  .brand-controls__links {
+    gap: 4px;
+  }
+  .brand-controls__switch {
+    padding-inline: 8px calc(8px - 0.2em);
+  }
+}
+
+@media (max-width: 768px) and (max-height: 520px) {
+  .brand-shell[data-mode='home'] {
+    --home-pad-y: 12px;
+  }
+}

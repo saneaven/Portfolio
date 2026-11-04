@@ -1,0 +1,67 @@
+{#
+  scenario_id: continuity_check_and_fix
+  scenario_category: E
+  preconditions: >= 2 chapters with manuscript text, >= 2 characters
+  description: |
+    User reports a continuity issue. Assistant searches, reads, uses critic
+    sub-agent, then patches the manuscript.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set ns_chs = namespace(chs=[]) -%}
+{%- for outline in project.outlines | default([]) -%}
+  {%- for act in outline.acts | default([]) -%}
+    {%- for ch in act.chapters | default([]) -%}
+      {%- if ch.manuscript_text | default("") | length > 100 -%}
+        {%- set ns_chs.chs = ns_chs.chs + [ch] -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- set chars = project.story_entities | selectattr("kind", "equalto", "character") | list -%}
+{%- if ns_chs.chs | length >= 2 and chars | length >= 2 -%}
+{%- set ch1 = ns_chs.chs[0] -%}
+{%- set ch2 = ns_chs.chs[1] -%}
+{%- set char = chars[0] -%}
+{%- set old_text = ch2.manuscript_text[40:120] -%}
+{%- set new_text = "[GENERATED_PROSE]" -%}
+{#- Real semantic search -#}
+{%- set sem_results = semantic_search(project, [char.name ~ " continuity"], 3) -%}
+{%- if sem_results | length < 2 -%}
+  {%- set sem_results = [{"type": "manuscript", "name": ch1.name, "excerpt": truncate(ch1.manuscript_text, 100), "score": 0.8}, {"type": "manuscript", "name": ch2.name, "excerpt": truncate(ch2.manuscript_text, 100), "score": 0.7}] -%}
+{%- endif -%}
+{%- set search_result = {"queries": [char.name ~ " continuity"], "results": sem_results, "total": sem_results | length} -%}
+{%- set read_result = {"id": ch1.manuscript_id, "content": ch1.manuscript_text[:600]} -%}
+{%- set entity_result = {"id": char.id, "kind": "character", "name": char.name, "description": char.description, "content": truncate(char.content, 300), "created_at": now_iso(), "updated_at": now_iso()} -%}
+{%- set critic_input = "Review " ~ ch1.name ~ " and " ~ ch2.name ~ " of '" ~ project.basic_info.title ~ "' for continuity issues involving " ~ char.name ~ ". " ~ ch1.name ~ " excerpt: " ~ truncate(ch1.manuscript_text, 200) ~ ". " ~ ch2.name ~ " excerpt: " ~ truncate(ch2.manuscript_text, 200) ~ ". Check if " ~ char.name ~ "'s characterization, actions, and referenced events are consistent between the two chapters." -%}
+{%- set critic_result = "[SUBAGENT_RESPONSE]" -%}
+{%- set patch_args = {"id": ch2.manuscript_id, "old": old_text, "new": new_text} -%}
+{%- set patch_result = {"ok": true, "updated_at": now_iso()} -%}
+{#- Answer text: factual + placeholder -#}
+{%- set answer1_text = "Found " ~ char.name ~ " in " ~ (sem_results | length | string) ~ " locations. [ASSISTANT_RESPONSE_0]" -%}
+{%- set answer2_text = "Found " ~ char.name ~ " in " ~ ch1.name ~ " and " ~ ch2.name ~ ". Reading " ~ ch1.name ~ " for context, then sending both to the Critic." -%}
+{%- set answer3_text = "Critic reviewed " ~ ch1.name ~ " and " ~ ch2.name ~ " for " ~ char.name ~ " continuity. [ASSISTANT_RESPONSE_1]" -%}
+{%- set answer4_text = "Patched " ~ ch2.name ~ " (characters 40–120) to resolve the continuity issue with " ~ char.name ~ " between " ~ ch1.name ~ " and " ~ ch2.name ~ ". [ASSISTANT_RESPONSE_2]" -%}
+{
+  "scenario_id": "continuity_check_and_fix",
+  "scenario_category": "E",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["search_semantic", "search_regex", "read_manuscript", "read_story_entity", "patch_manuscript", "call_critic"]) }},
+  "messages": [
+    {{ m.user_msg("I think there's a continuity issue with " ~ char.name ~ " between " ~ ch1.name ~ " and " ~ ch2.name ~ ". Can you check?") }},
+    {{ m.assistant_tool_turn(0, "search_semantic", {"queries": [char.name ~ " continuity actions reactions"]}) }},
+    {{ m.tool_result("search_semantic", search_result) }},
+    {{ m.assistant_answer(1, answer1_text) }},
+    {{ m.assistant_tool_turn(2, "read_manuscript", {"id": ch1.manuscript_id}) }},
+    {{ m.tool_result("read_manuscript", read_result) }},
+    {{ m.assistant_answer(3, answer2_text) }},
+    {{ m.assistant_tool_turn(4, "call_critic", {"input": critic_input}) }},
+    {{ m.tool_result("call_critic", critic_result) }},
+    {{ m.assistant_answer(5, answer3_text) }},
+    {{ m.assistant_tool_turn(6, "read_story_entity", {"id": char.id, "kind": "character"}) }},
+    {{ m.tool_result("read_story_entity", entity_result) }},
+    {{ m.assistant_tool_turn(7, "patch_manuscript", patch_args) }},
+    {{ m.tool_result("patch_manuscript", patch_result) }},
+    {{ m.assistant_answer(8, answer4_text) }}
+  ]
+}
+{%- endif -%}

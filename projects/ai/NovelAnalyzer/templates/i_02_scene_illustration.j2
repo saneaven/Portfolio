@@ -1,0 +1,48 @@
+{#
+  scenario_id: scene_illustration
+  scenario_category: I
+  preconditions: >= 1 chapter with manuscript_text > 200
+  description: |
+    User asks for a scene illustration. Assistant reads manuscript to find
+    a good anchor point, then generates the image.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set ns = namespace(chapter=none) -%}
+{%- for outline in project.outlines | default([]) -%}
+  {%- for act in outline.acts | default([]) -%}
+    {%- for ch in act.chapters | default([]) -%}
+      {%- if ch.manuscript_text | default("") | length > 200 and not ns.chapter -%}
+        {%- set ns.chapter = ch -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- if ns.chapter -%}
+{%- set ch = ns.chapter -%}
+{%- set ms_text = ch.manuscript_text -%}
+{%- set anchor = ms_text[100:160] -%}
+{%- set img_id = uuid4() -%}
+{%- set scene_desc = truncate(ch.description, 100) if ch.description else truncate(ch.content, 100) -%}
+{%- set prompt_text = "Illustration of a scene from '" ~ ch.name ~ "': " ~ scene_desc ~ ". Atmospheric, detailed, cinematic composition with dramatic lighting." -%}
+{%- set read_result = {"id": ch.manuscript_id, "content": truncate(ms_text, 600)} -%}
+{%- set img_args = {"prompt": prompt_text, "ratio": "16:9", "manuscript_id": ch.manuscript_id, "insert_before": anchor} -%}
+{%- set img_result = {"id": img_id, "manuscript_id": ch.manuscript_id, "url": "https://storage.novelbuds.app/images/" ~ img_id ~ ".png", "insert_before": anchor, "created_at": now_iso()} -%}
+{%- set answer1_text = "Here's the opening of **" ~ ch.name ~ "**:\n\n> " ~ truncate(ms_text, 300) ~ "\n\n[ASSISTANT_RESPONSE_0] Where would you like the illustration placed?" -%}
+{%- set answer2_text = "Generated a scene illustration for **" ~ ch.name ~ "** in 16:9 widescreen format, inserted before the passage starting with \"" ~ truncate(anchor, 60) ~ "\". [ASSISTANT_RESPONSE_1]" -%}
+{
+  "scenario_id": "scene_illustration",
+  "scenario_category": "I",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_manuscript", "generate_scene_image"]) }},
+  "messages": [
+    {{ m.user_msg("I want a scene illustration for " ~ ch.name ~ ". Can you read it and find a good spot?") }},
+    {{ m.assistant_tool_turn(0, "read_manuscript", {"id": ch.manuscript_id}) }},
+    {{ m.tool_result("read_manuscript", read_result) }},
+    {{ m.assistant_answer(1, answer1_text) }},
+    {{ m.user_msg("Put it early in the chapter, around the first major scene transition.") }},
+    {{ m.assistant_tool_turn(2, "generate_scene_image", img_args) }},
+    {{ m.tool_result("generate_scene_image", img_result) }},
+    {{ m.assistant_answer(3, answer2_text) }}
+  ]
+}
+{%- endif -%}

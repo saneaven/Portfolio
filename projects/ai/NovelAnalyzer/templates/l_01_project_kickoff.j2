@@ -1,0 +1,51 @@
+{#
+  scenario_id: project_kickoff
+  scenario_category: L
+  preconditions: project has basic_info, >= 2 characters, >= 1 outline with acts
+  description: |
+    Mixed session: user reviews project state, creates a new character,
+    adds a chapter, discusses direction. Covers A+B+D+J.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set chars = project.story_entities | selectattr("kind", "equalto", "character") | list -%}
+{%- set outlines = project.outlines | default([]) -%}
+{%- if chars | length >= 2 and outlines | length >= 1 and outlines[0].acts | length >= 1 -%}
+{%- set title = project.basic_info.title -%}
+{%- set c1 = chars[0] -%}
+{%- set outline = outlines[0] -%}
+{%- set act = outline.acts[0] -%}
+{%- set new_char_id = uuid4() -%}
+{%- set new_ch_id = uuid4() -%}
+{%- set ok = {"ok": true, "updated_at": now_iso()} -%}
+{%- set tree_result = {"title": title, "logline": truncate(project.basic_info.logline, 100), "entity_count": project.story_entities | length, "outline_count": outlines | length} -%}
+{%- set planner_input = "Design a minor character for '" ~ title ~ "' who serves as a catalyst in " ~ act.name ~ ". The protagonist is " ~ c1.name ~ " (" ~ truncate(c1.description, 80) ~ "). The new character should appear briefly but trigger a significant realization. Suggest name, role, and key traits." -%}
+{%- set planner_result = "[SUBAGENT_RESPONSE]" -%}
+{%- set char_args = {"kind": "character", "name": "[GENERATED_CONTENT]", "description": "[GENERATED_CONTENT]", "content": "[GENERATED_CONTENT]"} -%}
+{%- set char_result = {"id": new_char_id, "kind": "character", "name": "Wren", "created_at": now_iso()} -%}
+{%- set ch_args = {"kind": "chapter", "name": "[GENERATED_CONTENT]", "description": "[GENERATED_CONTENT]", "content": "[GENERATED_CONTENT]", "parentId": act.id, "position": act.chapters | length} -%}
+{%- set ch_result = {"id": new_ch_id, "kind": "chapter", "parentId": act.id, "created_at": now_iso()} -%}
+{
+  "scenario_id": "project_kickoff",
+  "scenario_category": "L",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["get_project_tree", "create_story_entity", "create_outline", "read_outline", "call_character_planner", "replace_basic_info", "replace_guidelines"]) }},
+  "messages": [
+    {{ m.user_msg("Let's start a session. First, give me the overview — where are we with " ~ title ~ "?") }},
+    {{ m.assistant_tool_turn(0, "get_project_tree", {}) }},
+    {{ m.tool_result("get_project_tree", tree_result) }},
+    {{ m.assistant_answer(1, "Here's the state of **" ~ title ~ "**:\n\n- **Logline**: " ~ truncate(project.basic_info.logline, 120) ~ "\n- **Entities**: " ~ (project.story_entities | length | string) ~ " total (" ~ (chars | length | string) ~ " characters)\n- **Outline**: " ~ (outline.acts | length | string) ~ " acts\n\nWhat do you want to work on today?") }},
+    {{ m.user_msg("I want to add a minor character — someone who appears once and triggers a realization for " ~ c1.name ~ ". Can you help design them?") }},
+    {{ m.assistant_tool_turn(2, "call_character_planner", {"input": planner_input}) }},
+    {{ m.tool_result("call_character_planner", planner_result) }},
+    {{ m.assistant_answer(3, "Character Planner designed a minor catalyst character. [ASSISTANT_RESPONSE_0]\n\nWant me to create them?") }},
+    {{ m.user_msg("Yeah, create Wren. And add a chapter for the encounter too.") }},
+    {{ m.assistant_tool_turn(4, "create_story_entity", char_args) }},
+    {{ m.tool_result("create_story_entity", char_result) }},
+    {{ m.assistant_tool_turn(5, "create_outline", ch_args) }},
+    {{ m.tool_result("create_outline", ch_result) }},
+    {{ m.assistant_answer(6, "Done!\n\n1. **Created character** as a new entity for " ~ c1.name ~ "'s arc\n2. **Added chapter** to " ~ act.name ~ "\n\n[ASSISTANT_RESPONSE_1]") }},
+    {{ m.user_msg("Let me think about the beats. But while I'm thinking — do you think this encounter should come before or after the main conflict of " ~ act.name ~ "?") }},
+    {{ m.assistant_answer(7, "The new chapter is currently at position " ~ (act.chapters | length | string) ~ " in " ~ act.name ~ ". [ASSISTANT_RESPONSE_2]") }}
+  ]
+}
+{%- endif -%}

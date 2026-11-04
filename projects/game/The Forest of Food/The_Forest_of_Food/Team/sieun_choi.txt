@@ -1,0 +1,47 @@
+Name:Sieun Choi
+Role:Producer
+Contribution:Map,UI,Stage,Interface,Creature,Environment,Engine,Debugging,Team Management
+List Files:
+Engine.h
+Animation.cpp
+GameStateManager.cpp
+Map.cpp
+Map.h
+Object.h
+Object.cpp
+Sprite.cpp
+Texture.cpp
+TextureManager.cpp
+TextureManager.h
+Transform.cpp
+Creature.cpp
+Creature.h
+Credit.cpp
+Credit.h
+Ending.cpp
+Ending.h
+Environment.cpp
+Environment.h
+Fall.cpp
+Fall.h
+Howtoplay.cpp
+Howtoplay.h
+interface.cpp
+interface.h
+Item.cpp
+Item.h
+MainUI.cpp
+MainUI.h
+Player.cpp
+Player.h
+Screens.h
+Splash.cpp
+Splash.h
+Spring.cpp
+Spring.h
+Summer.cpp
+Summer.h
+Winter.cpp
+Winter.h
+ConsoleMain.cpp
+WinMain.cpp

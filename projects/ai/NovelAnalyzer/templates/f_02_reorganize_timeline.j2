@@ -1,0 +1,59 @@
+{#
+  scenario_id: reorganize_timeline
+  scenario_category: F
+  preconditions: >= 1 timeline track with >= 3 events
+  description: |
+    User wants to create a new parallel track and move/patch events.
+    Multi-step timeline management with track creation, event patching.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set tracks = (project.timeline | default({})).tracks | default([]) -%}
+{%- if tracks | length >= 1 and tracks[0].events | default([]) | length >= 3 -%}
+{%- set track = tracks[0] -%}
+{%- set events = track.events -%}
+{%- set new_track_id = uuid4() -%}
+{%- set new_event_id = uuid4() -%}
+{%- set event_to_patch = events[1] -%}
+{%- set patched_date = iso_to_date_dict(event_to_patch.start_date) -%}
+{%- if patched_date -%}
+{%- set shifted_date = {"year": patched_date.year, "month": patched_date.month, "day": (patched_date.day + 5) if patched_date.day < 24 else 1} -%}
+{%- else -%}
+{%- set shifted_date = {"year": 1900, "month": 3, "day": 15} -%}
+{%- endif -%}
+{%- set title = project.basic_info.title -%}
+{%- set read_result = {"id": track.id, "name": track.content[:60] if track.content else "Main Timeline", "events": []} -%}
+{%- for evt in events[:5] -%}
+  {%- set _ = read_result.events.append({"id": evt.id, "name": evt.content[:50], "startDate": iso_to_date_dict(evt.start_date), "tags": normalize_tags(evt.tags | default([]))}) -%}
+{%- endfor -%}
+{%- set create_track_args = {"name": "Backstory Track", "description": "Parallel timeline tracking backstory events that inform the main narrative.", "content": "[GENERATED_CONTENT]", "color": "#6b5b95"} -%}
+{%- set create_track_result = {"id": new_track_id, "name": "Backstory Track", "created_at": now_iso()} -%}
+{%- set patch_event_args = {"id": event_to_patch.id, "startDate": shifted_date} -%}
+{%- set patch_event_result = {"ok": true, "updated_at": now_iso()} -%}
+{%- set backstory_date = {"year": patched_date.year - 10 if patched_date else 1890, "month": 6, "day": 1} -%}
+{%- set create_event_args = {"trackId": new_track_id, "name": "Origin event", "description": "[GENERATED_CONTENT]", "content": "[GENERATED_CONTENT]", "startDate": backstory_date, "tags": normalize_tags(["backstory", "origin"])} -%}
+{%- set create_event_result = {"id": new_event_id, "trackId": new_track_id, "name": "Origin event", "startDate": backstory_date, "created_at": now_iso()} -%}
+{%- set answer1_text = "Here's the current timeline with " ~ (events | length | string) ~ " events on the main track. [ASSISTANT_RESPONSE_0]" -%}
+{%- set answer2_text = "Created the **Backstory Track** with a purple color scheme. Now let me shift that second event's date and add the origin event." -%}
+{%- set answer3_text = "Here's what changed:\n\n1. **Created** a new \"Backstory Track\" for pre-story events\n2. **Shifted** the date of \"" ~ event_to_patch.content[:40] ~ "...\" by 5 days\n3. **Added** an origin event to the backstory track set " ~ ((patched_date.year - 10) | string if patched_date else "1890") ~ "\n\n[ASSISTANT_RESPONSE_1]" -%}
+{
+  "scenario_id": "reorganize_timeline",
+  "scenario_category": "F",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_timeline", "create_timeline_track", "patch_timeline_event", "create_timeline_event"]) }},
+  "messages": [
+    {{ m.user_msg("I want to reorganize the timeline. Show me what we have, then I want to create a backstory track and shift some dates around.") }},
+    {{ m.assistant_tool_turn(0, "read_timeline", {}) }},
+    {{ m.tool_result("read_timeline", read_result) }},
+    {{ m.assistant_answer(1, answer1_text) }},
+    {{ m.user_msg("Create a backstory track for pre-story events. Also shift the second event forward by about 5 days, and add an origin event to the new track set about 10 years before the main events.") }},
+    {{ m.assistant_tool_turn(2, "create_timeline_track", create_track_args) }},
+    {{ m.tool_result("create_timeline_track", create_track_result) }},
+    {{ m.assistant_answer(3, answer2_text) }},
+    {{ m.assistant_tool_turn(4, "patch_timeline_event", patch_event_args) }},
+    {{ m.tool_result("patch_timeline_event", patch_event_result) }},
+    {{ m.assistant_tool_turn(5, "create_timeline_event", create_event_args) }},
+    {{ m.tool_result("create_timeline_event", create_event_result) }},
+    {{ m.assistant_answer(6, answer3_text) }}
+  ]
+}
+{%- endif -%}

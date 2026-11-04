@@ -1,0 +1,42 @@
+{#
+  scenario_id: add_chapter_to_act
+  scenario_category: D
+  preconditions: at least 1 outline with 1 act
+  description: |
+    User asks to add a new chapter to an existing act. Assistant reads
+    the outline, then creates the chapter node.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set outlines = project.outlines | default([]) -%}
+{%- if outlines | length >= 1 and outlines[0].acts | length >= 1 -%}
+{%- set outline = outlines[0] -%}
+{%- set act = outline.acts[0] -%}
+{%- set existing_chapters = act.chapters | default([]) -%}
+{%- set new_ch_id = uuid4() -%}
+{%- set new_pos = existing_chapters | length -%}
+{%- set title = project.basic_info.title -%}
+{%- set new_ch_name = "Chapter " ~ (new_pos + 1) ~ ": New Development" -%}
+{%- set new_ch_desc = "[GENERATED_CONTENT]" -%}
+{%- set new_ch_content = "[GENERATED_CONTENT]" -%}
+{%- set read_result = {"id": outline.id, "kind": "outline", "name": outline.name, "description": outline.description[:200], "acts": [{"id": act.id, "name": act.name, "chapters": existing_chapters | map(attribute="name") | list}]} -%}
+{%- set create_args = {"kind": "chapter", "name": new_ch_name, "description": new_ch_desc, "content": new_ch_content, "parentId": act.id, "position": new_pos} -%}
+{%- set create_result = {"id": new_ch_id, "kind": "chapter", "name": new_ch_name, "description": new_ch_desc, "content": new_ch_content, "parentId": act.id, "position": new_pos, "created_at": now_iso(), "updated_at": now_iso()} -%}
+{%- set answer1_text = "Here's the current structure of **" ~ act.name ~ "**:\n\n" ~ (existing_chapters | map(attribute="name") | list | join("\n")) ~ "\n\nThere are " ~ (existing_chapters | length | string) ~ " chapters. Where would you like the new chapter to go?" -%}
+{%- set answer2_text = "Added **" ~ new_ch_name ~ "** at the end of " ~ act.name ~ " (position " ~ (new_pos | string) ~ "). [ASSISTANT_RESPONSE_0]" -%}
+{
+  "scenario_id": "add_chapter_to_act",
+  "scenario_category": "D",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_outline", "create_outline"]) }},
+  "messages": [
+    {{ m.user_msg("I want to add a new chapter to " ~ act.name ~ ". Can you show me what's already there?") }},
+    {{ m.assistant_tool_turn(0, "read_outline", {"id": act.id}) }},
+    {{ m.tool_result("read_outline", read_result) }},
+    {{ m.assistant_answer(1, answer1_text) }},
+    {{ m.user_msg("Add it at the end. It should be a transitional chapter that deepens the tension before the next big event.") }},
+    {{ m.assistant_tool_turn(2, "create_outline", create_args) }},
+    {{ m.tool_result("create_outline", create_result) }},
+    {{ m.assistant_answer(3, answer2_text) }}
+  ]
+}
+{%- endif -%}

@@ -1,0 +1,15 @@
+Character/main_character_spritesheet.png
+FrameSize 96 135 
+HotSpot 46 5
+Frame 0 0
+Frame 96 0
+Frame 190 0
+Frame 0 135
+Frame 96 135
+Frame 190 135
+Frame 0 270
+Frame 96 270
+Frame 190 270
+Anim Character/Player_Idle.anm
+Anim Character/Player_Down.anm
+Anim Character/Player_Up.anm

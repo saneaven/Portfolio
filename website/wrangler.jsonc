@@ -1,0 +1,14 @@
+// Explicit assets config prevents Wrangler's Vite autoconfig from replacing the SSR
+// build needed by prerender.mjs. `npm run build` produces the finished site in dist/.
+{
+  "name": "portfolio",
+  "compatibility_date": "2026-11-01",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "./dist",
+    // Routes are dist/<path>.html; every other path gets dist/404.html with a 404 status.
+    "not_found_handling": "404-page"
+  }
+}

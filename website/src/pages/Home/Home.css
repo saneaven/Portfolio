@@ -1,0 +1,315 @@
+/* Keep the home view fixed beneath the persistent home/about brand. */
+.home {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--main-dark);
+  font-family: var(--heading);
+  color: var(--main-light);
+}
+
+/* --s is one board square; the width cap leaves room for the sentence column.
+   Shared --home-* geometry is defined in brandMorph.css. */
+.home__scene {
+  --s: min(50vh, 31vw);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto 1fr auto;
+  row-gap: 24px;
+}
+
+/* Sentence column; these slots reserve space for BrandShell overlays. */
+.home__brand-slot {
+  grid-area: 1 / 1;
+  height: var(--home-brand-h);
+  margin-top: var(--home-pad-y);
+}
+
+.home__intro {
+  display: contents;
+}
+
+.home__say {
+  grid-area: 2 / 1;
+  align-self: center;
+  margin: 0;
+  padding-inline: var(--content-pad-x);
+  font-weight: 300;
+  font-size: clamp(28px, min(2.9vw, 5.3vh), 68px);
+  line-height: 1.16;
+  letter-spacing: -0.012em;
+  text-wrap: pretty;
+}
+
+.home__say-dim {
+  color: oklch(from var(--main-light) l c h / 0.56);
+}
+
+.home__word {
+  padding-bottom: 0.1em;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  text-decoration: none;
+}
+.home__word--game {
+  background-image: linear-gradient(90deg in oklch, var(--game-from), var(--game-to));
+}
+.home__word--ai {
+  background-image: linear-gradient(90deg in oklch, var(--ai-from), var(--ai-to));
+}
+
+.home__foot {
+  grid-area: 3 / 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 var(--content-pad-x) var(--home-foot-y);
+}
+
+.home__who {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.home__name {
+  margin: 0;
+  font-weight: 300;
+  font-size: clamp(20px, 1.7vw, 26px);
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+.home__role {
+  font-family: var(--mono);
+  font-size: clamp(11px, 0.85vw, 12px);
+  line-height: 1.4;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: oklch(from var(--main-light) l c h / 0.66);
+}
+
+.home__controls-slot {
+  height: var(--home-control-h);
+}
+
+/* Board: Game square | Game text / AI text | AI square. */
+.home__board {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  align-self: center;
+  display: grid;
+  grid-template-columns: repeat(2, var(--s));
+  grid-template-rows: repeat(2, var(--s));
+}
+
+/* Keeps a square and its text in separate board cells but one active state.
+   HomeView sets data-active from every link to the category page. Project names
+   link elsewhere, so hovering them does not light the pair. */
+.category__pair {
+  display: contents;
+}
+
+.category__square {
+  display: block;
+}
+
+.category__box {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--main-dark);
+  transition: filter 0.3s ease;
+}
+
+.category__pair[data-active="true"] .category__box {
+  filter: brightness(1.12);
+}
+
+.category__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.category__cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  /* Scales with the label, whose width is about 0.75 of a square. */
+  padding: calc(var(--s) * 0.11);
+}
+.category__cell--game {
+  justify-content: flex-start;
+}
+.category__cell--ai {
+  justify-content: flex-end;
+}
+
+.category__text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(8px, 1.2vh, 12px);
+}
+.category__cell--ai .category__text {
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.category {
+  display: block;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* The link fills its cell, so the square and text make one full-row target. */
+.category::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.category__label {
+  display: inline-block;
+  font-weight: 300;
+  /* Sized from the square so the text stays in proportion to its board cell. */
+  font-size: clamp(17px, var(--s) * 0.066, 44px);
+  /* Leave room for descenders in the text gradient. */
+  line-height: 1.3;
+  padding-bottom: 0.1em;
+  letter-spacing: 0.08em;
+  /* A long label may run into the padding on the side away from its square. */
+  white-space: nowrap;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  transition: background 0.3s ease, text-shadow 0.3s ease;
+}
+
+/* The light end of each gradient faces its category square. */
+.category__cell--game .category__label {
+  background-image: linear-gradient(85deg in oklch, var(--neutral-0), var(--neutral-400));
+}
+.category__cell--ai .category__label {
+  background-image: linear-gradient(85deg in oklch, var(--neutral-400), var(--neutral-0));
+}
+
+.category__pair[data-active="true"] .category__label {
+  background-image: linear-gradient(85deg in oklch, var(--main-light), var(--main-light));
+  text-shadow:
+    0 0 12px oklch(from var(--main-light) l c h / 0.55),
+    0 0 28px oklch(from var(--main-light) l c h / 0.25);
+}
+
+.category__names {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--sans);
+  font-size: clamp(14px, var(--s) * 0.038, 24px);
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+.category__cell--ai .category__names {
+  flex-direction: column-reverse;
+}
+
+/* Positioned to stay clickable above the category link's hit area. */
+.category__name {
+  position: relative;
+  display: block;
+  padding-block: 1px;
+  color: oklch(from var(--main-light) l c h / 0.76);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+.category__name--more {
+  color: oklch(from var(--main-light) l c h / 0.56);
+}
+.category__name:hover {
+  color: var(--main-light);
+}
+
+/* Keep the checkerboard edge to edge. Fit the sentence and vertical spacing
+   around it; very short screens can grow instead of clipping content. */
+@media (max-width: 768px) {
+  .home {
+    position: relative;
+    inset: auto;
+    min-height: 100dvh;
+  }
+
+  .home__scene {
+    --s: 50vw;
+    --intro-pad-y: 32px;
+    position: relative;
+    inset: auto;
+    min-height: 100dvh;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(auto, 1fr) auto auto;
+    row-gap: 0;
+  }
+
+  .home__intro {
+    grid-area: 2 / 1;
+    display: flex;
+    align-items: center;
+    min-height: calc(3 * 14px * 1.16 + var(--intro-pad-y) * 2);
+    padding: var(--intro-pad-y) var(--content-pad-x);
+    container-type: size;
+  }
+
+  .home__say {
+    padding: 0;
+    /* CSS fallback before the measured font size is ready. */
+    font-size: var(--home-say-size, clamp(14px, min(7.6vw, 17cqh), 40px));
+  }
+
+  .home__board {
+    grid-area: 3 / 1;
+    align-self: auto;
+  }
+
+  .home__foot {
+    grid-area: 4 / 1;
+    gap: clamp(8px, 1.5dvh, 12px);
+    padding: 16px var(--content-pad-x) var(--home-foot-y);
+  }
+
+  .category__cell {
+    padding: 14px;
+  }
+
+  /* Squares are half the screen here, so the text needs its own, tighter scale. */
+  .category__label {
+    font-size: clamp(15px, var(--s) * 0.088, 20px);
+    white-space: normal;
+  }
+  .category__names {
+    font-size: clamp(13px, var(--s) * 0.068, 15px);
+  }
+
+  /* On mobile the whole cell is one tap target. */
+  .category__name {
+    pointer-events: none;
+  }
+}
+
+/* The wider text column needs only two lines at the minimum font size. */
+@media (min-width: 600px) and (max-width: 768px) {
+  .home__intro {
+    min-height: calc(2 * 14px * 1.16 + var(--intro-pad-y) * 2);
+  }
+}

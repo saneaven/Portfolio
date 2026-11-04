@@ -1,0 +1,36 @@
+Name:Hyeonseo Yoon
+Role:Designer
+Contribution: Inventory, Story, Most of game art, Cooking Stage, Ending, Game Design
+List Files:
+-MouseClick.h
+-Input.h
+-Input.cpp
+-Cooking.h
+-Cooking.cpp
+-Ending.h
+-Ending.cpp
+-Fairy.h
+-Fairy.cpp
+-Fall.h
+-Fall.cpp
+-Inventory.h
+-Inventory.cpp
+-Item.h
+-Item.cpp
+-ItemName.h
+-MainCharacter.h
+-MainCharacter.cpp
+-Splash.h
+-Splash.cpp
+-Spring.h
+-Spirng.cpp
+-Story.h
+-Story.cpp
+-Summer.h
+-Summer.cpp
+-Timer.h
+-Timer.cpp
+-Winter.h
+-Winter.cpp
+-ConsoleMain.cpp
+-WinMain.cpp

@@ -1,0 +1,62 @@
+{#
+  scenario_id: patch_prose_passage
+  scenario_category: E
+  preconditions: at least 1 chapter with manuscript_text > 200 chars
+  description: |
+    User identifies a passage to revise. Assistant reads, searches for context,
+    then patches the manuscript with a find-and-replace.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set found_ch = namespace(chapter=none) -%}
+{%- for outline in project.outlines | default([]) -%}
+  {%- for act in outline.acts | default([]) -%}
+    {%- for ch in act.chapters | default([]) -%}
+      {%- if ch.manuscript_text | default("") | length > 200 and not found_ch.chapter -%}
+        {%- set found_ch.chapter = ch -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- if found_ch.chapter -%}
+{%- set ch = found_ch.chapter -%}
+{%- set ms_text = ch.manuscript_text -%}
+{%- set old_passage = ms_text[50:130] -%}
+{%- set new_passage = "[GENERATED_PROSE]" -%}
+{%- set read_result = {"id": ch.manuscript_id, "content": ms_text[:800]} -%}
+{#- Real search using find_all_snippets -#}
+{%- set chars = project.story_entities | selectattr("kind", "equalto", "character") | list -%}
+{%- set search_name = chars[0].name if chars | length > 0 else project.basic_info.title -%}
+{%- set snippets = find_all_snippets(ms_text, search_name, 60, 3) -%}
+{%- set results_list = [] -%}
+{%- for snip in snippets -%}
+  {%- set _ = results_list.append({"type": "manuscript", "location": ch.name, "excerpt": snip}) -%}
+{%- endfor -%}
+{%- if results_list | length == 0 -%}
+  {%- set _ = results_list.append({"type": "manuscript", "location": ch.name, "excerpt": truncate(ms_text, 100)}) -%}
+{%- endif -%}
+{%- set search_result = {"pattern": search_name, "results": results_list, "total": results_list | length, "page": 1} -%}
+{%- set patch_args = {"id": ch.manuscript_id, "old": old_passage, "new": new_passage} -%}
+{%- set patch_result = {"ok": true, "updated_at": now_iso()} -%}
+{%- set answer1_text = "Here's the opening of **" ~ ch.name ~ "**:\n\n> " ~ truncate(ms_text, 300) ~ "...\n\n[ASSISTANT_RESPONSE_0]" -%}
+{%- set answer2_text = "Found " ~ search_name ~ " in " ~ (results_list | length | string) ~ " place(s) in " ~ ch.name ~ ". [ASSISTANT_RESPONSE_1]" -%}
+{%- set answer3_text = "Patched the passage in **" ~ ch.name ~ "** (characters 50–130). [ASSISTANT_RESPONSE_2]" -%}
+{
+  "scenario_id": "patch_prose_passage",
+  "scenario_category": "E",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_manuscript", "patch_manuscript", "search_regex"]) }},
+  "messages": [
+    {{ m.user_msg("Pull up " ~ ch.name ~ " — there's a passage near the beginning I want to tighten up.") }},
+    {{ m.assistant_tool_turn(0, "read_manuscript", {"id": ch.manuscript_id}) }},
+    {{ m.tool_result("read_manuscript", read_result) }},
+    {{ m.assistant_answer(1, answer1_text) }},
+    {{ m.user_msg("Search for where " ~ search_name ~ " appears in this chapter first, then revise the passage starting around character 50.") }},
+    {{ m.assistant_tool_turn(2, "search_regex", {"pattern": search_name}) }},
+    {{ m.tool_result("search_regex", search_result) }},
+    {{ m.assistant_answer(3, answer2_text) }},
+    {{ m.assistant_tool_turn(4, "patch_manuscript", patch_args) }},
+    {{ m.tool_result("patch_manuscript", patch_result) }},
+    {{ m.assistant_answer(5, answer3_text) }}
+  ]
+}
+{%- endif -%}

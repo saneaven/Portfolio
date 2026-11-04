@@ -1,0 +1,44 @@
+{#
+  scenario_id: create_lorebook_with_subagent
+  scenario_category: C
+  preconditions: project has at least 1 lorebook entity
+  description: |
+    User asks to create a lorebook entry, assistant uses world_planner sub-agent
+    for consistency, then creates the entity.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set lore = project.story_entities | selectattr("kind", "equalto", "lorebook") | list -%}
+{%- if lore | length >= 1 -%}
+{%- set existing = lore[0] -%}
+{%- set new_id = uuid4() -%}
+{%- set title = project.basic_info.title -%}
+{%- set new_name = "The Laws of " ~ title[:30] -%}
+{%- set new_desc = "[GENERATED_CONTENT]" -%}
+{%- set new_content = "[GENERATED_CONTENT]" -%}
+{%- set tree_result = {"title": title, "entity_count": project.story_entities | length, "lorebook_entries": lore | map(attribute="name") | list} -%}
+{%- set agent_input = "Review the existing lore for " ~ title ~ ". There is already a lorebook entry called '" ~ existing.name ~ "' with this content: " ~ existing.content[:300] ~ ". The user wants to create a new entry about the fundamental rules governing this world. Check for consistency — would a 'Laws of " ~ title[:30] ~ "' entry conflict with or duplicate what already exists? Suggest what the entry should cover." -%}
+{%- set agent_result = "[SUBAGENT_RESPONSE]" -%}
+{%- set create_args = {"kind": "lorebook", "name": new_name, "description": new_desc, "content": new_content} -%}
+{%- set create_result = {"id": new_id, "kind": "lorebook", "name": new_name, "description": new_desc, "content": new_content, "created_at": now_iso(), "updated_at": now_iso()} -%}
+{%- set answer1_text = "Let me check the existing lore first to make sure we don't duplicate anything. I'll have the World Planner review what we have." -%}
+{%- set answer2_text = "The World Planner reviewed the existing entry \"" ~ existing.name ~ "\" for overlap. [ASSISTANT_RESPONSE_0]" -%}
+{%- set answer3_text = "Created **" ~ new_name ~ "** as a new lorebook entry. [ASSISTANT_RESPONSE_1]" -%}
+{
+  "scenario_id": "create_lorebook_with_subagent",
+  "scenario_category": "C",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["get_project_tree", "read_story_entity", "create_story_entity", "call_world_planner"]) }},
+  "messages": [
+    {{ m.user_msg("I want to create a lorebook entry that documents the fundamental rules governing the world of " ~ title ~ ". Something about the underlying laws and constraints. Can you make sure it doesn't overlap with what we already have?") }},
+    {{ m.assistant_tool_turn(0, "get_project_tree", {}) }},
+    {{ m.tool_result("get_project_tree", tree_result) }},
+    {{ m.assistant_answer(1, answer1_text) }},
+    {{ m.assistant_tool_turn(2, "call_world_planner", {"input": agent_input}) }},
+    {{ m.tool_result("call_world_planner", agent_result) }},
+    {{ m.assistant_answer(3, answer2_text) }},
+    {{ m.assistant_tool_turn(4, "create_story_entity", create_args) }},
+    {{ m.tool_result("create_story_entity", create_result) }},
+    {{ m.assistant_answer(5, answer3_text) }}
+  ]
+}
+{%- endif -%}

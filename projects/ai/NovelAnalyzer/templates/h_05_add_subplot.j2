@@ -1,0 +1,70 @@
+{#
+  scenario_id: add_subplot
+  scenario_category: H
+  preconditions: >= 1 outline with >= 2 acts, >= 2 characters, >= 1 timeline track
+  description: |
+    User wants to add a parallel subplot with a new POV character.
+    Create character, add outline chapters, create timeline track + events.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set outlines = project.outlines | default([]) -%}
+{%- set chars = project.story_entities | selectattr("kind", "equalto", "character") | list -%}
+{%- set tracks = (project.timeline | default({})).tracks | default([]) -%}
+{%- if outlines | length >= 1 and outlines[0].acts | length >= 2 and chars | length >= 2 and tracks | length >= 1 -%}
+{%- set outline = outlines[0] -%}
+{%- set act1 = outline.acts[0] -%}
+{%- set act2 = outline.acts[1] -%}
+{%- set protagonist = chars[0] -%}
+{%- set title = project.basic_info.title -%}
+{%- set new_char_id = uuid4() -%}
+{%- set new_track_id = uuid4() -%}
+{%- set new_ch1_id = uuid4() -%}
+{%- set new_ch2_id = uuid4() -%}
+{%- set new_evt_id = uuid4() -%}
+{%- set ok = {"ok": true, "updated_at": now_iso()} -%}
+{# Character planner sub-agent #}
+{%- set planner_input = "Design a new POV character for a subplot in '" ~ title ~ "'. The main protagonist is " ~ protagonist.name ~ " (" ~ truncate(protagonist.description, 100) ~ "). The subplot should run parallel to the main plot through " ~ act1.name ~ " and " ~ act2.name ~ ". The new character should have a contrasting perspective that illuminates the main themes from a different angle. Suggest name, role, motivation, and how their storyline intersects with " ~ protagonist.name ~ "'s." -%}
+{%- set planner_result = "[SUBAGENT_RESPONSE]" -%}
+{# Create character #}
+{%- set new_char_name = "[GENERATED_CONTENT]" -%}
+{%- set char_args = {"kind": "character", "name": new_char_name, "description": "[GENERATED_CONTENT]", "content": "[GENERATED_CONTENT]"} -%}
+{%- set char_result = {"id": new_char_id, "kind": "character", "name": new_char_name, "created_at": now_iso(), "updated_at": now_iso()} -%}
+{# Create outline chapters #}
+{%- set ch1_args = {"kind": "chapter", "name": new_char_name ~ ": Arrival", "description": "[GENERATED_CONTENT]", "content": "[GENERATED_CONTENT]", "parentId": act1.id, "position": act1.chapters | length} -%}
+{%- set ch1_result = {"id": new_ch1_id, "kind": "chapter", "parentId": act1.id, "created_at": now_iso()} -%}
+{%- set ch2_args = {"kind": "chapter", "name": new_char_name ~ ": Convergence", "description": "[GENERATED_CONTENT]", "content": "[GENERATED_CONTENT]", "parentId": act2.id, "position": act2.chapters | length} -%}
+{%- set ch2_result = {"id": new_ch2_id, "kind": "chapter", "parentId": act2.id, "created_at": now_iso()} -%}
+{# Create timeline track + event #}
+{%- set first_event = tracks[0].events[0] if tracks[0].events else none -%}
+{%- set evt_date = iso_to_date_dict(first_event.start_date) if first_event else none -%}
+{%- if not evt_date -%}{%- set evt_date = {"year": 1900, "month": 1, "day": 1} -%}{%- endif -%}
+{%- set track_args = {"name": new_char_name ~ " Subplot", "description": "[GENERATED_CONTENT]", "content": "[GENERATED_CONTENT]", "color": "#3a7bd5"} -%}
+{%- set track_result = {"id": new_track_id, "name": new_char_name ~ " Subplot", "created_at": now_iso()} -%}
+{%- set evt_args = {"trackId": new_track_id, "name": new_char_name ~ " arrives", "description": "[GENERATED_CONTENT]", "content": "[GENERATED_CONTENT]", "startDate": evt_date, "tags": normalize_tags(["subplot", "arrival"])} -%}
+{%- set evt_result = {"id": new_evt_id, "trackId": new_track_id, "created_at": now_iso()} -%}
+{
+  "scenario_id": "add_subplot",
+  "scenario_category": "H",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_outline", "read_story_entity", "create_story_entity", "create_outline", "create_timeline_track", "create_timeline_event", "call_character_planner"]) }},
+  "messages": [
+    {{ m.user_msg("I want to add a parallel subplot with a new POV character. Someone who contrasts with " ~ protagonist.name ~ " and runs through " ~ act1.name ~ " and " ~ act2.name ~ ". Can you help me design this?") }},
+    {{ m.assistant_tool_turn(0, "call_character_planner", {"input": planner_input}) }},
+    {{ m.tool_result("call_character_planner", planner_result) }},
+    {{ m.assistant_answer(1, "Character Planner designed a new POV character. [ASSISTANT_RESPONSE_0] Want me to create the character and set up the subplot structure?") }},
+    {{ m.user_msg("Love it. Create the character, add chapters to both acts, and set up a timeline track for her.") }},
+    {{ m.assistant_tool_turn(2, "create_story_entity", char_args) }},
+    {{ m.tool_result("create_story_entity", char_result) }},
+    {{ m.assistant_tool_turn(3, "create_outline", ch1_args) }},
+    {{ m.tool_result("create_outline", ch1_result) }},
+    {{ m.assistant_tool_turn(4, "create_outline", ch2_args) }},
+    {{ m.tool_result("create_outline", ch2_result) }},
+    {{ m.assistant_answer(5, "Character and outline chapters created in " ~ act1.name ~ " and " ~ act2.name ~ ". Now let me set up the timeline track.") }},
+    {{ m.assistant_tool_turn(6, "create_timeline_track", track_args) }},
+    {{ m.tool_result("create_timeline_track", track_result) }},
+    {{ m.assistant_tool_turn(7, "create_timeline_event", evt_args) }},
+    {{ m.tool_result("create_timeline_event", evt_result) }},
+    {{ m.assistant_answer(8, "Subplot fully set up: created 1 character, 2 outline chapters (" ~ act1.name ~ ", " ~ act2.name ~ "), and 1 timeline track with 1 event. [ASSISTANT_RESPONSE_1]") }}
+  ]
+}
+{%- endif -%}

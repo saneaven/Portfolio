@@ -1,0 +1,104 @@
+{#
+  scenario_id: rename_character_everywhere
+  scenario_category: H
+  preconditions: >= 2 characters, >= 1 chapter with manuscript, >= 1 timeline event with tags
+  description: |
+    User renames a character. Assistant patches entity, searches manuscript/outline,
+    patches all references, updates timeline tags. The canonical multi-step refactor.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set chars = project.story_entities | selectattr("kind", "equalto", "character") | list -%}
+{%- set ns_ch = namespace(chapter=none) -%}
+{%- for outline in project.outlines | default([]) -%}
+  {%- for act in outline.acts | default([]) -%}
+    {%- for ch in act.chapters | default([]) -%}
+      {%- if ch.manuscript_text | default("") | length > 100 and not ns_ch.chapter -%}
+        {%- set ns_ch.chapter = ch -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- set tracks = (project.timeline | default({})).tracks | default([]) -%}
+{%- set ns_evt = namespace(event=none) -%}
+{%- for track in tracks -%}
+  {%- for evt in track.events | default([]) -%}
+    {%- if evt.tags | default([]) | length > 0 and not ns_evt.event -%}
+      {%- set ns_evt.event = evt -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- if chars | length >= 2 and ns_ch.chapter and ns_evt.event -%}
+{%- set char = chars[0] -%}
+{%- set ch = ns_ch.chapter -%}
+{%- set evt = ns_evt.event -%}
+{%- set old_name = char.name -%}
+{%- set new_name = old_name ~ " the Revised" -%}
+{%- set outline = project.outlines[0] -%}
+{# Step 1: Read entity #}
+{%- set read_entity_result = {"id": char.id, "kind": "character", "name": old_name, "description": char.description, "content": truncate(char.content, 300), "created_at": now_iso(), "updated_at": now_iso()} -%}
+{# Step 2: Patch entity name #}
+{%- set patch_entity_args = {"id": char.id, "kind": "character", "field": "name", "old": old_name, "new": new_name} -%}
+{# Step 3: Real search for old name in manuscripts #}
+{%- set snippets = find_all_snippets(ch.manuscript_text, old_name, 50, 3) -%}
+{%- set results_list = [] -%}
+{%- for snip in snippets -%}
+  {%- set _ = results_list.append({"type": "manuscript", "location": ch.name, "excerpt": snip}) -%}
+{%- endfor -%}
+{#- Also check outline content -#}
+{%- set outline_snippet = find_snippet(ch.content | default("") ~ " " ~ ch.description | default(""), old_name, 50) -%}
+{%- if outline_snippet -%}
+  {%- set _ = results_list.append({"type": "outline", "location": outline.acts[0].name ~ ", " ~ ch.name, "excerpt": outline_snippet}) -%}
+{%- endif -%}
+{%- if results_list | length == 0 -%}
+  {%- set _ = results_list.append({"type": "story_entity", "location": "entity profile", "excerpt": truncate(char.description, 80)}) -%}
+{%- endif -%}
+{%- set search_result = {"pattern": old_name, "results": results_list, "total": results_list | length} -%}
+{# Step 4: Patch manuscript #}
+{%- set patch_ms_args = {"id": ch.manuscript_id, "old": old_name, "new": new_name} -%}
+{# Step 5: Patch outline #}
+{%- set patch_outline_args = {"id": ch.id, "field": "content", "old": old_name, "new": new_name} -%}
+{# Step 6: Read timeline to find event #}
+{%- set read_tl_result = {"tracks": [{"id": tracks[0].id, "events": [{"id": evt.id, "content": truncate(evt.content, 80), "tags": normalize_tags(evt.tags)}]}]} -%}
+{# Step 7: Patch timeline event tags #}
+{%- set old_tags = normalize_tags(evt.tags) -%}
+{%- set new_tags = [] -%}
+{%- for t in old_tags -%}
+  {%- if t == normalize_tag(old_name) -%}
+    {%- set _ = new_tags.append(normalize_tag(new_name)) -%}
+  {%- else -%}
+    {%- set _ = new_tags.append(t) -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if new_tags == old_tags -%}
+  {%- set new_tags = old_tags + [normalize_tag(new_name)] -%}
+{%- endif -%}
+{%- set patch_tl_args = {"id": evt.id, "tags": new_tags} -%}
+{%- set ok = {"ok": true, "updated_at": now_iso()} -%}
+{
+  "scenario_id": "rename_character_everywhere",
+  "scenario_category": "H",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_story_entity", "patch_story_entity", "search_regex", "patch_manuscript", "patch_outline", "read_timeline", "patch_timeline_event"]) }},
+  "messages": [
+    {{ m.user_msg("I want to rename " ~ old_name ~ " to \"" ~ new_name ~ "\" everywhere in the project — entity, manuscript, outline, timeline. Can you handle that?") }},
+    {{ m.assistant_tool_turn(0, "read_story_entity", {"id": char.id, "kind": "character"}) }},
+    {{ m.tool_result("read_story_entity", read_entity_result) }},
+    {{ m.assistant_answer(1, "Read **" ~ old_name ~ "**'s profile. Renaming the entity first, then searching for all references.") }},
+    {{ m.assistant_tool_turn(2, "patch_story_entity", patch_entity_args) }},
+    {{ m.tool_result("patch_story_entity", ok) }},
+    {{ m.assistant_tool_turn(3, "search_regex", {"pattern": old_name, "case_sensitive": false}) }},
+    {{ m.tool_result("search_regex", search_result) }},
+    {{ m.assistant_answer(4, "Entity renamed. Found " ~ (results_list | length | string) ~ " reference(s) to \"" ~ old_name ~ "\". Patching manuscript and outline.") }},
+    {{ m.assistant_tool_turn(5, "patch_manuscript", patch_ms_args) }},
+    {{ m.tool_result("patch_manuscript", ok) }},
+    {{ m.assistant_tool_turn(6, "patch_outline", patch_outline_args) }},
+    {{ m.tool_result("patch_outline", ok) }},
+    {{ m.assistant_answer(7, "Manuscript and outline patched. Updating timeline tags now.") }},
+    {{ m.assistant_tool_turn(8, "read_timeline", {}) }},
+    {{ m.tool_result("read_timeline", read_tl_result) }},
+    {{ m.assistant_tool_turn(9, "patch_timeline_event", patch_tl_args) }},
+    {{ m.tool_result("patch_timeline_event", ok) }},
+    {{ m.assistant_answer(10, "Rename complete:\n\n1. **Entity**: \"" ~ old_name ~ "\" → \"" ~ new_name ~ "\"\n2. **Manuscript** (" ~ ch.name ~ "): " ~ (results_list | length | string) ~ " reference(s) patched\n3. **Outline** (" ~ ch.name ~ "): content patched\n4. **Timeline**: tags updated\n\n[ASSISTANT_RESPONSE_0]") }}
+  ]
+}
+{%- endif -%}

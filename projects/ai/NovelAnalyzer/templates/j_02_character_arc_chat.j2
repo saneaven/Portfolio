@@ -1,0 +1,34 @@
+{#
+  scenario_id: character_arc_discussion
+  scenario_category: J
+  preconditions: >= 3 characters
+  description: |
+    User discusses character development. Extended conversation about
+    motivation, growth, and relationships. Tools available, none called.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set chars = project.story_entities | selectattr("kind", "equalto", "character") | list -%}
+{%- if chars | length >= 3 -%}
+{%- set c1 = chars[0] -%}
+{%- set c2 = chars[1] -%}
+{%- set c3 = chars[2] -%}
+{%- set title = project.basic_info.title -%}
+{
+  "scenario_id": "character_arc_discussion",
+  "scenario_category": "J",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_story_entity", "patch_story_entity", "search_semantic", "call_character_planner", "call_critic"]) }},
+  "messages": [
+    {{ m.user_msg("I'm worried " ~ c1.name ~ "'s arc is too predictable. They start as " ~ truncate(c1.description, 80) ~ " and I feel like the reader can see where it's going from the first chapter.") }},
+    {{ m.assistant_answer(0, "From what I know of " ~ c1.name ~ " (" ~ truncate(c1.description, 80) ~ "):\n\n[ASSISTANT_RESPONSE_0]") }},
+    {{ m.user_msg("The path. Every obstacle they face, they respond the same way. There's no real internal conflict.") }},
+    {{ m.assistant_answer(1, "Considering " ~ c1.name ~ "'s response pattern and how " ~ c2.name ~ " or " ~ c3.name ~ " might see what " ~ c1.name ~ " can't:\n\n[ASSISTANT_RESPONSE_1]") }},
+    {{ m.user_msg("They withdraw. Pull back and try to figure everything out alone before acting.") }},
+    {{ m.assistant_answer(2, "Considering " ~ c1.name ~ "'s withdrawal pattern and " ~ c2.name ~ "'s role:\n\n[ASSISTANT_RESPONSE_2]") }},
+    {{ m.user_msg("That's... actually exactly what I needed. The withdrawal causing damage instead of preventing it. I think I know where to put this.") }},
+    {{ m.assistant_answer(3, "Regarding " ~ c1.name ~ "'s arc after the pattern breaks:\n\n[ASSISTANT_RESPONSE_3]") }},
+    {{ m.user_msg("Will do. This was helpful — I was thinking about the arc in terms of where " ~ c1.name ~ " ends up, not what they lose along the way.") }},
+    {{ m.assistant_answer(4, "[ASSISTANT_RESPONSE_4]") }}
+  ]
+}
+{%- endif -%}

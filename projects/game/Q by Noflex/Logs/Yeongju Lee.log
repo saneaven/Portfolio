@@ -1,0 +1,1200 @@
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Using map / resource/json/Level2.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 67.741885
+[Inform]	Player Hit By Warrior at Time 75.040830
+	Now player health is 70
+[Inform]	Player Hit By Warrior at Time 75.058160
+	Now player health is 60
+[Inform]	Player Hit By Warrior at Time 75.071930
+	Now player health is 50
+[Inform]	Player Hit By Warrior at Time 75.081373
+	Now player health is 40
+[Inform]	Player Hit By Warrior at Time 75.089665
+	Now player health is 30
+[Inform]	Player Hit By Warrior at Time 76.015928
+	Now player health is 20
+[Inform]	Player Hit By Warrior at Time 76.026803
+	Now player health is 10
+[Inform]	Player Hit By Warrior at Time 76.354721
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 76.365926
+	Now player health is 0
+[Inform]	Player's 1 DeadCheck above at Time 76.377153
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 82.772477
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+//////////////////////////////////////////////////////////////////////////////
+
+[Inform]	Using map / resource/json/Level2.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 85.778526
+[Inform]	Player used weapon Dagger at Time 90.926327
+[Inform]	Player used weapon Dagger at Time 91.684418
+[Inform]	Player used weapon Dagger at Time 92.549096
+[Inform]	Player used item Potion at Time 93.310756
+[Inform]	Player used weapon Dagger at Time 94.537990
+[Inform]	Player used weapon Dagger at Time 95.015481
+[Inform]	Player used weapon Dagger at Time 96.723562
+[Inform]	Player used weapon Dagger at Time 97.445893
+[Inform]	Player used weapon Dagger at Time 97.784222
+[Inform]	Player used weapon Dagger at Time 98.213067
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 98.641293
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 99.140394
+[Inform]	Player used weapon Dagger at Time 99.554753
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 101.166711
+[Inform]	Player Hit By Scout's bullet at Time 101.914824
+	Now player health is 70
+[Inform]	Player Hit By Scout's bullet at Time 105.532789
+	Now player health is 60
+[Inform]	Player Hit By Scout's bullet at Time 106.881803
+	Now player health is 50
+[Inform]	Player used weapon Dagger at Time 108.983455
+[Inform]	Player used weapon Dagger at Time 110.009963
+[Inform]	Player Hit By Scout's bullet at Time 110.031529
+	Now player health is 40
+[Inform]	Player used weapon Dagger at Time 110.482149
+[Inform]	Player Hit By Warrior at Time 110.691443
+	Now player health is 30
+[Inform]	Player used weapon Dagger at Time 110.857444
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 111.242461
+[Inform]	Player Hit By Scout's bullet at Time 111.302030
+	Now player health is 20
+[Inform]	Player used weapon Dagger at Time 112.475583
+[Inform]	Player used weapon Dagger at Time 112.943034
+[Inform]	Player Hit By Scout's bullet at Time 112.994265
+	Now player health is 10
+[Inform]	Player used weapon Dagger at Time 113.991467
+[Inform]	Enemy Scout dead by Dagger
+[Inform]	Player used weapon Dagger at Time 116.007106
+[Inform]	Player Hit By Warrior at Time 116.245987
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 116.256932
+	Now player health is 0
+[Inform]	Player's 1 DeadCheck above at Time 116.265731
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 122.663742
+///////////////////////////////////////////////////////////////////////////////////////////
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Using map / resource/json/Level1.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 123.675103
+[Inform]	Player used weapon Dagger at Time 128.051862
+[Inform]	Player used weapon Dagger at Time 128.507817
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 132.648507
+[Inform]	Player Hit By Tanker at Time 132.935209
+	Now player health is 79
+[Inform]	Player used weapon Dagger at Time 133.019314
+[Inform]	Player used weapon Dagger at Time 133.382451
+[Inform]	Player used weapon Dagger at Time 134.221612
+[Inform]	Player used weapon Dagger at Time 134.722859
+[Inform]	Player used weapon Dagger at Time 135.065034
+[Inform]	Player Hit By Tanker at Time 135.221688
+	Now player health is 78
+[Inform]	Player Hit By Tanker at Time 135.233968
+	Now player health is 77
+[Inform]	Player Hit By Tanker at Time 135.244715
+	Now player health is 76
+[Inform]	Player Hit By Tanker at Time 135.256024
+	Now player health is 75
+[Inform]	Player Hit By Tanker at Time 135.265945
+	Now player health is 74
+[Inform]	Player used weapon Dagger at Time 135.562910
+[Inform]	Player used weapon Dagger at Time 136.505785
+[Inform]	Player used weapon Dagger at Time 137.013679
+[Inform]	Enemy Tanker dead by Dagger
+[Inform]	Player used weapon Dagger at Time 137.392512
+[Inform]	Player used weapon Dagger at Time 138.328858
+[Inform]	Player used weapon Dagger at Time 140.608777
+[Inform]	Player used weapon Dagger at Time 141.200403
+[Inform]	Player used weapon Dagger at Time 142.762523
+[Inform]	Player Hit By Tanker at Time 142.874432
+	Now player health is 73
+[Inform]	Player used weapon Dagger at Time 143.332825
+[Inform]	Player used weapon Dagger at Time 144.230355
+[Inform]	Player Hit By Scout's bullet at Time 144.388026
+	Now player health is 63
+[Inform]	Player used weapon Dagger at Time 147.422676
+[Inform]	Player Hit By DamageTile at Time 160.074827
+	Now player health is 53
+[Inform]	Player Hit By DamageTile at Time 160.074827
+	Now player health is 43
+[Inform]	Player Hit By DamageTile at Time 160.090935
+	Now player health is 33
+[Inform]	Player Hit By DamageTile at Time 160.090935
+	Now player health is 23
+[Inform]	Player Hit By DamageTile at Time 160.104950
+	Now player health is 13
+[Inform]	Player Hit By DamageTile at Time 160.104950
+	Now player health is 3
+[Inform]	Player Hit By DamageTile at Time 160.748714
+	Now player health is -7
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 167.184039
+[Inform]	***Player Died****
+[Inform]	Time / 167.184039
+/////////////////////////////////////////////////////////////////////////////
+
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Using map / resource/json/Level3.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 168.426784
+[Inform]	Player used weapon Dagger at Time 171.330060
+[Inform]	Player used weapon Dagger at Time 171.771506
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 181.693094
+[Inform]	Player picked Bomb and throw  at Time 182.872895
+
+[Inform]	Player used weapon Dagger at Time 195.449507
+[Inform]	Player used weapon Dagger at Time 196.045841
+[Inform]	Enemy Scout dead by Dagger
+[Inform]	Player Hit By Scout's bullet at Time 196.093468
+	Now player health is 70
+[Inform]	Player used weapon Dagger at Time 196.506033
+[Inform]	Player used weapon Dagger at Time 197.757136
+[Inform]	Player used weapon Dagger at Time 198.355278
+[Inform]	Player Hit By Tanker at Time 198.834711
+	Now player health is 69
+[Inform]	Player used weapon Dagger at Time 205.199787
+[Inform]	Player used weapon Dagger at Time 206.076293
+[Inform]	Player used weapon Dagger at Time 206.542749
+[Inform]	Player used weapon Dagger at Time 209.638421
+[Inform]	Player Hit By Warrior at Time 209.944268
+	Now player health is 59
+[Inform]	Player Hit By Warrior at Time 209.953359
+	Now player health is 49
+[Inform]	Player used weapon Dagger at Time 210.050354
+[Inform]	Player used weapon Dagger at Time 210.442617
+[Inform]	Player used weapon Dagger at Time 212.574332
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 214.801393
+[Inform]	Player Hit By Tanker at Time 215.402143
+	Now player health is 48
+[Inform]	Player used weapon Dagger at Time 218.273490
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 234.442437
+[Inform]	Player Hit By Warrior at Time 234.549663
+	Now player health is 38
+[Inform]	Player used weapon Dagger at Time 235.072919
+[Inform]	Player used weapon Dagger at Time 235.525398
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used item Potion at Time 240.753434
+[Inform]	Player Hit By DamageTile at Time 251.503903
+	Now player health is 38
+[Inform]	Player Hit By DamageTile at Time 251.518378
+	Now player health is 28
+[Inform]	Player Hit By DamageTile at Time 251.527857
+	Now player health is 18
+[Inform]	Player Hit By Scout's bullet at Time 256.306265
+	Now player health is 8
+[Inform]	Player Hit By DamageTile at Time 257.014290
+	Now player health is -2
+[Inform]	Player Hit By DamageTile at Time 257.024472
+	Now player health is -2
+[Inform]	Player's 1 DeadCheck above at Time 257.042113
+[Inform]	Player Hit By DamageTile at Time 257.042113
+	Now player health is -2
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 263.439987
+//////////////////////////////////////////////////////////////////////////
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Using map / resource/json/Level5.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 265.590527
+[Inform]	Player used weapon Dagger at Time 268.147945
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 269.564643
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player picked Gun and throw  at Time 291.923206
+[Inform]	Player Hit By Scout's bullet at Time 296.638961
+	Now player health is 70
+[Inform]	Player used weapon Dagger at Time 297.719780
+[Inform]	Player Hit By Scout's bullet at Time 297.828570
+	Now player health is 60
+[Inform]	Player used weapon Dagger at Time 298.090066
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 298.571839
+[Inform]	Enemy Scout dead by Dagger
+[Inform]	Player Hit By Warrior at Time 312.896360
+	Now player health is 50
+[Inform]	Player used weapon Dagger at Time 313.425981
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 313.806094
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used item Potion at Time 316.777990
+[Inform]	Player used weapon Dagger at Time 325.095998
+[Inform]	Player Hit By Warrior at Time 325.511895
+	Now player health is 50
+[Inform]	Player used weapon Dagger at Time 326.450063
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 327.067354
+[Inform]	Test Map State UnLoaded
+[Inform]	Using map / resource/json/Level2.json
+[Inform]	Level 2 State Loaded
+[Inform]	HP / 40
+[Inform]	Time / 327.452810
+[Inform]	Player used weapon Dagger at Time 335.638345
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 338.714603
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player Hit By Tanker at Time 350.864474
+	Now player health is 39
+[Inform]	Player Hit By Tanker at Time 350.875634
+	Now player health is 38
+[Inform]	Player Hit By Tanker at Time 350.884270
+	Now player health is 37
+[Inform]	Player Hit By Tanker at Time 350.894242
+	Now player health is 36
+[Inform]	Player Hit By Tanker at Time 350.903501
+	Now player health is 35
+[Inform]	Player Hit By Tanker at Time 350.911481
+	Now player health is 34
+[Inform]	Player used weapon Dagger at Time 351.031607
+[Inform]	Player Hit By Scout's bullet at Time 352.070854
+	Now player health is 24
+[Inform]	Player used item Potion at Time 355.078865
+[Inform]	Player used weapon Dagger at Time 363.406485
+[Inform]	Player used weapon Dagger at Time 364.041082
+[Inform]	Player used weapon Dagger at Time 364.695850
+[Inform]	Player Hit By Warrior at Time 364.972177
+	Now player health is 24
+[Inform]	Player Hit By Warrior at Time 364.979644
+	Now player health is 14
+[Inform]	Player Hit By Warrior at Time 364.990898
+	Now player health is 4
+[Inform]	Player Hit By Warrior at Time 364.998836
+	Now player health is -6
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 371.419054
+/////////////////////////////////////////////////////////////////////////////
+
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Using map / resource/json/Level5.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 374.806264
+[Inform]	Player used weapon Dagger at Time 376.515036
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 380.779494
+[Inform]	Player used weapon Dagger at Time 381.365890
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 391.410373
+[Inform]	Player used weapon Dagger at Time 391.785151
+[Inform]	Enemy Scout dead by Dagger
+[Inform]	Player used weapon Dagger at Time 392.296091
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 399.866341
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 400.769101
+[Inform]	Player used weapon Dagger at Time 401.941052
+[Inform]	Player used weapon Dagger at Time 403.911597
+[Inform]	Player used weapon Dagger at Time 414.888133
+[Inform]	Player Hit By Warrior at Time 415.071752
+	Now player health is 70
+[Inform]	Player used weapon Dagger at Time 416.062713
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 418.877141
+[Inform]	Player Hit By Warrior at Time 419.087546
+	Now player health is 60
+[Inform]	Player Hit By Warrior at Time 419.095490
+	Now player health is 50
+[Inform]	Player Hit By Warrior at Time 419.104243
+	Now player health is 40
+[Inform]	Player used weapon Dagger at Time 420.098741
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used item Potion at Time 421.198442
+[Inform]	Player used item Potion at Time 431.774158
+[Inform]	Player used weapon Dagger at Time 439.983908
+[Inform]	Player Hit By Scout's bullet at Time 440.236566
+	Now player health is 50
+[Inform]	Player used weapon Dagger at Time 440.308021
+[Inform]	Player used weapon Dagger at Time 440.660240
+[Inform]	Player used weapon Dagger at Time 441.046258
+[Inform]	Enemy Scout dead by Dagger
+[Inform]	Player used weapon Dagger at Time 441.449520
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player picked Bomb and throw  at Time 444.601292
+
+[Inform]	Player picked Gun and throw  at Time 457.033532
+
+[Inform]	Player used weapon Dagger at Time 459.294892
+[Inform]	Player used weapon Dagger at Time 459.683743
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 462.735772
+[Inform]	Enemy Scout dead by Dagger
+[Inform]	Player Hit By Warrior at Time 462.944427
+	Now player health is 40
+[Inform]	Player used weapon Dagger at Time 463.122499
+[Inform]	Player used weapon Dagger at Time 463.945784
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 472.605801
+[Inform]	Player used weapon Dagger at Time 473.512376
+[Inform]	Player used weapon Dagger at Time 474.947844
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 481.999913
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 483.266445
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Test Map State UnLoaded
+
+
+[Inform]	Using map / resource/json/Level2.json
+[Inform]	Level 2 State Loaded
+[Inform]	HP / 40
+[Inform]	Time / 483.614371
+[Inform]	Player used weapon Dagger at Time 492.758099
+[Inform]	Enemy Scout dead by Dagger
+[Inform]	Player used weapon Dagger at Time 497.426517
+[Inform]	Player used weapon Dagger at Time 498.037125
+[Inform]	Player Hit By Scout's bullet at Time 498.087662
+	Now player health is 30
+[Inform]	Player Hit By Warrior at Time 498.841369
+	Now player health is 20
+[Inform]	Player Hit By Warrior at Time 498.850802
+	Now player health is 10
+[Inform]	Player Hit By Warrior at Time 498.858200
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 498.869108
+	Now player health is 0
+[Inform]	Player's 1 DeadCheck above at Time 498.876674
+[Inform]	Player Hit By Warrior at Time 498.876674
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 505.278219
+////////////////////////////////////////////////////////////////////////////
+
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Using map / resource/json/Level2.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 521.090171
+[Inform]	Player Hit By Warrior at Time 535.636074
+	Now player health is 70
+[Inform]	Player Hit By Warrior at Time 535.645733
+	Now player health is 60
+[Inform]	Player Hit By Warrior at Time 535.773057
+	Now player health is 50
+[Inform]	Player Hit By Warrior at Time 535.780861
+	Now player health is 40
+[Inform]	Player Hit By Warrior at Time 535.794626
+	Now player health is 30
+[Inform]	Player Hit By Warrior at Time 535.805720
+	Now player health is 20
+[Inform]	Player Hit By Warrior at Time 535.813768
+	Now player health is 10
+[Inform]	Player Hit By Warrior at Time 536.141812
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 536.148971
+	Now player health is 0
+[Inform]	Player's 1 DeadCheck above at Time 536.162020
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 542.559626
+///////////////////////////////////////////////////////////////////////////////////
+
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Using map / resource/json/Level2.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 547.288215
+[Inform]	Player used weapon Dagger at Time 551.130532
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 561.679255
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player picked Gun and throw  at Time 566.824953
+
+[Inform]	Player swap weapon Dagger to Gun at Time 569.023124
+
+[Inform]	Player used weapon BasicGun at Time 578.959140
+[Inform]	Player Hit By Scout's bullet at Time 579.319764
+	Now player health is 70
+[Inform]	Player used weapon BasicGun at Time 579.930980
+[Inform]	Player Hit By Scout's bullet at Time 580.686546
+	Now player health is 60
+[Inform]	Player used weapon BasicGun at Time 584.043968
+[Inform]	Player used weapon BasicGun at Time 584.214084
+[Inform]	Player used weapon BasicGun at Time 584.410017
+[Inform]	Player used weapon BasicGun at Time 584.572393
+[Inform]	Player used weapon BasicGun at Time 585.010475
+[Inform]	Player used weapon BasicGun at Time 585.175687
+[Inform]	Player Hit By Scout's bullet at Time 585.175687
+	Now player health is 50
+[Inform]	Enemy Scout dead by Bullet
+[Inform]	Player used weapon BasicGun at Time 585.439873
+[Inform]	Player used weapon BasicGun at Time 585.482398
+[Inform]	Player used weapon BasicGun at Time 585.524000
+[Inform]	Player used weapon BasicGun at Time 585.652385
+[Inform]	Player used weapon BasicGun at Time 589.725259
+[Inform]	Player used weapon BasicGun at Time 589.910693
+[Inform]	Player used weapon BasicGun at Time 590.091007
+[Inform]	Player used weapon BasicGun at Time 590.343208
+[Inform]	Player used weapon BasicGun at Time 590.531842
+[Inform]	Player used weapon BasicGun at Time 590.748588
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon BasicGun at Time 590.796686
+[Inform]	Player used weapon BasicGun at Time 590.825777
+[Inform]	Player used weapon BasicGun at Time 599.732497
+[Inform]	Player used weapon BasicGun at Time 599.910634
+[Inform]	Player used weapon BasicGun at Time 600.075152
+[Inform]	Player used weapon BasicGun at Time 600.230158
+[Inform]	Player used weapon BasicGun at Time 600.382448
+[Inform]	Enemy Warrior dead by Bullet
+[Inform]	Player used weapon BasicGun at Time 600.498541
+[Inform]	Player used weapon BasicGun at Time 600.528358
+[Inform]	Player used weapon BasicGun at Time 600.558515
+[Inform]	Player used weapon BasicGun at Time 600.587669
+[Inform]	Player used weapon BasicGun at Time 600.616845
+[Inform]	Player used weapon BasicGun at Time 600.649385
+[Inform]	Player used weapon BasicGun at Time 600.681075
+[Inform]	Player used weapon BasicGun at Time 600.805669
+[Inform]	Player used weapon BasicGun at Time 600.967468
+[Inform]	Enemy Scout dead by Bullet
+[Inform]	Player used weapon BasicGun at Time 601.050730
+[Inform]	Player used weapon BasicGun at Time 601.082584
+[Inform]	Player used weapon BasicGun at Time 601.115182
+[Inform]	Player used weapon BasicGun at Time 601.150998
+[Inform]	Player used weapon BasicGun at Time 601.185588
+[Inform]	Player used weapon BasicGun at Time 601.213398
+[Inform]	Player used weapon BasicGun at Time 601.315984
+[Inform]	Player used weapon BasicGun at Time 601.491316
+[Inform]	Enemy Warrior dead by Bullet
+[Inform]	Player used weapon BasicGun at Time 601.573298
+[Inform]	Player used weapon BasicGun at Time 601.608094
+[Inform]	Player used weapon BasicGun at Time 601.640385
+[Inform]	Player used weapon BasicGun at Time 601.676625
+[Inform]	Player used weapon BasicGun at Time 609.474709
+[Inform]	Player used weapon BasicGun at Time 609.678357
+[Inform]	Player used weapon BasicGun at Time 609.858517
+[Inform]	Player used weapon BasicGun at Time 610.032809
+[Inform]	Player used weapon BasicGun at Time 610.202707
+[Inform]	Enemy Warrior dead by Bullet
+[Inform]	Enemy Warrior dead by Bullet
+[Inform]	Player used weapon BasicGun at Time 610.348055
+[Inform]	Player used weapon BasicGun at Time 610.378685
+[Inform]	Player used weapon BasicGun at Time 610.416353
+[Inform]	Player used weapon BasicGun at Time 610.517802
+[Inform]	Player used weapon BasicGun at Time 610.560099
+[Inform]	Player used weapon BasicGun at Time 612.983768
+[Inform]	Player used weapon BasicGun at Time 613.157997
+[Inform]	Player used weapon BasicGun at Time 613.312235
+[Inform]	Player used weapon BasicGun at Time 613.500564
+[Inform]	Player used weapon BasicGun at Time 613.718852
+[Inform]	Enemy Scout dead by Bullet
+[Inform]	Player picked Bomb and throw  at Time 616.624776
+
+[Inform]	Player swap item Potion to Bomb at Time 620.719246
+
+[Inform]	Player used item Bomb at Time 622.551610
+[Inform]	Player Hit By Scout's bullet at Time 632.618104
+	Now player health is 40
+[Inform]	Player used weapon BasicGun at Time 634.462573
+[Inform]	Player used weapon BasicGun at Time 634.639417
+[Inform]	Enemy Scout dead by Dagger
+[Inform]	Player used weapon BasicGun at Time 634.680144
+[Inform]	Player used weapon BasicGun at Time 634.712226
+[Inform]	Player used weapon BasicGun at Time 634.749171
+[Inform]	Player used weapon BasicGun at Time 634.787012
+[Inform]	Player used weapon BasicGun at Time 634.825048
+[Inform]	Player used weapon BasicGun at Time 634.915722
+[Inform]	Player used weapon BasicGun at Time 635.118363
+[Inform]	Enemy Tanker dead by Bullet
+[Inform]	Player used weapon BasicGun at Time 635.637894
+[Inform]	Player used item Bomb at Time 638.994838
+[Inform]	Player swap item Bomb to Potion at Time 640.284319
+
+[Inform]	Player used item Potion at Time 641.358383
+[Inform]	Player used weapon BasicGun at Time 647.054732
+[Inform]	Player used weapon BasicGun at Time 647.216234
+[Inform]	Player used weapon BasicGun at Time 647.389433
+[Inform]	Player used weapon BasicGun at Time 647.545278
+[Inform]	Player Hit By Scout's bullet at Time 647.569123
+	Now player health is 40
+[Inform]	Player used weapon BasicGun at Time 647.711740
+[Inform]	Enemy Scout dead by Bullet
+[Inform]	Player used weapon BasicGun at Time 647.765631
+[Inform]	Player used weapon BasicGun at Time 647.799679
+[Inform]	Player used weapon BasicGun at Time 647.834398
+[Inform]	Player used weapon BasicGun at Time 648.526011
+[Inform]	Player used weapon BasicGun at Time 649.809459
+[Inform]	Player used weapon BasicGun at Time 650.006704
+[Inform]	Player used weapon BasicGun at Time 650.183168
+[Inform]	Player used weapon BasicGun at Time 650.854348
+[Inform]	Player used weapon BasicGun at Time 651.966963
+[Inform]	Player Hit By Scout's bullet at Time 652.053245
+	Now player health is 30
+[Inform]	Player used weapon BasicGun at Time 652.840382
+[Inform]	Player used weapon BasicGun at Time 654.419319
+[Inform]	Enemy Scout dead by Bullet
+[Inform]	Player Hit By Scout's bullet at Time 663.231899
+	Now player health is 20
+[Inform]	Player used item Potion at Time 676.388855
+
+
+[Inform]	Test Map State UnLoaded
+[Inform]	Using map / resource/json/Level4.json
+[Inform]	Level 2 State Loaded
+[Inform]	HP / 30
+[Inform]	Time / 677.406368
+[Inform]	Player used weapon BasicGun at Time 681.607266
+[Inform]	Player Hit By DamageTile at Time 699.018985
+	Now player health is 20
+[Inform]	Player Hit By DamageTile at Time 699.018985
+	Now player health is 10
+[Inform]	Player Hit By DamageTile at Time 699.028825
+	Now player health is 0
+[Inform]	Player Hit By DamageTile at Time 699.028825
+	Now player health is 0
+[Inform]	Player Hit By DamageTile at Time 699.041260
+	Now player health is 0
+[Inform]	Player Hit By DamageTile at Time 699.041260
+	Now player health is 0
+[Inform]	Player's 1 DeadCheck above at Time 699.049635
+[Inform]	Player Hit By DamageTile at Time 699.049635
+	Now player health is 0
+
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 705.453032
+////////////////////////////////////////////////////////////////////////////////////////
+
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Using map / resource/json/Level5.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 743.985251
+[Inform]	Player used weapon Dagger at Time 745.844586
+[Inform]	Player used weapon Dagger at Time 746.768303
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 750.628705
+[Inform]	Player Hit By Warrior at Time 750.989897
+	Now player health is 70
+[Inform]	Player used weapon Dagger at Time 752.370630
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player picked Gun and throw  at Time 756.283113
+
+[Inform]	Player swap weapon Dagger to Gun at Time 757.147693
+
+[Inform]	Player Hit By Warrior at Time 764.709592
+	Now player health is 60
+[Inform]	Player Hit By Warrior at Time 764.721756
+	Now player health is 50
+[Inform]	Player used weapon BasicGun at Time 765.354743
+[Inform]	Player Hit By Warrior at Time 765.577607
+	Now player health is 40
+[Inform]	Player used weapon BasicGun at Time 766.829377
+[Inform]	Player used weapon BasicGun at Time 767.054178
+[Inform]	Player used weapon BasicGun at Time 767.329818
+[Inform]	Player used weapon BasicGun at Time 767.497485
+[Inform]	Player used weapon BasicGun at Time 767.673009
+[Inform]	Player used weapon BasicGun at Time 767.841644
+[Inform]	Player used weapon BasicGun at Time 768.001485
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon BasicGun at Time 768.040816
+[Inform]	Player used weapon BasicGun at Time 768.073989
+[Inform]	Player used weapon BasicGun at Time 770.131269
+[Inform]	Player used weapon BasicGun at Time 770.301106
+[Inform]	Player used weapon BasicGun at Time 770.471715
+[Inform]	Player Hit By Scout's bullet at Time 770.524542
+	Now player health is 30
+[Inform]	Player used weapon BasicGun at Time 770.619893
+[Inform]	Player used weapon BasicGun at Time 770.771847
+[Inform]	Player used weapon BasicGun at Time 770.932069
+[Inform]	Player used weapon BasicGun at Time 771.101024
+[Inform]	Player used weapon BasicGun at Time 771.488688
+[Inform]	Player used weapon BasicGun at Time 771.706010
+[Inform]	Enemy Scout dead by Bullet
+[Inform]	Player Hit By Scout's bullet at Time 771.752917
+	Now player health is 20
+[Inform]	Player used weapon BasicGun at Time 771.755854
+[Inform]	Player used item Potion at Time 773.101788
+[Inform]	Player used weapon BasicGun at Time 781.242322
+[Inform]	Player used weapon BasicGun at Time 781.487395
+[Inform]	Player used weapon BasicGun at Time 781.661136
+[Inform]	Player used weapon BasicGun at Time 781.855154
+[Inform]	Player used weapon BasicGun at Time 782.575852
+[Inform]	Player used weapon BasicGun at Time 782.850939
+[Inform]	Player used weapon BasicGun at Time 787.551673
+[Inform]	Player Hit By Warrior at Time 787.610897
+	Now player health is 20
+[Inform]	Player Hit By Warrior at Time 787.621527
+	Now player health is 10
+[Inform]	Player used weapon BasicGun at Time 787.706472
+[Inform]	Player used weapon BasicGun at Time 787.859781
+[Inform]	Player used weapon BasicGun at Time 788.011514
+[Inform]	Player used weapon BasicGun at Time 789.425936
+[Inform]	Player used weapon BasicGun at Time 789.595955
+[Inform]	Player used weapon BasicGun at Time 789.742831
+[Inform]	Player used weapon BasicGun at Time 790.284638
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon BasicGun at Time 790.325957
+[Inform]	Player used weapon BasicGun at Time 790.356260
+[Inform]	Player used weapon BasicGun at Time 790.387287
+[Inform]	Player used weapon BasicGun at Time 790.420982
+[Inform]	Player used weapon BasicGun at Time 790.457016
+[Inform]	Player used weapon BasicGun at Time 790.492753
+[Inform]	Enemy Warrior dead by Bullet
+[Inform]	Player used weapon BasicGun at Time 790.574435
+[Inform]	Player used weapon BasicGun at Time 790.609389
+[Inform]	Player used weapon BasicGun at Time 790.643045
+[Inform]	Player used weapon BasicGun at Time 790.675096
+[Inform]	Player used weapon BasicGun at Time 790.711260
+[Inform]	Player used item Potion at Time 792.383815
+[Inform]	Player used item Potion at Time 797.479511
+[Inform]	Player used item Potion at Time 802.608148
+[Inform]	Test Map State UnLoaded
+
+
+[Inform]	Using map / resource/json/Level2.json
+[Inform]	Level 2 State Loaded
+[Inform]	HP / 40
+[Inform]	Time / 803.751266
+[Inform]	Player used item Potion at Time 805.344797
+[Inform]	Player used item Potion at Time 810.496814
+[Inform]	Player Hit By Warrior at Time 814.687798
+	Now player health is 50
+[Inform]	Player Hit By Warrior at Time 814.703040
+	Now player health is 40
+[Inform]	Player Hit By Warrior at Time 814.712894
+	Now player health is 30
+[Inform]	Player Hit By Warrior at Time 814.720502
+	Now player health is 20
+[Inform]	Player used weapon BasicGun at Time 815.746961
+[Inform]	Player used weapon BasicGun at Time 815.935307
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon BasicGun at Time 815.975326
+[Inform]	Player used weapon BasicGun at Time 816.005841
+[Inform]	Player used weapon BasicGun at Time 816.133791
+[Inform]	Player used weapon BasicGun at Time 816.258570
+[Inform]	Player used weapon BasicGun at Time 816.420337
+[Inform]	Player used weapon BasicGun at Time 816.591473
+[Inform]	Player used weapon BasicGun at Time 816.757213
+[Inform]	Player used weapon BasicGun at Time 816.917587
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon BasicGun at Time 816.960925
+[Inform]	Player used weapon BasicGun at Time 816.993122
+[Inform]	Player used weapon BasicGun at Time 817.029266
+[Inform]	Player used weapon BasicGun at Time 817.061965
+[Inform]	Player used weapon BasicGun at Time 817.101574
+[Inform]	Player used weapon BasicGun at Time 817.148509
+[Inform]	Enemy Warrior dead by Bullet
+[Inform]	Player used weapon BasicGun at Time 817.249011
+[Inform]	Player used weapon BasicGun at Time 817.281170
+[Inform]	Player used item Potion at Time 817.380833
+[Inform]	Player used weapon BasicGun at Time 821.237518
+[Inform]	Player used weapon BasicGun at Time 821.416013
+[Inform]	Player used weapon BasicGun at Time 821.589348
+[Inform]	Player used weapon BasicGun at Time 821.761824
+[Inform]	Player used weapon BasicGun at Time 821.939062
+[Inform]	Player used weapon BasicGun at Time 822.110579
+[Inform]	Player used weapon BasicGun at Time 822.285987
+[Inform]	Player used weapon BasicGun at Time 822.462338
+[Inform]	Player used weapon BasicGun at Time 822.639841
+[Inform]	Enemy Warrior dead by Bullet
+[Inform]	Player swap weapon Gun to Dagger at Time 826.731320
+
+[Inform]	Player used weapon Dagger at Time 828.070680
+[Inform]	Player used weapon Dagger at Time 831.225720
+[Inform]	Player used weapon Dagger at Time 831.606172
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player swap weapon Dagger to Gun at Time 832.163805
+
+[Inform]	Player used weapon BasicGun at Time 836.272071
+[Inform]	Player used weapon BasicGun at Time 836.459404
+[Inform]	Player used weapon BasicGun at Time 836.617335
+[Inform]	Player used weapon BasicGun at Time 836.788199
+[Inform]	Player used weapon BasicGun at Time 836.947687
+[Inform]	Enemy Scout dead by Bullet
+[Inform]	Player used weapon BasicGun at Time 837.835144
+[Inform]	Player used weapon BasicGun at Time 838.051696
+[Inform]	Player Hit By Warrior at Time 846.739155
+	Now player health is 20
+[Inform]	Player Hit By Warrior at Time 848.050653
+	Now player health is 10
+[Inform]	Player Hit By Warrior at Time 848.059962
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 848.066515
+	Now player health is 0
+[Inform]	Player's 1 DeadCheck above at Time 848.075516
+
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 854.470186
+/////////////////////////////////////////////////////////////////////////////////////
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Using map / resource/json/Level5.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 863.027995
+[Inform]	Player used weapon Dagger at Time 867.712068
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player picked Gun and throw  at Time 870.964358
+
+[Inform]	Test Map State UnLoaded
+[Inform]	Using map / resource/json/Level4.json
+[Inform]	Level 2 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 877.352537
+[Inform]	Test Map State UnLoaded
+[Inform]	Using map / resource/json/Level3.json
+[Inform]	Level 3 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 882.774335
+[Inform]	Test Map State UnLoaded
+[Inform]	Using map / resource/json/Level1.json
+[Inform]	Level 4 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 883.531468
+[Inform]	Test Map State UnLoaded
+[Inform]	Using map / resource/json/BossMap1.json
+[Inform]	Boss Map Loaded
+[Inform]	HP / 80
+[Inform]	Time / 886.608587
+[Inform]	Player Hit By Warrior at Time 888.686751
+	Now player health is 70
+[Inform]	Player Hit By Warrior at Time 888.695472
+	Now player health is 60
+[Inform]	Player Hit By Warrior at Time 888.705113
+	Now player health is 50
+[Inform]	Player Hit By Warrior at Time 891.342563
+	Now player health is 40
+[Inform]	Player Hit By Warrior at Time 891.348965
+	Now player health is 30
+[Inform]	Player Hit By Warrior at Time 891.361730
+	Now player health is 20
+[Inform]	Player Hit By Warrior at Time 891.368386
+	Now player health is 10
+[Inform]	Player Hit By Warrior at Time 891.375675
+	Now player health is 0
+[Inform]	Player's 1 DeadCheck above at Time 891.399342
+[Inform]	Player Hit By Warrior at Time 891.643379
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 891.649814
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 891.660151
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 891.669454
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 891.681547
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 891.689170
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 891.950917
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 891.958281
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 891.964101
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 891.971083
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 891.977085
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 891.984789
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 892.744914
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 892.764179
+	Now player health is 0
+[Inform]	Player Hit By Scout's bullet at Time 894.079421
+	Now player health is 0
+[Inform]	Player Hit By Scout's bullet at Time 894.292874
+	Now player health is 0
+[Inform]	Player Hit By Scout's bullet at Time 894.591951
+	Now player health is 0
+[Inform]	Player Hit By Scout's bullet at Time 895.896403
+	Now player health is 0
+[Inform]	Player Hit By Scout's bullet at Time 896.124536
+	Now player health is 0
+[Inform]	Player Hit By Scout's bullet at Time 896.431907
+	Now player health is 0
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 897.801135
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Using map / resource/json/Level1.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 900.202841
+[Inform]	Test Map State UnLoaded
+[Inform]	Using map / resource/json/Level3.json
+[Inform]	Level 2 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 901.769929
+[Inform]	Player Hit By Warrior at Time 905.232924
+	Now player health is 70
+[Inform]	Player Hit By Warrior at Time 905.245439
+	Now player health is 60
+[Inform]	Player used weapon Dagger at Time 906.053360
+[Inform]	Player Hit By Warrior at Time 906.450277
+	Now player health is 50
+[Inform]	Player used weapon Dagger at Time 906.548479
+[Inform]	Player used weapon Dagger at Time 906.966816
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 910.888015
+[Inform]	Player used weapon Dagger at Time 911.384325
+[Inform]	Player Hit By DamageTile at Time 911.963215
+	Now player health is 40
+[Inform]	Player Hit By DamageTile at Time 911.963215
+	Now player health is 30
+[Inform]	Player Hit By DamageTile at Time 911.970775
+	Now player health is 20
+[Inform]	Player Hit By DamageTile at Time 911.970775
+	Now player health is 10
+[Inform]	Player Hit By DamageTile at Time 911.985285
+	Now player health is 0
+[Inform]	Player Hit By DamageTile at Time 911.985285
+	Now player health is 0
+[Inform]	Player Hit By DamageTile at Time 911.999374
+	Now player health is 0
+[Inform]	Player Hit By DamageTile at Time 911.999374
+	Now player health is 0
+[Inform]	Player's 1 DeadCheck above at Time 912.013136
+[Inform]	Player Hit By DamageTile at Time 912.013136
+	Now player health is 0
+
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 918.413281
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Using map / resource/json/Level1.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 920.141207
+[Inform]	Player picked Gun and throw  at Time 943.079595
+
+[Inform]	Test Map State UnLoaded
+[Inform]	Using map / resource/json/Level2.json
+[Inform]	Level 2 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 944.800347
+[Inform]	Test Map State UnLoaded
+[Inform]	Using map / resource/json/Level5.json
+[Inform]	Level 3 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 945.313409
+[Inform]	Test Map State UnLoaded
+[Inform]	Using map / resource/json/Level4.json
+[Inform]	Level 4 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 945.897180
+[Inform]	Test Map State UnLoaded
+[Inform]	Using map / resource/json/BossMap1.json
+[Inform]	Boss Map Loaded
+[Inform]	HP / 80
+[Inform]	Time / 946.419003
+[Inform]	Player used weapon Dagger at Time 948.356101
+[Inform]	Player swap weapon Dagger to Gun at Time 948.497336
+
+[Inform]	Player Hit By Warrior at Time 948.674459
+	Now player health is 70
+[Inform]	Player swap weapon Gun to Dagger at Time 948.688620
+
+[Inform]	Player swap weapon Dagger to Gun at Time 948.843179
+
+[Inform]	Player swap weapon Gun to Dagger at Time 949.012064
+
+[Inform]	Player swap weapon Dagger to Gun at Time 957.322964
+
+[Inform]	Player swap weapon Gun to Dagger at Time 957.733958
+
+[Inform]	Player swap weapon Dagger to Gun at Time 957.891550
+
+[Inform]	Player Hit By Warrior at Time 957.998851
+	Now player health is 60
+[Inform]	Player used weapon BasicGun at Time 958.071184
+[Inform]	Player used weapon BasicGun at Time 958.250352
+[Inform]	Player used weapon BasicGun at Time 958.381584
+[Inform]	Enemy Warrior dead by Bullet
+[Inform]	Player used weapon BasicGun at Time 958.478996
+[Inform]	Player used weapon BasicGun at Time 958.507838
+[Inform]	Player used weapon BasicGun at Time 958.534967
+[Inform]	Player used weapon BasicGun at Time 958.566750
+[Inform]	Enemy Warrior dead by Bullet
+[Inform]	Player used weapon BasicGun at Time 958.595459
+[Inform]	Player used weapon BasicGun at Time 958.624673
+[Inform]	Player used weapon BasicGun at Time 958.657825
+[Inform]	Player used weapon BasicGun at Time 958.686116
+[Inform]	Player used weapon BasicGun at Time 958.997540
+[Inform]	Player used weapon BasicGun at Time 959.168220
+[Inform]	Player used weapon BasicGun at Time 959.328057
+[Inform]	Player used weapon BasicGun at Time 959.473371
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon BasicGun at Time 959.511097
+[Inform]	Player used weapon BasicGun at Time 959.542123
+[Inform]	Player used weapon BasicGun at Time 959.575023
+[Inform]	Player used weapon BasicGun at Time 959.604613
+[Inform]	Player used weapon BasicGun at Time 959.640432
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon BasicGun at Time 959.673574
+[Inform]	Player used weapon BasicGun at Time 959.707855
+[Inform]	Player used weapon BasicGun at Time 959.741408
+[Inform]	Player used weapon BasicGun at Time 959.771811
+[Inform]	Player used weapon BasicGun at Time 959.804290
+[Inform]	Test Map State UnLoaded
+[Inform]	Using map / resource/json/Level3.json
+[Inform]	Level 5 State Loaded
+[Inform]	HP / 60
+[Inform]	Time / 962.310690
+[Inform]	Player used weapon BasicGun at Time 964.322012
+[Inform]	Player used weapon BasicGun at Time 964.539368
+[Inform]	Player used weapon BasicGun at Time 964.713565
+[Inform]	Player used weapon BasicGun at Time 964.945973
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player Hit By DamageTile at Time 969.761423
+	Now player health is 50
+[Inform]	Player Hit By DamageTile at Time 969.769771
+	Now player health is 40
+[Inform]	Player Hit By DamageTile at Time 969.783362
+	Now player health is 30
+[Inform]	Player Hit By DamageTile at Time 969.791426
+	Now player health is 20
+[Inform]	Player Hit By DamageTile at Time 969.798410
+	Now player health is 10
+[Inform]	Player Hit By DamageTile at Time 969.807138
+	Now player health is 0
+[Inform]	Player Hit By DamageTile at Time 969.814834
+	Now player health is 0
+[Inform]	Player's 1 DeadCheck above at Time 969.827004
+
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 976.230458
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Using map / resource/json/Level2.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 996.272172
+[Inform]	Player Hit By Warrior at Time 999.380730
+	Now player health is 70
+[Inform]	Player Hit By Warrior at Time 999.392621
+	Now player health is 60
+[Inform]	Player Hit By Warrior at Time 1001.105757
+	Now player health is 50
+[Inform]	Player Hit By Warrior at Time 1001.115635
+	Now player health is 40
+[Inform]	Player Hit By Warrior at Time 1001.126503
+	Now player health is 30
+[Inform]	Player Hit By Warrior at Time 1001.137120
+	Now player health is 20
+[Inform]	Player Hit By Warrior at Time 1001.148428
+	Now player health is 10
+[Inform]	Player Hit By Warrior at Time 1001.157233
+	Now player health is 0
+[Inform]	Player's 1 DeadCheck above at Time 1001.179116
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 1007.578036
+[Inform]	***Player Died****
+[Inform]	Time / 1007.578036
+
+
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Using map / resource/json/Level3.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 1008.695442
+[Inform]	Player Hit By DamageTile at Time 1017.206504
+	Now player health is 70
+[Inform]	Player Hit By DamageTile at Time 1017.206504
+	Now player health is 60
+[Inform]	Player Hit By DamageTile at Time 1017.214528
+	Now player health is 50
+[Inform]	Player Hit By DamageTile at Time 1017.214528
+	Now player health is 40
+[Inform]	Player Hit By DamageTile at Time 1017.228644
+	Now player health is 30
+[Inform]	Player Hit By DamageTile at Time 1017.228644
+	Now player health is 20
+[Inform]	Player Hit By Warrior at Time 1017.415340
+	Now player health is 10
+[Inform]	Player Hit By Warrior at Time 1017.427651
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 1017.440291
+	Now player health is 0
+[Inform]	Player's 1 DeadCheck above at Time 1017.450998
+[Inform]	Player Hit By Warrior at Time 1017.450998
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 1017.460213
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 1017.725722
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 1017.742599
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 1017.760510
+	Now player health is 0
+[Inform]	Player Hit By Warrior at Time 1018.514150
+	Now player health is 0
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 1023.842385
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Using map / resource/json/Level4.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 1024.938558
+[Inform]	Player Hit By Warrior at Time 1035.537042
+	Now player health is 70
+[Inform]	Player used weapon Dagger at Time 1039.013173
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 1046.571640
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used weapon Dagger at Time 1056.475080
+[Inform]	Player Hit By Warrior at Time 1056.709785
+	Now player health is 60
+[Inform]	Player Hit By Warrior at Time 1056.721413
+	Now player health is 50
+[Inform]	Player used weapon Dagger at Time 1057.743961
+[Inform]	Enemy Warrior dead by Dagger
+[Inform]	Player used item Potion at Time 1059.334071
+[Inform]	Player picked Bomb and throw  at Time 1062.993658
+
+[Inform]	Player used item Potion at Time 1071.377067
+[Inform]	Player Hit By DamageTile at Time 1072.799894
+	Now player health is 60
+[Inform]	Player Hit By DamageTile at Time 1072.812254
+	Now player health is 50
+[Inform]	Player Hit By DamageTile at Time 1072.822068
+	Now player health is 40
+[Inform]	Player Hit By DamageTile at Time 1072.838118
+	Now player health is 30
+[Inform]	Player Hit By DamageTile at Time 1072.848375
+	Now player health is 20
+[Inform]	Player Hit By DamageTile at Time 1072.857046
+	Now player health is 10
+[Inform]	Player Hit By DamageTile at Time 1072.867901
+	Now player health is 0
+[Inform]	Player Hit By DamageTile at Time 1072.877147
+	Now player health is 0
+[Inform]	Player's 1 DeadCheck above at Time 1072.885219
+[Inform]	Player Hit By DamageTile at Time 1072.885219
+	Now player health is 0
+
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 1079.282895
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Using map / resource/json/Level3.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 1081.137787
+[Inform]	Player used weapon Dagger at Time 1085.965414
+[Inform]	Player Hit By DamageTile at Time 1086.553898
+	Now player health is 70
+[Inform]	Player Hit By DamageTile at Time 1086.553898
+	Now player health is 60
+[Inform]	Player Hit By DamageTile at Time 1086.565711
+	Now player health is 50
+[Inform]	Player Hit By DamageTile at Time 1086.565711
+	Now player health is 40
+[Inform]	Player Hit By DamageTile at Time 1086.578373
+	Now player health is 30
+[Inform]	Player Hit By DamageTile at Time 1086.578373
+	Now player health is 20
+[Inform]	Player Hit By DamageTile at Time 1086.586445
+	Now player health is 10
+[Inform]	Player Hit By DamageTile at Time 1086.586445
+	Now player health is 0
+[Inform]	Player Hit By DamageTile at Time 1086.595924
+	Now player health is 0
+[Inform]	Player Hit By DamageTile at Time 1086.595924
+	Now player health is 0
+[Inform]	Player's 1 DeadCheck above at Time 1086.604604
+
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 1093.005968
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Using map / resource/json/Level5.json
+[Inform]	Level 1 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 1094.498174
+[Inform]	Player picked Gun and throw  at Time 1102.716784
+
+[Inform]	Test Map State UnLoaded
+[Inform]	Using map / resource/json/Level1.json
+[Inform]	Level 2 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 1107.691693
+[Inform]	Test Map State UnLoaded
+[Inform]	Using map / resource/json/Level4.json
+[Inform]	Level 3 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 1108.360286
+[Inform]	Test Map State UnLoaded
+[Inform]	Using map / resource/json/Level3.json
+[Inform]	Level 4 State Loaded
+[Inform]	HP / 80
+[Inform]	Time / 1108.890455
+[Inform]	Test Map State UnLoaded
+[Inform]	Using map / resource/json/BossMap1.json
+[Inform]	Boss Map Loaded
+[Inform]	HP / 80
+[Inform]	Time / 1109.098941
+[Inform]	Player Hit By Scout's bullet at Time 1110.486733
+	Now player health is 70
+[Inform]	Player Hit By Scout's bullet at Time 1110.776313
+	Now player health is 60
+[Inform]	Player used weapon Dagger at Time 1111.279551
+[Inform]	Player Hit By Scout's bullet at Time 1111.287770
+	Now player health is 50
+[Inform]	Player Hit By Scout's bullet at Time 1111.693950
+	Now player health is 40
+[Inform]	Player Hit By Scout's bullet at Time 1111.703764
+	Now player health is 30
+[Inform]	Player Hit By Scout's bullet at Time 1111.703764
+	Now player health is 20
+[Inform]	Player Hit By Scout's bullet at Time 1111.703764
+	Now player health is 10
+[Inform]	Player Hit By Scout's bullet at Time 1111.812189
+	Now player health is 0
+[Inform]	Player Hit By Scout's bullet at Time 1111.812189
+	Now player health is 0
+[Inform]	Player's 1 DeadCheck above at Time 1111.834819
+
+[Inform]	Test Map State UnLoaded
+[Inform]	***Player Died****
+[Inform]	Time / 1118.237323
+[Inform]	***Player Died****
+[Inform]	Time / 1118.237323
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Loaded
+[Inform]	MainMenuState Unloaded
+[Inform]	Map Generation :18times

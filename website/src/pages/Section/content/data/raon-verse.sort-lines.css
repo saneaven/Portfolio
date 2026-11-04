@@ -1,0 +1,211 @@
+/* Drawing primitives are shared with raon-verse.lines.css; --c is the Verse color. */
+
+.rvs {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 2vh, 20px);
+  padding: clamp(18px, 2vw, 28px);
+  border: 1px solid var(--cb-line);
+  border-radius: 16px;
+  background: var(--cb-fill);
+}
+
+.rvs__head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rvs__eyebrow {
+  align-self: flex-start;
+  font-family: var(--heading);
+  font-weight: 500;
+  font-size: clamp(10px, 0.9vw, 12px);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg in oklch, var(--cb-from), var(--cb-to));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cb p.rvs__synopsis,
+.cb p.rvs__caption {
+  max-width: 82ch;
+  font-size: clamp(13px, 1vw, 15px);
+  line-height: 1.65;
+  color: oklch(from var(--main-light) l c h / 0.7);
+}
+
+.cb p.rvs__caption {
+  min-height: 3.3em;
+  color: oklch(from var(--main-light) l c h / 0.85);
+}
+
+.rvs__stage {
+  overflow-x: auto;
+  border-top: 1px solid var(--cb-line);
+  border-bottom: 1px solid var(--cb-line);
+}
+
+/* Sorting the tangle */
+.rvs__now {
+  stroke: var(--main-light);
+  stroke-width: 1.2;
+}
+
+.rvs__now-label {
+  font-size: 9px;
+  text-anchor: end;
+  fill: var(--main-light);
+}
+
+.rvs__leader {
+  stroke: oklch(from var(--main-light) l c h / 0.45);
+  stroke-width: 1;
+}
+
+.rvs__tag-box {
+  fill: var(--main-dark);
+  stroke: oklch(from var(--main-light) l c h / 0.25);
+  stroke-width: 1;
+}
+
+.rvs__tag {
+  font-size: 9px;
+  fill: var(--main-light);
+}
+
+.rvs__tag.is-gone {
+  text-anchor: end;
+  fill: oklch(from var(--main-light) l c h / 0.5);
+}
+
+/* Flat lanes */
+.rvs__after {
+  fill: var(--main-dark);
+  opacity: 0.72;
+}
+
+.rvs__lane-now {
+  stroke: var(--main-light);
+  stroke-width: 1.2;
+}
+
+.rvs__lane-now-label {
+  font-size: 8.5px;
+  text-anchor: middle;
+  fill: var(--main-light);
+}
+
+.rvs__agent {
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-anchor: end;
+  fill: var(--cb-to);
+}
+
+.rvs__scan {
+  fill: var(--main-light);
+  filter: drop-shadow(0 0 5px oklch(from var(--cb-to) l c h / 0.9));
+}
+
+.rvs__found {
+  font-family: var(--sans);
+  font-size: 9.5px;
+  fill: oklch(from var(--main-light) l c h / 0.85);
+}
+
+.rvs__converge {
+  stroke: var(--cb-to);
+  stroke-width: 1;
+  stroke-dasharray: 1;
+  opacity: 0.7;
+}
+
+.rvs__node {
+  fill: var(--main-dark);
+  stroke: var(--cb-to);
+}
+
+.rvs__node-label {
+  font-family: var(--heading);
+  font-size: 11px;
+  font-weight: 500;
+  text-anchor: middle;
+  fill: var(--main-light);
+}
+
+.rvs__node-sub {
+  font-size: 8.5px;
+  text-anchor: middle;
+  fill: oklch(from var(--main-light) l c h / 0.6);
+}
+
+/* Playback controls */
+.rvs__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+
+.rvs__play,
+.rvs__step {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 11px;
+  border: 1px solid var(--cb-line);
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--mono);
+  font-size: 11px;
+  white-space: nowrap;
+  color: oklch(from var(--main-light) l c h / 0.7);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.rvs__play {
+  min-width: 72px;
+  justify-content: center;
+  color: var(--main-light);
+  border-color: oklch(from var(--main-light) l c h / 0.4);
+}
+
+.rvs__steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.rvs__step-n {
+  font-size: 10px;
+  color: oklch(from var(--main-light) l c h / 0.45);
+}
+
+.rvs__play:hover,
+.rvs__play:focus-visible,
+.rvs__step:hover,
+.rvs__step:focus-visible {
+  border-color: oklch(from var(--main-light) l c h / 0.55);
+  color: var(--main-light);
+  outline: none;
+}
+
+.rvs__step.is-done {
+  color: oklch(from var(--main-light) l c h / 0.85);
+}
+
+.rvs__step.is-on {
+  border-color: var(--cb-to);
+  /* --p is autoplay progress through the current step. */
+  background: linear-gradient(
+    90deg,
+    oklch(from var(--cb-to) l c h / 0.34) calc(var(--p, 1) * 100%),
+    oklch(from var(--cb-to) l c h / 0.08) calc(var(--p, 1) * 100%)
+  );
+  color: var(--main-light);
+}

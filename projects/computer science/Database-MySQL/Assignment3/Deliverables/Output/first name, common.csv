@@ -1,0 +1,6 @@
+user_id,first_name,last_name,birthday,current_city,hometown_city,gender
+2,Ethan,Collins,1982-08-22,"San Francisco","San Diego",male
+10,Ethan,Taylor,1998-02-08,Miami,Miami,male
+28,Ethan,Gonzalez,1990-08-19,"New York",Chicago,male
+51,Ethan,Lee,1993-10-21,"Los Angeles",Houston,male
+88,Ethan,Ng,2004-06-21,Miami,"New York",male

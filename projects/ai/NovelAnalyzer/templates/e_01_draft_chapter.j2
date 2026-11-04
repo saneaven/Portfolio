@@ -1,0 +1,55 @@
+{#
+  scenario_id: draft_chapter
+  scenario_category: E
+  preconditions: at least 1 chapter with manuscript_text
+  description: |
+    User asks to draft/rewrite a chapter. Assistant reads outline and manuscript,
+    delegates to novel_writer sub-agent, then replaces manuscript.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set outlines = project.outlines | default([]) -%}
+{%- set found_ch = namespace(chapter=none, act=none) -%}
+{%- for outline in outlines -%}
+  {%- for act in outline.acts | default([]) -%}
+    {%- for ch in act.chapters | default([]) -%}
+      {%- if ch.manuscript_text | default("") | length > 100 and not found_ch.chapter -%}
+        {%- set found_ch.chapter = ch -%}
+        {%- set found_ch.act = act -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- if found_ch.chapter -%}
+{%- set ch = found_ch.chapter -%}
+{%- set act = found_ch.act -%}
+{%- set excerpt = ch.manuscript_text[:600] -%}
+{%- set new_prose = "[GENERATED_PROSE]" -%}
+{%- set read_outline_result = {"id": ch.id, "kind": "chapter", "name": ch.name, "description": ch.description[:300], "content": ch.content[:300]} -%}
+{%- set read_ms_result = {"id": ch.manuscript_id, "content": excerpt} -%}
+{%- set writer_input = "Rewrite the opening of chapter '" ~ ch.name ~ "' for the novel '" ~ project.basic_info.title ~ "'. The chapter description: " ~ ch.description[:200] ~ ". Current opening: " ~ excerpt[:200] ~ "... Rewrite it with stronger sensory detail and a more immediate hook. Keep the same POV and events but sharpen the prose." -%}
+{%- set writer_result = new_prose -%}
+{%- set replace_args = {"id": ch.manuscript_id, "content": new_prose} -%}
+{%- set replace_result = {"ok": true, "updated_at": now_iso()} -%}
+{%- set answer1_text = "Here's what we have for **" ~ ch.name ~ "**:\n\n**Outline description:** " ~ ch.description[:150] ~ "...\n\n**Current opening:**\n> " ~ excerpt[:200] ~ "...\n\n[ASSISTANT_RESPONSE_0]" -%}
+{%- set answer2_text = "Replaced the opening of **" ~ ch.name ~ "** with the Novel Writer's revised draft. [ASSISTANT_RESPONSE_1]" -%}
+{
+  "scenario_id": "draft_chapter",
+  "scenario_category": "E",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_outline", "read_manuscript", "replace_manuscript", "call_novel_writer"]) }},
+  "messages": [
+    {{ m.user_msg("I want to rework the opening of " ~ ch.name ~ ". Can you pull up the outline and current draft?") }},
+    {{ m.assistant_tool_turn(0, "read_outline", {"id": ch.id}) }},
+    {{ m.tool_result("read_outline", read_outline_result) }},
+    {{ m.assistant_tool_turn(1, "read_manuscript", {"id": ch.manuscript_id}) }},
+    {{ m.tool_result("read_manuscript", read_ms_result) }},
+    {{ m.assistant_answer(2, answer1_text) }},
+    {{ m.user_msg("Rewrite it with stronger sensory detail and a more immediate hook. Keep the same POV and events.") }},
+    {{ m.assistant_tool_turn(3, "call_novel_writer", {"input": writer_input}) }},
+    {{ m.tool_result("call_novel_writer", writer_result) }},
+    {{ m.assistant_tool_turn(4, "replace_manuscript", replace_args) }},
+    {{ m.tool_result("replace_manuscript", replace_result) }},
+    {{ m.assistant_answer(5, answer2_text) }}
+  ]
+}
+{%- endif -%}

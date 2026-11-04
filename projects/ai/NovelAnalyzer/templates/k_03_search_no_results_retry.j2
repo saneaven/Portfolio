@@ -1,0 +1,62 @@
+{#
+  scenario_id: search_no_results_retry
+  scenario_category: K
+  preconditions: >= 1 character that appears in manuscript text
+  description: |
+    Regex search returns 0 results for a misspelled/wrong query.
+    Assistant retries with a corrected keyword and succeeds.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set chars = project.story_entities | selectattr("kind", "equalto", "character") | list -%}
+{%- set ns = namespace(char=none, snippets=[], chapter_name="") -%}
+{%- for c in chars -%}
+  {%- if not ns.char -%}
+    {%- for outline in project.outlines | default([]) -%}
+      {%- for act in outline.acts | default([]) -%}
+        {%- for ch in act.chapters | default([]) -%}
+          {%- if ch.manuscript_text | default("") | length > 100 -%}
+            {%- set hits = find_all_snippets(ch.manuscript_text, c.name, 50, 3) -%}
+            {%- if hits | length > 0 and not ns.char -%}
+              {%- set ns.char = c -%}
+              {%- set ns.snippets = hits -%}
+              {%- set ns.chapter_name = ch.name -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if ns.char and ns.char.name | length >= 3 -%}
+{%- set char = ns.char -%}
+{# Create a plausible typo: swap two middle characters #}
+{%- set name = char.name -%}
+{%- set mid = (name | length // 2) -%}
+{%- set typo = name[:mid-1] ~ name[mid] ~ name[mid-1] ~ name[mid+1:] if name | length >= 4 else name ~ "x" -%}
+{%- set empty_result = {"pattern": typo, "results": [], "total": 0, "page": 1} -%}
+{# Build real results for retry #}
+{%- set results_list = [] -%}
+{%- for snip in ns.snippets -%}
+  {%- set _ = results_list.append({"type": "manuscript", "location": ns.chapter_name, "excerpt": snip}) -%}
+{%- endfor -%}
+{%- set success_result = {"pattern": name, "results": results_list, "total": results_list | length, "page": 1} -%}
+{%- set result_lines = [] -%}
+{%- for r in results_list -%}
+  {%- set _ = result_lines.append((loop.index | string) ~ ". **" ~ r.location ~ "**: \"" ~ truncate(r.excerpt, 100) ~ "\"") -%}
+{%- endfor -%}
+{
+  "scenario_id": "search_no_results_retry",
+  "scenario_category": "K",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["search_regex", "read_manuscript"]) }},
+  "messages": [
+    {{ m.user_msg("Search for \"" ~ typo ~ "\" in the manuscript — I want to find all their scenes.") }},
+    {{ m.assistant_tool_turn(0, "search_regex", {"pattern": typo, "case_sensitive": false}) }},
+    {{ m.tool_result("search_regex", empty_result) }},
+    {{ m.assistant_answer(1, "No results for \"" ~ typo ~ "\". That might be a typo — did you mean **" ~ name ~ "**? Let me try that instead.") }},
+    {{ m.assistant_tool_turn(2, "search_regex", {"pattern": name, "case_sensitive": false}) }},
+    {{ m.tool_result("search_regex", success_result) }},
+    {{ m.assistant_answer(3, "Found **" ~ name ~ "** in " ~ (results_list | length | string) ~ " place(s):\n\n" ~ result_lines | join("\n") ~ "\n\nWant me to pull up the full passage for any of these?") }}
+  ]
+}
+{%- endif -%}

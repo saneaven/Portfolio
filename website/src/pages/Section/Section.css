@@ -1,0 +1,502 @@
+/* Document scroll drives the hero morph; keep this route in normal flow. */
+.section {
+  --header-h: clamp(54px, 8vh, 84px);
+  position: relative;
+  min-height: 100dvh;
+  background: var(--main-dark);
+  color: var(--main-light);
+  font-family: var(--heading);
+}
+
+/* Hero (title image) */
+.section__hero-track {
+  position: relative;
+  /* Section.tsx supplies one viewport plus the pinned scroll distance. */
+}
+
+.section__hero-pin {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.section__hero {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--main-dark);
+}
+
+/* A child blur cannot sample the image through an ancestor with opacity < 1. */
+.section__hero-scrim {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 36%;
+  transform-origin: bottom;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.45) 40%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  -webkit-mask: linear-gradient(to top, #000 0%, #000 30%, transparent 100%);
+  mask: linear-gradient(to top, #000 0%, #000 30%, transparent 100%);
+  pointer-events: none;
+}
+
+.section__hero-indicator {
+  position: absolute;
+  bottom: 4vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6em;
+  color: var(--main-light);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.section__hero-indicator-label {
+  font-weight: 400;
+  font-size: clamp(12px, 1.4vw, 20px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.section__hero-indicator-chevron {
+  width: clamp(18px, 1.8vw, 26px);
+  height: auto;
+  filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.5));
+}
+
+.section__hero-indicator-chevron path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.section__hero-back {
+  position: absolute;
+  top: 4vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.section__hero-back-btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.4em 0.2em;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--main-light);
+  font: inherit;
+  font-size: clamp(11px, 1.1vw, 15px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  text-shadow:
+    0 0 4px rgba(0, 0, 0, 1),
+    0 0 8px rgba(0, 0, 0, 1),
+    0 0 16px rgba(0, 0, 0, 0.95),
+    0 0 24px rgba(0, 0, 0, 0.6);
+  transition:
+    opacity 0.2s ease,
+    gap 0.25s ease;
+}
+
+.section__hero-back-btn:hover {
+  opacity: 0.7;
+  gap: 1em;
+}
+
+.section__hero-back-arrow {
+  width: clamp(14px, 1.4vw, 18px);
+  height: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.9));
+}
+
+/* Body (per-project content) */
+.section__body {
+  position: relative;
+  background: var(--main-dark);
+}
+
+/* Starts just past the right edge of the shared content column. */
+.section__rail {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(50% + var(--content-max) / 2 - var(--content-pad-x) + 48px);
+  right: 32px;
+  max-width: 260px;
+}
+
+.section__rail-inner {
+  position: sticky;
+  top: calc(var(--header-h) + clamp(16px, 3vh, 32px));
+
+  max-height: calc(100dvh - var(--header-h) - clamp(16px, 3vh, 32px) - 4vh);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.6vh, 18px);
+
+  margin-top: clamp(48px, 8vh, 120px);
+}
+
+@media (min-width: 1500px) {
+  .section__rail {
+    display: block;
+  }
+}
+
+.section__nav-label {
+  font-family: var(--heading);
+  font-weight: 500;
+  font-size: clamp(11px, 1vw, 14px);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg in oklch, var(--cb-from), var(--cb-to));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Bar */
+.section__bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-h);
+  overflow: hidden;
+  box-sizing: border-box;
+
+  background: linear-gradient(to bottom in oklch, oklch(from var(--main-dark) l c h / 0.92), oklch(from var(--main-dark) l c h / 0));
+  transition: height 0.35s ease;
+}
+
+.section__bar[data-menu='open'] {
+  height: 68vh;
+}
+
+.section__header-row {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: clamp(12px, 1.5vw, 28px);
+  height: var(--header-h);
+  padding: 0 clamp(16px, 2.5vw, 40px);
+  box-sizing: border-box;
+}
+
+.progressive-blur {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.progressive-blur > div {
+  position: absolute;
+  inset: 0;
+}
+.progressive-blur > div:nth-child(1) {
+  backdrop-filter: blur(0.5px);
+  -webkit-backdrop-filter: blur(0.5px);
+  -webkit-mask: linear-gradient(to top, #000 0%, #000 16%, transparent 40%);
+  mask: linear-gradient(to top, #000 0%, #000 16%, transparent 40%);
+}
+.progressive-blur > div:nth-child(2) {
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  -webkit-mask: linear-gradient(to top, transparent 8%, #000 32%, #000 48%, transparent 64%);
+  mask: linear-gradient(to top, transparent 8%, #000 32%, #000 48%, transparent 64%);
+}
+.progressive-blur > div:nth-child(3) {
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  -webkit-mask: linear-gradient(to top, transparent 24%, #000 48%, #000 60%, transparent 76%);
+  mask: linear-gradient(to top, transparent 24%, #000 48%, #000 60%, transparent 76%);
+}
+.progressive-blur > div:nth-child(4) {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  -webkit-mask: linear-gradient(to top, transparent 40%, #000 64%, #000 76%, transparent 88%);
+  mask: linear-gradient(to top, transparent 40%, #000 64%, #000 76%, transparent 88%);
+}
+.progressive-blur > div:nth-child(5) {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  -webkit-mask: linear-gradient(to top, transparent 56%, #000 80%, #000 92%, transparent 100%);
+  mask: linear-gradient(to top, transparent 56%, #000 80%, #000 92%, transparent 100%);
+}
+.progressive-blur > div:nth-child(6) {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  -webkit-mask: linear-gradient(to top, transparent 72%, #000 96%, #000 100%);
+  mask: linear-gradient(to top, transparent 72%, #000 96%, #000 100%);
+}
+
+.section__brand {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.section__header-row .brand {
+  position: static;
+  transform: none;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.7em;
+}
+
+.section__header-row .brand__mark {
+  width: clamp(26px, 2.6vw, 40px);
+}
+
+.section__header-row .brand__mark path {
+  fill: currentColor;
+  stroke: none;
+}
+
+.section__header-row .brand__name {
+  font-size: clamp(11px, 1vw, 15px);
+  letter-spacing: 0.35em;
+  text-indent: 0.35em;
+}
+
+.section__category {
+  position: relative;
+  flex: 1;
+  align-self: center;
+  height: calc((var(--header-h) - clamp(14px, 1.8vh, 22px)) / 2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+
+  background: none;
+  cursor: pointer;
+}
+
+.section__category-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  background: linear-gradient(90deg in oklch, var(--cat-from), var(--cat-to));
+  transition: height 0.35s ease;
+}
+
+.section__category[data-open='true'] .section__category-bar {
+  height: 4px;
+}
+
+.section__category-name {
+  position: relative;
+  flex: 1;
+  text-align: center;
+  font-weight: 300;
+  font-size: clamp(10px, 1vw, 16px);
+  letter-spacing: clamp(0.15em, 0.8vw, 0.5em);
+  text-indent: 0.5em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #000;
+  transition: color 0.35s ease;
+}
+
+.section__category[data-open='true'] .section__category-name {
+  color: var(--main-light);
+}
+
+.section__chevron {
+  position: relative;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(14px, 1.5vw, 20px);
+  margin-left: clamp(8px, 1.2vw, 16px);
+  margin-right: clamp(2px, 1vw, 12px);
+  color: #000;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.section__category[data-open='true'] .section__chevron {
+  transform: rotate(180deg);
+  color: var(--main-light);
+}
+
+.section__chevron svg {
+  width: 64%;
+  height: auto;
+}
+
+.section__chevron path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.section__picker {
+  display: none;
+  align-self: center;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: clamp(30px, 9vw, 40px);
+  height: clamp(30px, 9vw, 40px);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--main-light);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.section__picker[data-open='true'] {
+  opacity: 0.7;
+}
+
+.section__picker svg {
+  width: 64%;
+  height: auto;
+}
+
+.section__picker path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+@media (max-width: 1499px) {
+  .section__picker {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .section__header-row .brand__name {
+    display: none;
+  }
+}
+
+/* Menu (sibling list) */
+.section-menu__list {
+  position: relative;
+  margin: 0;
+  padding: clamp(8px, 2vh, 24px) 6vw clamp(24px, 6vh, 72px);
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(14px, 2.4vh, 32px);
+}
+
+.section-menu__item {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--heading);
+  font-weight: 300;
+  font-size: clamp(15px, 2.2vw, 28px);
+  letter-spacing: 0.08em;
+  color: var(--main-light);
+  transition: opacity 0.2s ease;
+}
+
+.section-menu__item:hover {
+  opacity: 0.7;
+}
+
+html[data-section-scrollbar-hidden] {
+  scrollbar-width: none;
+}
+html[data-section-scrollbar-hidden]::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide the scroll-restoration jump only when JS runs; reveal if hydration fails. */
+html.js:not([data-section-ready]) .section {
+  visibility: hidden;
+  animation: section-reveal-fallback 0s 2s forwards;
+}
+
+@keyframes section-reveal-fallback {
+  to {
+    visibility: visible;
+  }
+}
+
+.section__scrollbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.section__scrollbar[data-visible='true'] {
+  opacity: 1;
+}
+
+.section__scrollbar[data-visible='true'] .section__scrollbar-thumb {
+  pointer-events: auto;
+}
+
+.section__scrollbar-thumb {
+  position: absolute;
+  top: 0;
+  right: 2px;
+  width: 6px;
+  border-radius: 3px;
+  background: color-mix(in oklch, var(--main-light) 35%, transparent);
+  cursor: grab;
+  transition: background 0.2s ease, width 0.15s ease;
+}
+
+.section__scrollbar-thumb:hover,
+.section__scrollbar-thumb[data-dragging='true'] {
+  width: 4px;
+  background: color-mix(in oklch, var(--main-light) 60%, transparent);
+}
+
+.section__scrollbar-thumb[data-dragging='true'] {
+  cursor: grabbing;
+}

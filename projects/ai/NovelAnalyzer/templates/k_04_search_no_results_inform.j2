@@ -1,0 +1,68 @@
+{#
+  scenario_id: search_no_results_inform
+  scenario_category: K
+  preconditions: >= 2 story entities
+  description: |
+    Semantic search for a topic that genuinely has no matches.
+    Assistant informs the user, suggests alternatives based on what exists.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set entities = project.story_entities -%}
+{%- if entities | length >= 2 -%}
+{%- set title = project.basic_info.title -%}
+{%- set tags = project.basic_info.tags | default([]) -%}
+{# Pick a query that's unlikely to match the project's actual content #}
+{%- set genres = project.basic_info.genres | default([]) -%}
+{%- set fake_themes = ["cyberpunk technology", "underwater civilization", "space colonization", "time travel paradox", "alien first contact", "post-apocalyptic survival", "vampire politics", "dragon riders"] -%}
+{%- set ns_query = namespace(query=none) -%}
+{%- for ft in fake_themes -%}
+  {%- if not ns_query.query -%}
+    {%- set found_in_tags = false -%}
+    {%- for t in tags -%}
+      {%- if ft | lower in t | lower or t | lower in ft | lower -%}
+        {%- set found_in_tags = true -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- set found_in_genres = false -%}
+    {%- for g in genres -%}
+      {%- if ft | lower in g | lower or g | lower in ft | lower -%}
+        {%- set found_in_genres = true -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if not found_in_tags and not found_in_genres -%}
+      {%- set ns_query.query = ft -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if not ns_query.query -%}
+  {%- set ns_query.query = "quantum mechanics" -%}
+{%- endif -%}
+{%- set query = ns_query.query -%}
+{%- set empty_sem_result = {"queries": [query], "results": [], "total": 0} -%}
+{# Also try regex as fallback, also empty #}
+{%- set empty_regex_result = {"pattern": query, "results": [], "total": 0, "page": 1} -%}
+{# Build suggestion from what actually exists #}
+{%- set existing_names = [] -%}
+{%- for e in entities[:4] -%}
+  {%- set _ = existing_names.append("**" ~ e.name ~ "** (" ~ e.kind ~ ")") -%}
+{%- endfor -%}
+{%- set existing_tags = [] -%}
+{%- for t in tags[:5] -%}
+  {%- set _ = existing_tags.append("\"" ~ t ~ "\"") -%}
+{%- endfor -%}
+{
+  "scenario_id": "search_no_results_inform",
+  "scenario_category": "K",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["search_semantic", "search_regex", "read_story_entity"]) }},
+  "messages": [
+    {{ m.user_msg("Is there anything about " ~ query ~ " in the project? Search for it.") }},
+    {{ m.assistant_tool_turn(0, "search_semantic", {"queries": [query]}) }},
+    {{ m.tool_result("search_semantic", empty_sem_result) }},
+    {{ m.assistant_answer(1, "Semantic search returned nothing for \"" ~ query ~ "\". Let me also try a text search to be sure.") }},
+    {{ m.assistant_tool_turn(2, "search_regex", {"pattern": query, "case_sensitive": false}) }},
+    {{ m.tool_result("search_regex", empty_regex_result) }},
+    {{ m.assistant_answer(3, "No results for \"" ~ query ~ "\" anywhere in **" ~ title ~ "** — not in entities, outlines, or manuscripts.\n\nThe project currently covers:\n- Entities: " ~ existing_names | join(", ") ~ "\n" ~ (("- Tags: " ~ existing_tags | join(", ") ~ "\n") if existing_tags | length > 0 else "") ~ "\nIf you'd like to introduce " ~ query ~ " as a new element, I can help create an entity or weave it into an existing chapter. Otherwise, want to search for something else?") }}
+  ]
+}
+{%- endif -%}

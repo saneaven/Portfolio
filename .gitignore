@@ -1,0 +1,8 @@
+
+/projects/ai/DL-Learning/PrgHW2/animal10
+*.env
+*__pycache__
+/projects/ai/BuzzaMaker/logs
+/projects/ai/BuzzaMaker/data_news_pipeline
+/projects/ai/BuzzaMaker/main_news
+/projects/ai/BuzzaMaker/data_stocks

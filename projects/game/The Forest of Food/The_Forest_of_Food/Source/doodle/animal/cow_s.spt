@@ -1,0 +1,11 @@
+animal/New_cow.png
+HotSpot 114 0
+FrameSize 225 160
+Frame 0 0
+Frame 225 0
+Frame 450 0
+Frame 0 160
+Frame 225 160
+Frame 450 160
+Anim animal/cow_move.anm
+Anim animal/cow_run.anm

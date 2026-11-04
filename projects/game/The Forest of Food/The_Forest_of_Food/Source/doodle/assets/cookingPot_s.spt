@@ -1,0 +1,6 @@
+assets/cookingPot.png
+FrameSize 224 224 
+HotSpot 112 112
+Frame 0 0
+Frame 224 0
+Anim assets/cookingPotPlay.anm

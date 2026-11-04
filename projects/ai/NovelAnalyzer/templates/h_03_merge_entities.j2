@@ -1,0 +1,81 @@
+{#
+  scenario_id: merge_entities
+  scenario_category: H
+  preconditions: >= 2 characters, >= 1 chapter with manuscript
+  description: |
+    User realizes two characters should be merged. Read both, consolidate,
+    search references, patch manuscripts/outlines, delete duplicate.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set chars = project.story_entities | selectattr("kind", "equalto", "character") | list -%}
+{%- if chars | length >= 2 -%}
+{%- set keep = chars[0] -%}
+{%- set remove = chars[1] -%}
+{%- set merged_content = "[GENERATED_CONTENT]" -%}
+{%- set merged_desc = "[GENERATED_CONTENT]" -%}
+{%- set ok = {"ok": true, "updated_at": now_iso()} -%}
+{%- set ns_ch = namespace(chapter=none, snippets=[]) -%}
+{%- for outline in project.outlines | default([]) -%}
+  {%- for act in outline.acts | default([]) -%}
+    {%- for ch in act.chapters | default([]) -%}
+      {%- if ch.manuscript_text | default("") | length > 100 and not ns_ch.chapter -%}
+        {%- set ns_ch.chapter = ch -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endfor -%}
+{# Read both entities #}
+{%- set read1 = {"id": keep.id, "kind": "character", "name": keep.name, "description": keep.description, "content": truncate(keep.content, 300), "created_at": now_iso(), "updated_at": now_iso()} -%}
+{%- set read2 = {"id": remove.id, "kind": "character", "name": remove.name, "description": remove.description, "content": truncate(remove.content, 300), "created_at": now_iso(), "updated_at": now_iso()} -%}
+{# Replace keep with merged content #}
+{%- set replace_args = {"id": keep.id, "kind": "character", "name": keep.name, "description": merged_desc, "content": merged_content} -%}
+{# Real search for the removed character's name #}
+{%- set results_list = [] -%}
+{%- if ns_ch.chapter -%}
+  {%- set snippets = find_all_snippets(ns_ch.chapter.manuscript_text, remove.name, 50, 3) -%}
+  {%- for snip in snippets -%}
+    {%- set _ = results_list.append({"type": "manuscript", "location": ns_ch.chapter.name, "excerpt": snip}) -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- if results_list | length == 0 -%}
+  {%- set _ = results_list.append({"type": "story_entity", "location": "entity profile", "excerpt": truncate(remove.description, 80)}) -%}
+{%- endif -%}
+{%- set search_result = {"pattern": remove.name, "results": results_list, "total": results_list | length} -%}
+{# Patch manuscript if available #}
+{%- if ns_ch.chapter -%}
+{%- set patch_ms_args = {"id": ns_ch.chapter.manuscript_id, "old": remove.name, "new": keep.name} -%}
+{%- endif -%}
+{# Delete the removed entity #}
+{%- set delete_args = {"id": remove.id, "kind": "character"} -%}
+{%- set delete_result = {"ok": true, "deleted_at": now_iso()} -%}
+{
+  "scenario_id": "merge_entities",
+  "scenario_category": "H",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_story_entity", "replace_story_entity", "search_regex", "patch_manuscript", "patch_outline", "delete_story_entity"]) }},
+  "messages": [
+    {{ m.user_msg("I think " ~ keep.name ~ " and " ~ remove.name ~ " are basically the same character. Can you merge them? Keep " ~ keep.name ~ " and fold " ~ remove.name ~ "'s traits into them.") }},
+    {{ m.assistant_tool_turn(0, "read_story_entity", {"id": keep.id, "kind": "character"}) }},
+    {{ m.tool_result("read_story_entity", read1) }},
+    {{ m.assistant_tool_turn(1, "read_story_entity", {"id": remove.id, "kind": "character"}) }},
+    {{ m.tool_result("read_story_entity", read2) }},
+    {{ m.assistant_answer(2, "Read both profiles:\n- **" ~ keep.name ~ "**: " ~ truncate(keep.description, 80) ~ "\n- **" ~ remove.name ~ "**: " ~ truncate(remove.description, 80) ~ "\n\n[ASSISTANT_RESPONSE_0]") }},
+    {{ m.assistant_tool_turn(3, "replace_story_entity", replace_args) }},
+    {{ m.tool_result("replace_story_entity", ok) }},
+    {{ m.assistant_tool_turn(4, "search_regex", {"pattern": remove.name, "case_sensitive": false}) }},
+    {{ m.tool_result("search_regex", search_result) }},
+    {{ m.assistant_answer(5, "Merged profiles. Found " ~ (results_list | length | string) ~ " reference(s) to " ~ remove.name ~ ". Patching and deleting.") }},
+    {%- if ns_ch.chapter %}
+    {{ m.assistant_tool_turn(6, "patch_manuscript", patch_ms_args) }},
+    {{ m.tool_result("patch_manuscript", ok) }},
+    {{ m.assistant_tool_turn(7, "delete_story_entity", delete_args) }},
+    {{ m.tool_result("delete_story_entity", delete_result) }},
+    {{ m.assistant_answer(8, "Merge complete:\n\n1. **Merged** " ~ remove.name ~ "'s traits into " ~ keep.name ~ "\n2. **Patched** " ~ (results_list | length | string) ~ " manuscript reference(s): \"" ~ remove.name ~ "\" → \"" ~ keep.name ~ "\"\n3. **Deleted** entity \"" ~ remove.name ~ "\"\n\n[ASSISTANT_RESPONSE_1]") }}
+    {%- else %}
+    {{ m.assistant_tool_turn(6, "delete_story_entity", delete_args) }},
+    {{ m.tool_result("delete_story_entity", delete_result) }},
+    {{ m.assistant_answer(7, "Merge complete:\n\n1. **Merged** " ~ remove.name ~ "'s traits into " ~ keep.name ~ "\n2. **Deleted** entity \"" ~ remove.name ~ "\"\n\n[ASSISTANT_RESPONSE_1]") }}
+    {%- endif %}
+  ]
+}
+{%- endif -%}

@@ -1,0 +1,39 @@
+:root {
+  --neutral-0: oklch(93.47% 0.0046 78.30);
+  --neutral-400: oklch(60.41% 0.0027 83.18);
+  --neutral-950: oklch(14.96% 0.0000 89.88);
+
+  /* semantic anchors */
+  --main-light: var(--neutral-0); /* #ebe9e6 */
+  --main-dark: var(--neutral-950); /* #0b0b0b */
+
+  /* Colors used by canvas components also live in styles/palette.ts. */
+  --blue-deep:  oklch(54.71% 0.1629 256.87);
+  --green-deep: oklch(59.01% 0.1271 157.37);
+  --leaf:       oklch(68.00% 0.1600 145.00);
+  --gold:       oklch(82.17% 0.1682 92.47);
+  --honey:      oklch(80.00% 0.1650 82.00);
+  --crimson:    oklch(59.42% 0.2149 18.92);
+  --pine:       oklch(26.78% 0.0321 168.52);
+  --burgundy:   oklch(36.85% 0.0899 356.93);
+
+  /* Semantic aliases — reference the primitives; never hold raw oklch. */
+  --ai-from: var(--blue-deep);
+  --ai-to: var(--green-deep);
+  --game-from: var(--gold);
+  --game-to: var(--crimson);
+  --landing-bg-from: var(--pine);
+  --landing-bg-to: var(--burgundy);
+
+  /* Content column shared by project pages, About and Home's left column. */
+  --content-max: 1180px;
+  --content-pad-x: clamp(24px, 6vw, 96px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}

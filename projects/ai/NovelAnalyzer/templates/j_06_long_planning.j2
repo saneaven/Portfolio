@@ -1,0 +1,43 @@
+{#
+  scenario_id: long_planning_session
+  scenario_category: J
+  preconditions: >= 5 story entities, >= 1 outline with >= 2 acts
+  description: |
+    Extended planning session covering plot, characters, and structure.
+    Tools available but none called. Long conversation (8 user turns).
+#}
+{%- import "_macros.j2" as m -%}
+{%- set entities = project.story_entities -%}
+{%- set outlines = project.outlines | default([]) -%}
+{%- if entities | length >= 5 and outlines | length >= 1 and outlines[0].acts | length >= 2 -%}
+{%- set title = project.basic_info.title -%}
+{%- set chars = entities | selectattr("kind", "equalto", "character") | list -%}
+{%- set c1 = chars[0] if chars | length > 0 else none -%}
+{%- set c2 = chars[1] if chars | length > 1 else none -%}
+{%- set outline = outlines[0] -%}
+{%- set act1 = outline.acts[0] -%}
+{%- set act2 = outline.acts[1] -%}
+{%- set logline = project.basic_info.logline -%}
+{
+  "scenario_id": "long_planning_session",
+  "scenario_category": "J",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_outline", "read_story_entity", "read_manuscript", "search_semantic", "search_regex", "patch_outline", "patch_story_entity", "call_novel_planner", "call_critic"]) }},
+  "messages": [
+    {{ m.user_msg("I need a big-picture check-in on " ~ title ~ ". Where are we and what's missing?") }},
+    {{ m.assistant_answer(0, "Let me take stock of " ~ title ~ ".\n\n**Logline**: " ~ truncate(logline, 150) ~ "\n\n**Structure**: " ~ (outline.acts | length | string) ~ " acts — " ~ act1.name ~ " through " ~ outline.acts[-1].name ~ ".\n\n**Characters**: " ~ (chars | length | string) ~ " characters, led by " ~ (c1.name if c1 else "the protagonist") ~ ".\n\n**World**: " ~ (entities | selectattr('kind', 'equalto', 'location') | list | length | string) ~ " locations, " ~ (entities | selectattr('kind', 'equalto', 'lorebook') | list | length | string) ~ " lorebook entries.\n\n[ASSISTANT_RESPONSE_0]") }},
+    {{ m.user_msg("The character arcs. I'm not sure " ~ (c1.name if c1 else "the protagonist") ~ " changes enough across the story.") }},
+    {{ m.assistant_answer(1, (c1.name if c1 else "The protagonist") ~ " starts as " ~ truncate(c1.description if c1 else "undefined", 80) ~ ". Their arc spans from " ~ act1.name ~ " onward.\n\n[ASSISTANT_RESPONSE_1]") }},
+    {{ m.user_msg("1 is clear — they believe they can handle everything alone. 2... I'm not sure what the cost is. 3, there's a moment in " ~ act2.name ~ " where they ask for help, but it might not be enough.") }},
+    {{ m.assistant_answer(2, "[ASSISTANT_RESPONSE_2]") }},
+    {{ m.user_msg("The cost isn't visible enough. I need to build that up earlier so the asking-for-help moment lands harder.") }},
+    {{ m.assistant_answer(3, "The setup would go in " ~ act1.name ~ " for " ~ (c1.name if c1 else "the protagonist") ~ ", building toward the moment in " ~ act2.name ~ ".\n\n[ASSISTANT_RESPONSE_3]") }},
+    {{ m.user_msg("OK now switch gears — what about " ~ (c2.name if c2 else "the secondary characters") ~ "? Do they have enough to do?") }},
+    {{ m.assistant_answer(4, (c2.name if c2 else "The secondary characters") ~ " — " ~ truncate(c2.description if c2 else "supporting cast", 80) ~ ".\n\n[ASSISTANT_RESPONSE_4]") }},
+    {{ m.user_msg("I like the mirror idea. What if " ~ (c2.name if c2 else "they") ~ " went through the same thing " ~ (c1.name if c1 else "the protagonist") ~ " is going through, but earlier, and made a different choice?") }},
+    {{ m.assistant_answer(5, "[ASSISTANT_RESPONSE_5]") }},
+    {{ m.user_msg("This has been really productive. I've got clear targets now — build up the cost in " ~ act1.name ~ ", and develop " ~ (c2.name if c2 else "the mirror character") ~ "'s backstory for maximum impact timing.") }},
+    {{ m.assistant_answer(6, "[ASSISTANT_RESPONSE_6]") }}
+  ]
+}
+{%- endif -%}

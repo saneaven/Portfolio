@@ -1,0 +1,31 @@
+/* Grid and card styles come from .cb__grid and .cb__card. */
+.q-enemies {
+  grid-auto-rows: 1fr;
+}
+
+.q-enemy {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: clamp(12px, 1.4vw, 18px);
+}
+
+.q-enemy-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.q-enemy-thumb {
+  flex: 0 0 auto;
+  width: clamp(64px, 7vw, 88px);
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: oklch(from var(--main-light) l c h / 0.05);
+}
+
+@media (max-width: 768px) {
+  .q-enemies {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

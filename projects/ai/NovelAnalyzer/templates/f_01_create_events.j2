@@ -1,0 +1,68 @@
+{#
+  scenario_id: create_timeline_events
+  scenario_category: F
+  preconditions: at least 1 timeline track with events
+  description: |
+    User asks to add events to an existing track. Demonstrates date conversion
+    (ISO -> date dict) and event linking.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set tracks = (project.timeline | default({})).tracks | default([]) -%}
+{%- if tracks | length >= 1 and tracks[0].events | default([]) | length >= 1 -%}
+{%- set track = tracks[0] -%}
+{%- set last_event = track.events[-1] -%}
+{%- set last_date = iso_to_date_dict(last_event.start_date) -%}
+{%- set chars = project.story_entities | selectattr("kind", "equalto", "character") | list -%}
+{%- set link_char = chars[0] if chars | length > 0 else none -%}
+{%- set new_event_id = uuid4() -%}
+{%- set new_date = {"year": last_date.year, "month": last_date.month, "day": (last_date.day + 1) if last_date.day < 28 else 1} if last_date else {"year": 1900, "month": 1, "day": 15} -%}
+{%- set event_name = "New development after " ~ last_event.content[:40] -%}
+{%- set event_desc = "[GENERATED_CONTENT]" -%}
+{%- set event_content = "[GENERATED_CONTENT]" -%}
+{%- set event_tags = normalize_tags(last_event.tags[:2] + ["turning point"]) if last_event.tags else ["turning point"] -%}
+{%- set read_result = {"id": track.id, "name": track.content[:60] if track.content else "Main Timeline", "events": track.events[:3] | map(attribute="content") | list} -%}
+{%- set create_args = {"trackId": track.id, "name": event_name, "description": event_desc, "content": event_content, "startDate": new_date, "tags": event_tags} -%}
+{%- set create_result = {"id": new_event_id, "trackId": track.id, "name": event_name, "description": event_desc, "content": event_content, "startDate": new_date, "tags": event_tags, "created_at": now_iso(), "updated_at": now_iso()} -%}
+{%- set answer1_text = "Here's the current timeline. The most recent event is:\n\n> " ~ last_event.content[:150] ~ "\n\n[ASSISTANT_RESPONSE_0]" -%}
+{%- if link_char -%}
+{%- set link_args = {"id": new_event_id, "objectType": "character", "objectId": link_char.id} -%}
+{%- set link_result = {"ok": true, "eventId": new_event_id, "objectType": "character", "objectId": link_char.id} -%}
+{%- set answer2_text = "Created the new event and linked it to **" ~ link_char.name ~ "**. Date set to " ~ (new_date.year | string) ~ "-" ~ (new_date.month | string) ~ "-" ~ (new_date.day | string) ~ ". [ASSISTANT_RESPONSE_1]" -%}
+{
+  "scenario_id": "create_timeline_events",
+  "scenario_category": "F",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_timeline", "create_timeline_event", "create_timeline_event_link"]) }},
+  "messages": [
+    {{ m.user_msg("Add a new event to the main timeline, right after the last one. Something about a turning point.") }},
+    {{ m.assistant_tool_turn(0, "read_timeline", {}) }},
+    {{ m.tool_result("read_timeline", read_result) }},
+    {{ m.assistant_answer(1, answer1_text) }},
+    {{ m.user_msg("Yes, link it to " ~ link_char.name ~ ".") }},
+    {{ m.assistant_tool_turn(2, "create_timeline_event", create_args) }},
+    {{ m.tool_result("create_timeline_event", create_result) }},
+    {{ m.assistant_tool_turn(3, "create_timeline_event_link", link_args) }},
+    {{ m.tool_result("create_timeline_event_link", link_result) }},
+    {{ m.assistant_answer(4, answer2_text) }}
+  ]
+}
+{%- else -%}
+{%- set answer2_text = "Created the new event on the timeline. Date set to " ~ (new_date.year | string) ~ "-" ~ (new_date.month | string) ~ "-" ~ (new_date.day | string) ~ ". [ASSISTANT_RESPONSE_1]" -%}
+{
+  "scenario_id": "create_timeline_events",
+  "scenario_category": "F",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_timeline", "create_timeline_event"]) }},
+  "messages": [
+    {{ m.user_msg("Add a new event to the main timeline, right after the last one. Something about a turning point.") }},
+    {{ m.assistant_tool_turn(0, "read_timeline", {}) }},
+    {{ m.tool_result("read_timeline", read_result) }},
+    {{ m.assistant_answer(1, answer1_text) }},
+    {{ m.user_msg("No specific character, just add the event.") }},
+    {{ m.assistant_tool_turn(2, "create_timeline_event", create_args) }},
+    {{ m.tool_result("create_timeline_event", create_result) }},
+    {{ m.assistant_answer(3, answer2_text) }}
+  ]
+}
+{%- endif -%}
+{%- endif -%}

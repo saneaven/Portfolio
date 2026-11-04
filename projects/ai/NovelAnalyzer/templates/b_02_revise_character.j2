@@ -1,0 +1,54 @@
+{#
+  scenario_id: revise_character_profile
+  scenario_category: B
+  preconditions: project has at least 2 characters
+  description: |
+    User asks to read a character, search for mentions, then patch specific details.
+    Three-turn conversation demonstrating read-search-patch workflow.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set chars = project.story_entities | selectattr("kind", "equalto", "character") | list -%}
+{%- if chars | length >= 2 -%}
+{%- set char = chars[0] -%}
+{%- set char_desc_preview = truncate(char.description, 200) -%}
+{%- set char_content_preview = truncate(char.content, 400) -%}
+{%- set old_snippet = char.content[:80] -%}
+{%- set new_snippet = "[GENERATED_CONTENT]" -%}
+{%- set read_result = {"id": char.id, "kind": "character", "name": char.name, "description": char.description, "content": char.content, "created_at": now_iso(), "updated_at": now_iso()} -%}
+{#- Real semantic search for character mentions -#}
+{%- set sem_results = semantic_search(project, [char.name], 3) -%}
+{%- if sem_results | length == 0 -%}
+  {%- set sem_results = [{"type": "story_entity", "id": char.id, "name": char.name, "excerpt": truncate(char.description, 100), "score": 1.0}] -%}
+{%- endif -%}
+{%- set search_result = {"queries": [char.name ~ " appearance and actions"], "results": sem_results, "total": sem_results | length} -%}
+{%- set patch_args = {"id": char.id, "kind": "character", "field": "content", "old": old_snippet, "new": new_snippet} -%}
+{%- set patch_result = {"ok": true, "updated_at": now_iso()} -%}
+{#- Build answer text from real search results -#}
+{%- set hit_lines = [] -%}
+{%- for r in sem_results -%}
+  {%- set _ = hit_lines.append((loop.index | string) ~ ". **" ~ r.name ~ "** (" ~ r.type ~ "): " ~ truncate(r.excerpt, 100)) -%}
+{%- endfor -%}
+{%- set answer1_text = "Here's **" ~ char.name ~ "**'s current profile:\n\n**Description:** " ~ char_desc_preview ~ "\n\n**Content (excerpt):** " ~ truncate(char_content_preview, 200) ~ "...\n\n[ASSISTANT_RESPONSE_0]" -%}
+{%- set answer2_text = "Found " ~ char.name ~ " in " ~ (sem_results | length | string) ~ " place(s):\n\n" ~ hit_lines | join("\n") ~ "\n\n[ASSISTANT_RESPONSE_1]" -%}
+{%- set answer3_text = "Patched the opening of " ~ char.name ~ "'s content (first " ~ (old_snippet | length | string) ~ " characters replaced). [ASSISTANT_RESPONSE_2]" -%}
+{
+  "scenario_id": "revise_character_profile",
+  "scenario_category": "B",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_story_entity", "patch_story_entity", "search_semantic"]) }},
+  "messages": [
+    {{ m.user_msg("Can you pull up the profile for " ~ char.name ~ "? I want to take a look at what we have.") }},
+    {{ m.assistant_tool_turn(0, "read_story_entity", {"id": char.id, "kind": "character"}) }},
+    {{ m.tool_result("read_story_entity", read_result) }},
+    {{ m.assistant_answer(1, answer1_text) }},
+    {{ m.user_msg("Search for where " ~ char.name ~ " shows up across the project first.") }},
+    {{ m.assistant_tool_turn(2, "search_semantic", {"queries": [char.name ~ " appearance and actions"]}) }},
+    {{ m.tool_result("search_semantic", search_result) }},
+    {{ m.assistant_answer(3, answer2_text) }},
+    {{ m.user_msg("Let's revise the opening of their content to have more motivational depth.") }},
+    {{ m.assistant_tool_turn(4, "patch_story_entity", patch_args) }},
+    {{ m.tool_result("patch_story_entity", patch_result) }},
+    {{ m.assistant_answer(5, answer3_text) }}
+  ]
+}
+{%- endif -%}

@@ -1,0 +1,72 @@
+{#
+  scenario_id: review_and_polish
+  scenario_category: L
+  preconditions: >= 3 characters, >= 2 chapters with text, >= 1 timeline track
+  description: |
+    Late-stage review: critic sub-agent, search for issues, patch manuscript,
+    update entity, generate portrait. Covers B+E+G+I+J.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set chars = project.story_entities | selectattr("kind", "equalto", "character") | list -%}
+{%- set ns_chs = namespace(chs=[]) -%}
+{%- for outline in project.outlines | default([]) -%}
+  {%- for act in outline.acts | default([]) -%}
+    {%- for ch in act.chapters | default([]) -%}
+      {%- if ch.manuscript_text | default("") | length > 200 -%}
+        {%- set ns_chs.chs = ns_chs.chs + [ch] -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- set tracks = (project.timeline | default({})).tracks | default([]) -%}
+{%- if chars | length >= 3 and ns_chs.chs | length >= 2 and tracks | length >= 1 -%}
+{%- set title = project.basic_info.title -%}
+{%- set char = chars[0] -%}
+{%- set ch1 = ns_chs.chs[0] -%}
+{%- set ch2 = ns_chs.chs[1] -%}
+{%- set ok = {"ok": true, "updated_at": now_iso()} -%}
+{%- set img_id = uuid4() -%}
+{# Critic review #}
+{%- set critic_input = "Review the manuscript of '" ~ title ~ "'. Focus on " ~ ch1.name ~ " and " ~ ch2.name ~ ". Check for: prose quality, pacing, characterization of " ~ char.name ~ ", and any continuity issues. " ~ ch1.name ~ " excerpt: " ~ truncate(ch1.manuscript_text, 300) ~ " | " ~ ch2.name ~ " excerpt: " ~ truncate(ch2.manuscript_text, 300) -%}
+{%- set critic_result = "[SUBAGENT_RESPONSE]" -%}
+{# Search for the issue in ch1 #}
+{%- set snippets = find_all_snippets(ch1.manuscript_text, char.name, 60, 2) -%}
+{%- set search_result = {"pattern": char.name, "results": [], "total": snippets | length} -%}
+{%- for snip in snippets -%}
+  {%- set _ = search_result.results.append({"type": "manuscript", "location": ch1.name, "excerpt": snip}) -%}
+{%- endfor -%}
+{# Patch ch2 transition #}
+{%- set old_text = ch2.manuscript_text[30:90] -%}
+{%- set new_text = old_text ~ " [GENERATED_PROSE]" -%}
+{# Update character description #}
+{%- set old_desc = char.description[:50] -%}
+{%- set new_desc = old_desc ~ " [GENERATED_CONTENT]" -%}
+{# Portrait #}
+{%- set img_args = {"prompt": "Updated portrait of " ~ char.name ~ ": " ~ truncate(char.description, 100) ~ " Literary illustration, refined details.", "ratio": "1:1", "object_id": char.id} -%}
+{%- set img_result = {"id": img_id, "object_id": char.id, "url": "https://storage.novelbuds.app/images/" ~ img_id ~ ".png", "created_at": now_iso()} -%}
+{
+  "scenario_id": "review_and_polish",
+  "scenario_category": "L",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["call_critic", "search_regex", "read_manuscript", "patch_manuscript", "read_story_entity", "patch_story_entity", "generate_object_image", "get_project_tree", "call_lore_explorer"]) }},
+  "messages": [
+    {{ m.user_msg("I'm preparing " ~ title ~ " for a beta read. Can you do a review pass on " ~ ch1.name ~ " and " ~ ch2.name ~ "?") }},
+    {{ m.assistant_tool_turn(0, "call_critic", {"input": critic_input}) }},
+    {{ m.tool_result("call_critic", critic_result) }},
+    {{ m.assistant_answer(1, "Critic reviewed " ~ ch1.name ~ " and " ~ ch2.name ~ ". [ASSISTANT_RESPONSE_0]\n\nWant me to fix these?") }},
+    {{ m.user_msg("Fix the transition in " ~ ch2.name ~ " first. Add something sensory.") }},
+    {{ m.assistant_tool_turn(2, "patch_manuscript", {"id": ch2.manuscript_id, "old": old_text, "new": new_text}) }},
+    {{ m.tool_result("patch_manuscript", ok) }},
+    {{ m.assistant_answer(3, "Patched transition in " ~ ch2.name ~ ". [ASSISTANT_RESPONSE_1]\n\nFor the monologue issue in " ~ ch1.name ~ ", let me find the exact passage.") }},
+    {{ m.assistant_tool_turn(4, "search_regex", {"pattern": char.name, "case_sensitive": false}) }},
+    {{ m.tool_result("search_regex", search_result) }},
+    {{ m.assistant_answer(5, "Found " ~ char.name ~ " in " ~ (snippets | length | string) ~ " passage(s) in " ~ ch1.name ~ ". [ASSISTANT_RESPONSE_2]") }},
+    {{ m.user_msg("I'll handle the monologue myself. But while we're in polish mode — can you also update " ~ char.name ~ "'s profile and regenerate their portrait? The description could be sharper after all this revision.") }},
+    {{ m.assistant_tool_turn(6, "patch_story_entity", {"id": char.id, "kind": "character", "field": "description", "old": old_desc, "new": new_desc}) }},
+    {{ m.tool_result("patch_story_entity", ok) }},
+    {{ m.assistant_tool_turn(7, "generate_object_image", img_args) }},
+    {{ m.tool_result("generate_object_image", img_result) }},
+    {{ m.assistant_answer(8, "Updated **" ~ char.name ~ "**'s description and generated a fresh portrait.\n\nSession actions: patched transition in " ~ ch2.name ~ ", searched " ~ ch1.name ~ " (" ~ (snippets | length | string) ~ " results), updated " ~ char.name ~ "'s profile and portrait. [ASSISTANT_RESPONSE_3]") }}
+  ]
+}
+{%- endif -%}

@@ -1,0 +1,54 @@
+{#
+  scenario_id: regex_search
+  scenario_category: G
+  preconditions: at least 1 character that appears in manuscript text
+  description: |
+    User searches for a character name across the project. Single tool call.
+    Uses real manuscript data for realistic search results.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set chars = project.story_entities | selectattr("kind", "equalto", "character") | list -%}
+{%- set ns = namespace(char=none, snippets=[], chapter_name="") -%}
+{%- for c in chars -%}
+  {%- if not ns.char -%}
+    {%- for outline in project.outlines | default([]) -%}
+      {%- for act in outline.acts | default([]) -%}
+        {%- for ch in act.chapters | default([]) -%}
+          {%- if ch.manuscript_text | default("") | length > 100 -%}
+            {%- set hits = find_all_snippets(ch.manuscript_text, c.name, 50, 2) -%}
+            {%- if hits | length > 0 and not ns.char -%}
+              {%- set ns.char = c -%}
+              {%- set ns.snippets = hits -%}
+              {%- set ns.chapter_name = ch.name -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if ns.char and ns.snippets | length > 0 -%}
+{%- set char = ns.char -%}
+{%- set results_list = [] -%}
+{%- for snip in ns.snippets -%}
+  {%- set _ = results_list.append({"type": "manuscript", "location": ns.chapter_name, "excerpt": snip}) -%}
+{%- endfor -%}
+{%- set search_result = {"pattern": char.name, "results": results_list, "total": results_list | length, "page": 1} -%}
+{%- set result_lines = [] -%}
+{%- for r in results_list -%}
+  {%- set _ = result_lines.append((loop.index | string) ~ ". **" ~ r.location ~ "**: \"" ~ truncate(r.excerpt, 100) ~ "\"") -%}
+{%- endfor -%}
+{%- set answer_text = "Found **" ~ char.name ~ "** in " ~ (results_list | length | string) ~ " place(s):\n\n" ~ result_lines | join("\n") ~ "\n\nWant me to read any of these in full, or search for something else?" -%}
+{
+  "scenario_id": "regex_search",
+  "scenario_category": "G",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["search_regex"]) }},
+  "messages": [
+    {{ m.user_msg("Search for everywhere " ~ char.name ~ " appears in the project.") }},
+    {{ m.assistant_tool_turn(0, "search_regex", {"pattern": char.name, "case_sensitive": false}) }},
+    {{ m.tool_result("search_regex", search_result) }},
+    {{ m.assistant_answer(1, answer_text) }}
+  ]
+}
+{%- endif -%}

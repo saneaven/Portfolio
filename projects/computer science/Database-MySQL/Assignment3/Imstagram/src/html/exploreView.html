@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Imstagram Explore Page</title>
+
+    <link href="explore.css" rel="stylesheet">
+    <script>
+            function processSelection()
+            {
+                var form = document.getElementById("select_exploration");
+                var e = document.getElementById("form-search");
+                var value = e.value;
+                switch (value) {
+                    case "bom":
+                        form.setAttribute("action", "/MonthOfBirth");
+                        break;
+                    case "names":
+                        form.setAttribute("action", "/Names");
+                        break;
+                    case "lonely":
+                        form.setAttribute("action", "/LonelyFriends");
+                        break;
+                    case "homebodies":
+                        form.setAttribute("action", "/HomeBodies");
+                        break;
+                    case "photo_tag":
+                        form.setAttribute("action", "/PhotoTag");
+                        break;
+                    case "match_pairs":
+                        form.setAttribute("action", "/MatchPairs");
+                        break;
+                    case "set_date":
+                        form.setAttribute("action", "/SetDates");
+                        break;
+                    case "suggest_friend":
+                        form.setAttribute("action", "/SuggestFriend");
+                        break;
+                    case "popular_city":
+                        form.setAttribute("action", "/PopularCities");
+                        break;
+                    case "siblings":
+                        form.setAttribute("action", "/Siblings");
+                        break;
+                    default:
+                        window.alert("How did you get here??");
+                        return;
+                }
+
+                form.submit();
+            }
+        </script>
+</head>
+
+<body>
+<header>
+    <nav>
+        <ul id="nav_bar">
+            <li class="nav-links" id="Facebook"><a href="https://www.facebook.com">Fakebook</a></li>
+            <li class="nav-links"><a href="#">Images</a></li>
+            <li id="sign_in"><a href="#">Sign In</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Imstagram Logo -->
+<div class="imstagram">
+    <a href="#" id="imstagram_logo"><img src="img/logo.PNG" class="brand-img" alt=""></a>
+</div>
+
+<!-- FORM SEARCH -->
+<div class="form">
+    <form id="select_exploration">
+        <label for="form-search" style="display:block; padding-bottom: 5px;">What are you interested in?</label>
+        <!-- <input type="text" id="form-search" placeholder="Search Google or type URL"> -->
+        <select name="queries" id="form-search">
+            <option value="bom" selected>Find information about month of birth</option>
+            <option value="names">Find information about names</option>
+            <option value="lonely">Find "lonely" friends</option>
+            <option value="homebodies">Find "homebodies"</option>
+            <option value="photo_tag">Find information about photo tags</option>
+            <option value="match_pairs">Find potential pairs who can be lovers</option>
+            <option value="set_date">Find more about Leah's friends</option>
+            <option value="suggest_friend">Suggest friends based on shared friends</option>
+            <option value="popular_city">Find the most popular cities</option>
+            <option value="siblings">Find the pairs of potential Siblings</option>
+        </select>
+    </form>
+</div>
+
+<!-- BUTTONS -->
+<div class= "buttons">
+    <input type="submit" value="Imstagram Explore" id="imstagram_explore" onclick="processSelection()">
+    <input type="submit" value="I'm Feeling Lucky" id="im_feeling_lucky">
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <ul class="footer-left">
+        <li><a href="#">Advertising</a></li>
+        <li><a href="#">Business</a></li>
+        <li><a href="#">About</a></li>
+    </ul>
+    <ul class="footer-right">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Settings</a></li>
+    </ul>
+</footer>
+</body>
+</html>

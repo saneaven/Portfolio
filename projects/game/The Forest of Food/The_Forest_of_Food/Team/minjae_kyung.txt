@@ -1,0 +1,37 @@
+Name:MinJae Kyung
+
+Role:Technical Director
+
+Contribution : 
+Physics( collision detect ), Animal AI, Sound Manager, Object Manager, 
+Bezier (space / time) interpolation,Basic Data Types(Vector, Rectangle, Line), Object Interfaces.
+
+List Files:
+BasicDataTypes.cpp
+BasicDataTypes.h
+Engine.h
+Engine.cpp
+GameObjectManager.cpp
+GameObjectManager.h
+GameState.cpp
+Interpolation.cpp
+Interpolation.h
+Line.cpp
+Line.h
+LinkedList.h
+Object.cpp
+Object.h
+Rectangle.cpp
+Rectangle.h
+Vector2D.h
+Vector2D.inl
+Creature.cpp
+Creture.h
+Environment.cpp
+Environment.h
+Player.cpp
+Player.h
+Item.cpp
+Item.h
+MainUI.cpp
+MainUI.h

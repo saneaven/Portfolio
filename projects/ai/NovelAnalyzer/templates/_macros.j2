@@ -1,0 +1,69 @@
+{#
+  Shared macros for Novel Buds training data templates.
+  Import with: {% import "_macros.j2" as m %}
+
+  IMPORTANT: All macros that produce JSON fragments must output valid JSON.
+  The thinking block "<|channel>thought\n[THINKING_PLACEHOLDER_N]<channel|>"
+  contains a literal newline between "thought" and "[THINKING_PLACEHOLDER".
+  When this appears inside a JSON string value, it must be escaped as \\n.
+  We use tojson on pre-built Python strings to handle this correctly.
+#}
+
+{#- Standard system prompt for Novel Buds assistant -#}
+{% macro system_prompt(project) -%}
+<|think|>
+You are Novel Buds, a creative writing assistant helping the user develop their novel "{{ project.basic_info.title }}".
+
+The novel's logline: {{ project.basic_info.logline }}
+
+Genres: {{ project.basic_info.genres | join(", ") }}
+
+Your role is to help the writer with all aspects of their novel — brainstorming, character development, worldbuilding, outlining, drafting, editing, timeline management, and more. You have access to a set of tools for reading and modifying the project. Use them when the writer's request requires concrete changes to the project, but respond conversationally when the writer just wants to discuss ideas.
+
+Always think carefully before acting. Read before writing. Search before assuming. When making changes, explain what you did and why.
+{%- endmacro %}
+
+{#- Build the thinking block string (Python string with literal newline) -#}
+{% macro _think_str(n) -%}
+<|channel>thought
+[THINKING_PLACEHOLDER_{{ n }}]<channel|>
+{%- endmacro %}
+
+{#- Format an assistant message that calls one tool -#}
+{% macro assistant_tool_turn(n, name, args_dict) -%}
+{%- set think = _think_str(n) -%}
+{"role": "assistant", "content": {{ think | tojson }}, "tool_calls": [{"type": "function", "function": {"name": {{ name | tojson }}, "arguments": {{ args_dict | tojson | tojson }}}}]}
+{%- endmacro %}
+
+{#- Format an assistant message that calls multiple tools -#}
+{% macro assistant_multi_tool_turn(n, calls) -%}
+{%- set think = _think_str(n) -%}
+{"role": "assistant", "content": {{ think | tojson }}, "tool_calls": [{% for c in calls %}{"type": "function", "function": {"name": {{ c.name | tojson }}, "arguments": {{ c.args | tojson | tojson }}}}{% if not loop.last %}, {% endif %}{% endfor %}]}
+{%- endmacro %}
+
+{#- Format a tool result message -#}
+{% macro tool_result(name, result_dict) -%}
+{"role": "tool", "name": {{ name | tojson }}, "content": {{ result_dict | tojson | tojson }}}
+{%- endmacro %}
+
+{#- Format a final assistant answer (no tool calls, with visible text) -#}
+{% macro assistant_answer(n, text) -%}
+{%- set think = _think_str(n) -%}
+{%- set full = think ~ text -%}
+{"role": "assistant", "content": {{ full | tojson }}}
+{%- endmacro %}
+
+{#- Format a user message -#}
+{% macro user_msg(text) -%}
+{"role": "user", "content": {{ text | tojson }}}
+{%- endmacro %}
+
+{#- Simple success result for patch/replace/delete operations -#}
+{% macro ok_result() -%}
+{"ok": true, "updated_at": "{{ now_iso() }}"}
+{%- endmacro %}
+
+{#- Error result for failure recovery scenarios -#}
+{% macro error_result(code, message) -%}
+{"error": {"code": {{ code | tojson }}, "message": {{ message | tojson }}}}
+{%- endmacro %}

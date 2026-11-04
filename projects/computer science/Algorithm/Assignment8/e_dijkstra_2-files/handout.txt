@@ -1,0 +1,39 @@
+This is a continuation of the electric Dijkstra assignment:
+
+
+////////////////////////////////////////////////////
+// Previous assignment:
+// You are exploring a problem whether a particular electric vehicle is acceptable
+// for a given town. The main question is - given the range of the vehicle (range
+// is based on a full charge) will that vehicle be able to go from any location to
+// any other location with the maximum of K recharges.
+// 
+// Problem: given the graph and number of recharges and the maximum range of a
+// vehicle, will that vehicle be able to reach any location from any other
+// location? 
+/////////////////////////////////////////////////////
+
+
+For this lab you are given a graph and the maximum number of recharges. You
+have to calculate the minimum range (on a full battery charge) that will allow
+the vehicle to visit any location from any other location with the given
+maximum number of recharges.
+
+Idea: 
+use your solution for the assignment to find the minimum:
+range           1 2 3 4 .... M-1 M
+range is enough F F F F ....  F  T  <-- stop and return M
+
+Whether the range is enough uses previous assignment.
+
+But this will be very slow. Use binary search instead 
+R_min  range is not enough
+R_max  range is enough
+try
+(R_max+R_min)/2
+if it is enough R_max = (R_max+R_min)/2
+if not          R_min = (R_max+R_min)/2
+
+Things to think about:
+1) what is the initial R_min?
+2) what is the initial R_max?

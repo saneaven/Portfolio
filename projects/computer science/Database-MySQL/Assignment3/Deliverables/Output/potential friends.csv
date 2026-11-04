@@ -1,0 +1,11 @@
+user1_id,first_name,last_name,user1_id,first_name,last_name,common_friend_count,common_friends
+14,Caden,Rodriguez,67,Henry,Perez,3,"Owen Hernandez, Ava Patel, Samuel Wu"
+28,Ethan,Gonzalez,92,Lucas,Harris,3,"Harper Jackson, Gabriel Garcia, Ella Garcia"
+50,Emma,Gomez,88,Ethan,Ng,3,"Oliver Wilson, Jackson Lopez, Lucas Kim"
+1,Emma,Smith,76,Samuel,Wu,2,"Emily Brown, Ryan Gonzalez"
+2,Ethan,Collins,59,Lucas,Kim,2,"Evelyn Shah, Ethan Ng"
+4,Noah,Garcia,10,Ethan,Taylor,2,"Benjamin Huang, Grace Wu"
+5,Mia,Scott,61,Logan,Singh,2,"Jackson Lopez, Alexander Park"
+6,Liam,Johnson,46,Jackson,Lopez,2,"Logan Singh, Ethan Ng"
+6,Liam,Johnson,56,Mia,Sanchez,2,"Logan Singh, Alexander Park"
+6,Liam,Johnson,66,Amelia,Chen,2,"William Garcia, Logan Singh"

@@ -1,0 +1,457 @@
+/* Verse colors flow through --c; neutral surfaces use the shared content tokens. */
+
+.rvl {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 2vh, 22px);
+  padding: clamp(18px, 2vw, 28px);
+  border: 1px solid var(--cb-line);
+  border-radius: 16px;
+  background: var(--cb-fill);
+}
+
+/* Header */
+.rvl__head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rvl__eyebrow {
+  font-family: var(--heading);
+  font-weight: 500;
+  font-size: clamp(10px, 0.9vw, 12px);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg in oklch, var(--cb-from), var(--cb-to));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  align-self: flex-start;
+}
+
+.cb p.rvl__synopsis {
+  max-width: 78ch;
+  font-size: clamp(13px, 1vw, 15px);
+  line-height: 1.65;
+  color: oklch(from var(--main-light) l c h / 0.7);
+}
+
+/* Pickers */
+.rvl__pick {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rvl__group {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.rvl__group-label,
+.rvl__entity {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: oklch(from var(--main-light) l c h / 0.5);
+}
+
+.rvl__entity {
+  min-width: 42px;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: oklch(from var(--main-light) l c h / 0.75);
+}
+
+.rvl__entities {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rvl__chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.rvl__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border: 1px solid var(--cb-line);
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: oklch(from var(--main-light) l c h / 0.75);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.rvl__chip:hover,
+.rvl__chip:focus-visible {
+  border-color: oklch(from var(--c) l c h / 0.6);
+  color: var(--main-light);
+  outline: none;
+}
+
+.rvl__chip.is-on {
+  border-color: var(--c);
+  background: oklch(from var(--c) l c h / 0.16);
+  color: var(--main-light);
+}
+
+.rvl__chip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+/* Stage */
+.rvl__stage {
+  overflow-x: auto;
+  border-top: 1px solid var(--cb-line);
+  border-bottom: 1px solid var(--cb-line);
+}
+
+.rvl__svg {
+  display: block;
+  width: 100%;
+  min-width: 860px;
+  height: auto;
+  font-family: var(--mono);
+  /* Keep scaled SVG glyph spacing even. */
+  text-rendering: geometricPrecision;
+}
+
+.rvl__svg path {
+  fill: none;
+}
+
+/* World axis */
+.rvl__squeeze {
+  fill: oklch(from var(--main-light) l c h / 0.025);
+}
+
+.rvl__tick {
+  stroke: oklch(from var(--main-light) l c h / 0.1);
+  stroke-width: 1;
+}
+
+.rvl__tick.is-minor {
+  stroke: oklch(from var(--main-light) l c h / 0.05);
+  stroke-dasharray: 2 4;
+}
+
+.rvl__axis-label {
+  font-size: 9.5px;
+  fill: oklch(from var(--main-light) l c h / 0.55);
+}
+
+.rvl__axis-label.is-squeeze {
+  text-anchor: middle;
+  fill: oklch(from var(--main-light) l c h / 0.35);
+}
+
+.rvl__axis-minor {
+  font-size: 8px;
+  fill: oklch(from var(--main-light) l c h / 0.3);
+}
+
+/* Verse bands */
+.rvl__band {
+  fill: var(--c);
+  fill-opacity: 0.045;
+}
+
+.rvl__band-label {
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  fill: var(--c);
+}
+
+.rvl__band-count {
+  font-size: 8.5px;
+  fill: oklch(from var(--main-light) l c h / 0.35);
+}
+
+.rvl__event-bar {
+  fill: var(--c);
+  opacity: 0.35;
+}
+
+.rvl__event-bar.is-major {
+  opacity: 0.8;
+}
+
+/* Tangled lines */
+.rvl__base path {
+  stroke: var(--c);
+  stroke-linecap: round;
+  transition: opacity 0.2s ease, stroke-width 0.2s ease;
+}
+
+.rvl__world path {
+  opacity: 0.85;
+}
+
+.rvl__life path {
+  opacity: 0.6;
+}
+
+.rvl__life path.is-jump {
+  opacity: 0.4;
+}
+
+.rvl__story path {
+  stroke: var(--main-light);
+  opacity: 0.9;
+}
+
+.rvl__story path.is-jump {
+  opacity: 0.6;
+}
+
+.rvl__split {
+  fill: var(--main-dark);
+  stroke: var(--c);
+  stroke-width: 1.4;
+  transition: opacity 0.2s ease;
+}
+
+.rvl__base .rvl__split.is-cold {
+  opacity: 0.15;
+}
+
+.rvl__birth,
+.rvl__life-mark {
+  fill: var(--c);
+  opacity: 0.75;
+  transition: opacity 0.2s ease;
+}
+
+.rvl__base .is-cold path,
+.rvl__base .is-cold.rvl__life-mark {
+  opacity: 0.12;
+}
+
+.rvl__base .is-hot path {
+  opacity: 1;
+  stroke-width: 2.6px;
+}
+
+.rvl__hits path {
+  stroke: transparent;
+  stroke-width: 10px;
+  pointer-events: stroke;
+  cursor: pointer;
+}
+
+/* Focused line */
+.rvl__focus-seg {
+  stroke: var(--c);
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 4px oklch(from var(--c) l c h / 0.45));
+}
+
+.rvl__glyph {
+  fill: var(--main-dark);
+  stroke: var(--c);
+  stroke-width: 1.5;
+}
+
+.rvl__glyph.is-event,
+.rvl__glyph.is-scene,
+.rvl__glyph.is-choice,
+.rvl__glyph.is-knowledge {
+  fill: var(--c);
+}
+
+.rvl__glyph.is-knowledge.is-unknown {
+  fill: var(--main-dark);
+}
+
+.rvl__glyph.is-major {
+  stroke: var(--main-light);
+}
+
+.rvl__glyph.is-jump {
+  fill: none;
+  stroke-width: 1.6;
+}
+
+.rvl__glyph.is-origin {
+  stroke-width: 2.2;
+}
+
+.rvl__flat-title {
+  font-family: var(--heading);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-anchor: end;
+  fill: var(--main-light);
+}
+
+.rvl__side-label {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-anchor: end;
+  fill: oklch(from var(--main-light) l c h / 0.45);
+}
+
+.rvl__side-label.is-small {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  fill: var(--c);
+}
+
+.rvl__flat-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  fill: oklch(from var(--main-light) l c h / 0.85);
+}
+
+.rvl__flat-label.is-dim {
+  fill: oklch(from var(--main-light) l c h / 0.45);
+}
+
+.rvl__leader {
+  stroke: oklch(from var(--main-light) l c h / 0.2);
+  stroke-width: 1;
+}
+
+.rvl__stretch {
+  fill: var(--c);
+}
+
+.rvl__stretch-verse {
+  font-size: 9px;
+  fill: var(--c);
+}
+
+.rvl__stretch-world {
+  font-size: 8.5px;
+  fill: oklch(from var(--main-light) l c h / 0.45);
+}
+
+.rvl__trace line {
+  stroke: var(--main-light);
+  stroke-width: 1.4;
+  opacity: 0.8;
+}
+
+.rvl__trace line.is-jump {
+  stroke-dasharray: 2 3;
+  opacity: 0.45;
+}
+
+.rvl__trace .rvl__trace-axis {
+  stroke-width: 1;
+  opacity: 0.12;
+}
+
+.rvl__track-event {
+  fill: oklch(from var(--c) l c h / 0.5);
+}
+
+.rvl__track-event.is-major {
+  fill: var(--c);
+}
+
+.rvl__track-event.is-ongoing {
+  fill: oklch(from var(--c) l c h / 0.3);
+}
+
+.rvl__track-label {
+  font-family: var(--sans);
+  font-size: 9.5px;
+  fill: oklch(from var(--main-light) l c h / 0.8);
+}
+
+.rvl__presence {
+  stroke: var(--c);
+  stroke-width: 1.6;
+}
+
+/* Selection details */
+.rvl__info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px 16px;
+  min-height: 52px;
+}
+
+.rvl__info-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  flex: 1 1 100%;
+}
+
+.rvl__info-kind {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: oklch(from var(--main-light) l c h / 0.5);
+}
+
+.rvl__info-title {
+  font-family: var(--heading);
+  font-weight: 500;
+  font-size: clamp(14px, 1.2vw, 17px);
+  color: var(--main-light);
+}
+
+.rvl__info-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: oklch(from var(--main-light) l c h / 0.55);
+}
+
+.cb p.rvl__info-note {
+  flex: 1 1 0;
+  font-size: clamp(12px, 0.95vw, 14px);
+  line-height: 1.6;
+  color: oklch(from var(--main-light) l c h / 0.7);
+}
+
+.rvl__reset {
+  padding: 5px 14px;
+  border: 1px solid var(--cb-line);
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--main-light);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.rvl__reset:hover,
+.rvl__reset:focus-visible {
+  border-color: oklch(from var(--main-light) l c h / 0.5);
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .rvl__group {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}

@@ -1,0 +1,47 @@
+/* Defaults match the PartLanding → Section handoff. Override concrete properties
+   so transitions run; unregistered CSS variable changes don't interpolate. */
+
+.hero__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.3s ease;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease;
+}
+
+.hero__text {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2em;
+  padding: 0 6vw;
+  text-align: center;
+  color: var(--main-light);
+  text-shadow:
+    0 0 12px rgba(0, 0, 0, 0.7),
+    0 0 28px rgba(0, 0, 0, 0.45);
+  transition: text-shadow 0.45s ease;
+}
+
+.hero__title {
+  margin: 0;
+  font-weight: 400;
+  font-size: clamp(32px, 4.5vw, 64px);
+  letter-spacing: 0.02em;
+}
+
+.hero__subtitle {
+  margin: 0;
+  font-weight: 400;
+  font-size: clamp(14px, 1.6vw, 24px);
+  opacity: 0.9;
+}

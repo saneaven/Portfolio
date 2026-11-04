@@ -1,0 +1,815 @@
+[
+  {
+    "name": "read_story_entity",
+    "description": "Read a story entity.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "kind": { "type": "string", "enum": ["character", "location", "organization", "lorebook"] }
+      },
+      "required": ["id", "kind"]
+    }
+  },
+  {
+    "name": "read_story_entity_folder",
+    "description": "Read a story entity folder.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" }
+      },
+      "required": ["id"]
+    }
+  },
+  {
+    "name": "create_story_entity",
+    "description": "Create a story entity.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "type": "string", "enum": ["character", "location", "organization", "lorebook"] },
+        "name": { "type": "string", "description": "Name" },
+        "description": { "type": "string", "description": "Description" },
+        "content": { "type": "string", "description": "Content" },
+        "folderId": { "type": ["string", "null"], "description": "Parent folder ID. Use null for root." }
+      },
+      "required": ["kind", "name", "content"]
+    }
+  },
+  {
+    "name": "create_story_entity_folder",
+    "description": "Create a story entity folder.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "description": "Name" },
+        "description": { "type": "string", "description": "Description" },
+        "parentId": { "type": ["string", "null"], "description": "Parent folder ID. Use null for root." }
+      },
+      "required": ["name"]
+    }
+  },
+  {
+    "name": "replace_story_entity",
+    "description": "Replace story entity fields.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "kind": { "type": "string", "enum": ["character", "location", "organization", "lorebook"] },
+        "name": { "type": "string", "description": "Name" },
+        "description": { "type": "string", "description": "Description" },
+        "content": { "type": "string", "description": "Content" },
+        "folderId": { "type": ["string", "null"], "description": "Parent folder ID. Use null for root." }
+      },
+      "required": ["id", "kind"]
+    }
+  },
+  {
+    "name": "replace_story_entity_folder",
+    "description": "Replace story entity folder fields.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "name": { "type": "string", "description": "Name" },
+        "description": { "type": "string", "description": "Description" },
+        "parentId": { "type": ["string", "null"], "description": "Parent folder ID. Use null for root." },
+        "position": { "type": "integer", "description": "0-based sibling position." }
+      },
+      "required": ["id"]
+    }
+  },
+  {
+    "name": "patch_story_entity",
+    "description": "Patch story entity by single replacement.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "kind": { "type": "string", "enum": ["character", "location", "organization", "lorebook"] },
+        "field": { "type": "string", "enum": ["name", "description", "content"] },
+        "folderId": { "type": ["string", "null"], "description": "Parent folder ID. Use null for root." },
+        "old": { "type": "string", "description": "Text to find" },
+        "new": { "type": "string", "description": "Replacement text" }
+      },
+      "required": ["id", "kind", "field", "old", "new"]
+    }
+  },
+  {
+    "name": "patch_story_entity_folder",
+    "description": "Patch story entity folder by single replacement.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "field": { "type": "string", "enum": ["name", "description"] },
+        "parentId": { "type": ["string", "null"], "description": "Parent folder ID. Use null for root." },
+        "position": { "type": "integer", "description": "0-based sibling position." },
+        "old": { "type": "string", "description": "Text to find" },
+        "new": { "type": "string", "description": "Replacement text" }
+      },
+      "required": ["id", "field", "old", "new"]
+    }
+  },
+  {
+    "name": "delete_story_entity",
+    "description": "Delete a story entity.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "kind": { "type": "string", "enum": ["character", "location", "organization", "lorebook"] }
+      },
+      "required": ["id", "kind"]
+    }
+  },
+  {
+    "name": "delete_story_entity_folder",
+    "description": "Delete a story entity folder.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" }
+      },
+      "required": ["id"]
+    }
+  },
+  {
+    "name": "translate_story_entity",
+    "description": "Translate story entity fields.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "kind": { "type": "string", "enum": ["character", "location", "organization", "lorebook"] },
+        "name": { "type": "string", "description": "Name" },
+        "description": { "type": "string", "description": "Description" },
+        "content": { "type": "string", "description": "Content" }
+      },
+      "required": ["id", "kind", "name", "description", "content"]
+    }
+  },
+  {
+    "name": "translate_story_entity_folder",
+    "description": "Translate story entity folder fields.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "name": { "type": "string", "description": "Name" },
+        "description": { "type": "string", "description": "Description" }
+      },
+      "required": ["id"]
+    }
+  },
+  {
+    "name": "patch_translation_story_entity",
+    "description": "Patch story entity translation by single replacement.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "kind": { "type": "string", "enum": ["character", "location", "organization", "lorebook"] },
+        "field": { "type": "string", "enum": ["name", "description", "content"] },
+        "old": { "type": "string", "description": "Text to find" },
+        "new": { "type": "string", "description": "Replacement text" }
+      },
+      "required": ["id", "kind", "field", "old", "new"]
+    }
+  },
+  {
+    "name": "patch_translation_story_entity_folder",
+    "description": "Patch story entity folder translation by single replacement.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "field": { "type": "string", "enum": ["name", "description"] },
+        "old": { "type": "string", "description": "Text to find" },
+        "new": { "type": "string", "description": "Replacement text" }
+      },
+      "required": ["id", "field", "old", "new"]
+    }
+  },
+  {
+    "name": "read_outline",
+    "description": "Read an outline item.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" }
+      },
+      "required": ["id"]
+    }
+  },
+  {
+    "name": "create_outline",
+    "description": "Create an outline, act, or chapter.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "type": "string", "enum": ["outline", "act", "chapter"] },
+        "parentId": { "type": ["string", "null"], "description": "Parent folder ID. Use null for root." },
+        "position": { "type": "integer", "description": "0-based sibling position." },
+        "name": { "type": "string", "description": "Name" },
+        "description": { "type": "string", "description": "Description" },
+        "content": { "type": "string", "description": "Content" }
+      },
+      "required": ["kind", "name", "content"]
+    }
+  },
+  {
+    "name": "replace_outline",
+    "description": "Replace outline item fields.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "parentId": { "type": ["string", "null"], "description": "Parent folder ID. Use null for root." },
+        "name": { "type": "string", "description": "Name" },
+        "description": { "type": "string", "description": "Description" },
+        "content": { "type": "string", "description": "Content" },
+        "position": { "type": "integer", "description": "0-based sibling position." }
+      },
+      "required": ["id"]
+    }
+  },
+  {
+    "name": "patch_outline",
+    "description": "Patch outline item by single replacement.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "field": { "type": "string", "enum": ["name", "description", "content"] },
+        "parentId": { "type": ["string", "null"], "description": "Parent folder ID. Use null for root." },
+        "position": { "type": "integer", "description": "0-based sibling position." },
+        "old": { "type": "string", "description": "Text to find" },
+        "new": { "type": "string", "description": "Replacement text" }
+      },
+      "required": ["id", "field", "old", "new"]
+    }
+  },
+  {
+    "name": "delete_outline",
+    "description": "Delete an outline item.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" }
+      },
+      "required": ["id"]
+    }
+  },
+  {
+    "name": "translate_outline",
+    "description": "Translate outline item fields.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "name": { "type": "string", "description": "Name" },
+        "description": { "type": "string", "description": "Description" },
+        "content": { "type": "string", "description": "Content" }
+      },
+      "required": ["id", "name", "description", "content"]
+    }
+  },
+  {
+    "name": "patch_translation_outline",
+    "description": "Patch outline item translation by single replacement.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "field": { "type": "string", "enum": ["name", "description", "content"] },
+        "old": { "type": "string", "description": "Text to find" },
+        "new": { "type": "string", "description": "Replacement text" }
+      },
+      "required": ["id", "field", "old", "new"]
+    }
+  },
+  {
+    "name": "read_manuscript",
+    "description": "Read manuscript text.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "offset": {
+          "type": "object",
+          "properties": {
+            "from": { "type": "integer" },
+            "to": { "type": "integer" }
+          },
+          "required": ["from", "to"]
+        }
+      },
+      "required": ["id"]
+    }
+  },
+  {
+    "name": "replace_manuscript",
+    "description": "Replace full manuscript content.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "content": { "type": "string", "description": "Content" }
+      },
+      "required": ["id", "content"]
+    }
+  },
+  {
+    "name": "patch_manuscript",
+    "description": "Patch manuscript by single replacement.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "old": { "type": "string", "description": "Text to find" },
+        "new": { "type": "string", "description": "Replacement text" }
+      },
+      "required": ["id", "old", "new"]
+    }
+  },
+  {
+    "name": "translate_manuscript",
+    "description": "Translate full manuscript content.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "content": { "type": "string", "description": "Content" }
+      },
+      "required": ["id", "content"]
+    }
+  },
+  {
+    "name": "patch_translation_manuscript",
+    "description": "Patch manuscript translation by single replacement.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "old": { "type": "string", "description": "Text to find" },
+        "new": { "type": "string", "description": "Replacement text" }
+      },
+      "required": ["id", "old", "new"]
+    }
+  },
+  {
+    "name": "read_timeline",
+    "description": "Read the project timeline with tracks, events, dates, and links.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {},
+      "required": []
+    }
+  },
+  {
+    "name": "read_timeline_event",
+    "description": "Read a single timeline event.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" }
+      },
+      "required": ["id"]
+    }
+  },
+  {
+    "name": "create_timeline_track",
+    "description": "Create a timeline track.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "description": "Name" },
+        "description": { "type": "string", "description": "Description" },
+        "content": { "type": "string", "description": "Rich text content (markdown)" },
+        "parentId": { "type": ["string", "null"], "description": "Parent folder ID. Use null for root." },
+        "position": { "type": "integer", "description": "0-based sibling position." },
+        "color": { "type": ["string", "null"], "description": "Track color" }
+      },
+      "required": ["name", "description", "content"]
+    }
+  },
+  {
+    "name": "create_timeline_event",
+    "description": "Create a timeline event on a track.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "trackId": { "type": "string", "description": "Track ID" },
+        "name": { "type": "string", "description": "Name" },
+        "description": { "type": "string", "description": "Description" },
+        "content": { "type": "string", "description": "Rich text content (markdown)" },
+        "startDate": {
+          "type": "object",
+          "properties": {
+            "year": { "type": "integer" },
+            "month": { "type": "integer" },
+            "day": { "type": "integer" }
+          },
+          "required": ["year"]
+        },
+        "endDate": {
+          "type": "object",
+          "nullable": true,
+          "properties": {
+            "year": { "type": "integer" },
+            "month": { "type": "integer" },
+            "day": { "type": "integer" }
+          },
+          "required": ["year"]
+        },
+        "tags": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["trackId", "name", "description", "content", "startDate"]
+    }
+  },
+  {
+    "name": "patch_timeline_track",
+    "description": "Update track content or appearance.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "name": { "type": "string", "description": "Name" },
+        "description": { "type": "string", "description": "Description" },
+        "content": { "type": "string", "description": "Rich text content (markdown)" },
+        "color": { "type": ["string", "null"], "description": "Track color" }
+      },
+      "required": ["id"]
+    }
+  },
+  {
+    "name": "patch_timeline_event",
+    "description": "Update timeline event content, dates, track, or tags.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "trackId": { "type": "string", "description": "Track ID" },
+        "name": { "type": "string", "description": "Name" },
+        "description": { "type": "string", "description": "Description" },
+        "content": { "type": "string", "description": "Content" },
+        "startDate": {
+          "type": "object",
+          "properties": {
+            "year": { "type": "integer" },
+            "month": { "type": "integer" },
+            "day": { "type": "integer" }
+          },
+          "required": ["year"]
+        },
+        "endDate": {
+          "type": "object",
+          "nullable": true,
+          "properties": {
+            "year": { "type": "integer" },
+            "month": { "type": "integer" },
+            "day": { "type": "integer" }
+          },
+          "required": ["year"]
+        },
+        "tags": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["id"]
+    }
+  },
+  {
+    "name": "delete_timeline_track",
+    "description": "Delete a timeline track and all descendant tracks/events.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" }
+      },
+      "required": ["id"]
+    }
+  },
+  {
+    "name": "delete_timeline_event",
+    "description": "Delete a timeline event.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" }
+      },
+      "required": ["id"]
+    }
+  },
+  {
+    "name": "create_timeline_event_link",
+    "description": "Link a timeline event to an outline or story entity.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Event ID" },
+        "objectType": { "type": "string", "enum": ["outline", "character", "location", "organization", "lorebook"] },
+        "objectId": { "type": "string", "description": "Object ID" }
+      },
+      "required": ["id", "objectType", "objectId"]
+    }
+  },
+  {
+    "name": "delete_timeline_event_link",
+    "description": "Delete a link from a timeline event.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Event ID" },
+        "linkId": { "type": "string", "description": "Link ID" }
+      },
+      "required": ["id", "linkId"]
+    }
+  },
+  {
+    "name": "translate_timeline_track",
+    "description": "Translate timeline track fields.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "name": { "type": "string", "description": "Name" },
+        "description": { "type": "string", "description": "Description" },
+        "content": { "type": "string", "description": "Content" }
+      },
+      "required": ["id", "name", "description"]
+    }
+  },
+  {
+    "name": "translate_timeline_event",
+    "description": "Translate timeline event fields.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "name": { "type": "string", "description": "Name" },
+        "description": { "type": "string", "description": "Description" },
+        "content": { "type": "string", "description": "Content" }
+      },
+      "required": ["id", "name", "description"]
+    }
+  },
+  {
+    "name": "patch_translation_timeline_track",
+    "description": "Patch a timeline track translation by single replacement.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "field": { "type": "string", "enum": ["name", "description", "content"] },
+        "old": { "type": "string", "description": "Text to find" },
+        "new": { "type": "string", "description": "Replacement text" }
+      },
+      "required": ["id", "field", "old", "new"]
+    }
+  },
+  {
+    "name": "patch_translation_timeline_event",
+    "description": "Patch a timeline event translation by single replacement.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Object ID" },
+        "field": { "type": "string", "enum": ["name", "description", "content"] },
+        "old": { "type": "string", "description": "Text to find" },
+        "new": { "type": "string", "description": "Replacement text" }
+      },
+      "required": ["id", "field", "old", "new"]
+    }
+  },
+  {
+    "name": "replace_basic_info",
+    "description": "Replace project basic info.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string", "description": "Title" },
+        "logline": { "type": "string", "description": "Logline" },
+        "genres": { "type": "array", "items": { "type": "string" } },
+        "tags": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "patch_basic_info",
+    "description": "Patch basic info by single replacement.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "field": { "type": "string", "enum": ["title", "logline"] },
+        "old": { "type": "string", "description": "Text to find" },
+        "new": { "type": "string", "description": "Replacement text" }
+      },
+      "required": ["field", "old", "new"]
+    }
+  },
+  {
+    "name": "replace_guidelines",
+    "description": "Replace guidelines.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "authorNote": { "type": "string", "description": "Author note" }
+      },
+      "required": ["authorNote"]
+    }
+  },
+  {
+    "name": "patch_guidelines",
+    "description": "Patch guidelines by single replacement.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "field": { "type": "string", "enum": ["authorNote"] },
+        "old": { "type": "string", "description": "Text to find" },
+        "new": { "type": "string", "description": "Replacement text" }
+      },
+      "required": ["field", "old", "new"]
+    }
+  },
+  {
+    "name": "translate_basic_info",
+    "description": "Translate project basic info.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string", "description": "Title" },
+        "logline": { "type": "string", "description": "Logline" },
+        "genres": { "type": "array", "items": { "type": "string" } },
+        "tags": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["title", "logline", "genres", "tags"]
+    }
+  },
+  {
+    "name": "patch_translation_basic_info",
+    "description": "Patch basic info translation by single replacement.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "field": { "type": "string", "enum": ["title", "logline"] },
+        "old": { "type": "string", "description": "Text to find" },
+        "new": { "type": "string", "description": "Replacement text" }
+      },
+      "required": ["field", "old", "new"]
+    }
+  },
+  {
+    "name": "translate_guidelines",
+    "description": "Translate guidelines.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "authorNote": { "type": "string", "description": "Author note" }
+      },
+      "required": ["authorNote"]
+    }
+  },
+  {
+    "name": "patch_translation_guidelines",
+    "description": "Patch guidelines translation by single replacement.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "field": { "type": "string", "enum": ["authorNote"] },
+        "old": { "type": "string", "description": "Text to find" },
+        "new": { "type": "string", "description": "Replacement text" }
+      },
+      "required": ["field", "old", "new"]
+    }
+  },
+  {
+    "name": "get_project_tree",
+    "description": "Get a lightweight tree overview of the project structure (title, story entities, outline hierarchy). Returns names and IDs only, not full content.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {},
+      "required": []
+    }
+  },
+  {
+    "name": "search_regex",
+    "description": "Search by regex in the project knowledge base.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pattern": { "type": "string", "description": "Regex pattern" },
+        "page": { "type": "integer", "description": "Page number" },
+        "case_sensitive": { "type": "boolean", "description": "Case sensitive" }
+      },
+      "required": ["pattern"]
+    }
+  },
+  {
+    "name": "search_semantic",
+    "description": "Semantic search in the project knowledge base.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "queries": { "type": "array", "items": { "type": "string" }, "description": "Search queries" }
+      },
+      "required": ["queries"]
+    }
+  },
+  {
+    "name": "generate_object_image",
+    "description": "Generate an image for a specific story entity or basic info entry.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "prompt": { "type": "string", "description": "Image generation prompt." },
+        "ratio": { "type": "string", "description": "Desired aspect ratio such as 1:1 or 16:9." },
+        "image_size": { "type": "string", "description": "Optional image size tier such as 1K, 2K, or 4K." },
+        "object_id": { "type": "string", "description": "Target object UUID." }
+      },
+      "required": ["prompt", "ratio", "object_id"]
+    }
+  },
+  {
+    "name": "generate_scene_image",
+    "description": "Generate a scene image and insert it before a specific manuscript text anchor.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "prompt": { "type": "string", "description": "Image generation prompt." },
+        "ratio": { "type": "string", "description": "Desired aspect ratio such as 1:1 or 16:9." },
+        "image_size": { "type": "string", "description": "Optional image size tier such as 1K, 2K, or 4K." },
+        "manuscript_id": { "type": "string", "description": "Target manuscript UUID." },
+        "insert_before": { "type": "string", "description": "Exact manuscript text anchor to insert the image before." }
+      },
+      "required": ["prompt", "ratio", "manuscript_id", "insert_before"]
+    }
+  },
+  {
+    "name": "call_{agent_name}",
+    "description": "Call Sub Agent \"{display_name}\". {agent_description}",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input": { "type": "string", "description": "Input for the sub-agent. Include complete context and instructions." }
+      },
+      "required": ["input"]
+    }
+  }
+]

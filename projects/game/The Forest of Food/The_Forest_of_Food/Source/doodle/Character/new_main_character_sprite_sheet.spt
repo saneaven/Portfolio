@@ -1,0 +1,22 @@
+Character/Newmain_character.png
+FrameSize 96 135 
+HotSpot 46 5
+Frame 0 0
+Frame 96 0
+Frame 190 0
+Frame 0 135
+Frame 96 135
+Frame 190 135
+Frame 0 270
+Frame 96 270
+Frame 190 270
+Frame 0 405
+Frame 96 405
+Frame 190 405
+Frame 0 540
+Frame 96 540
+Frame 190 540
+Anim Character/Player_Idle.anm
+Anim Character/Player_Down.anm
+Anim Character/Player_Up.anm
+Anim Character/Player_Pick.anm

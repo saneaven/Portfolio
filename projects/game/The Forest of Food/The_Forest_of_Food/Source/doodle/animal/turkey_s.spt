@@ -1,0 +1,11 @@
+animal/New_turkey.png
+HotSpot 72 0
+FrameSize 144 144
+Frame 0 0
+Frame 144 0
+Frame 288 0
+Frame 0 144
+Frame 144 144
+Frame 288 144
+Anim animal/turkey_move.anm
+Anim animal/turkey_run.anm

@@ -1,0 +1,40 @@
+{#
+  scenario_id: setup_basic_info
+  scenario_category: A
+  preconditions: project has basic_info with title and logline
+  description: |
+    User asks the assistant to review and update the project's basic info
+    (title, logline, genres, tags). Assistant first reads the project tree,
+    then replaces basic info with refined values.
+#}
+{%- import "_macros.j2" as m -%}
+{%- if project.basic_info and project.basic_info.title and project.basic_info.logline -%}
+{%- set title = project.basic_info.title -%}
+{%- set logline = project.basic_info.logline -%}
+{%- set genres = project.basic_info.genres | default([]) -%}
+{%- set tags = project.basic_info.tags | default([]) -%}
+{%- set norm_genres = genres | map("normalize_tag") | list -%}
+{%- set norm_tags = tags | map("normalize_tag") | list -%}
+{%- set refined_logline = logline[:200] ~ ("..." if logline | length > 200 else "") -%}
+{%- set tree_result = {"title": title, "logline": logline, "genres": genres, "tags": tags, "entity_count": project.story_entities | length, "outline_count": project.outlines | length, "timeline_track_count": (project.timeline.tracks | default([])) | length} -%}
+{%- set replace_args = {"title": title, "logline": logline, "genres": norm_genres, "tags": norm_tags} -%}
+{%- set replace_result = {"ok": true, "updated_at": now_iso()} -%}
+{%- set answer1_text = "Here's what we currently have for **" ~ title ~ "**:\n\nLogline: " ~ refined_logline ~ "\n\nGenres: " ~ (genres | join(", ")) ~ "\nTags: " ~ (tags[:6] | join(", ")) ~ (", ..." if tags | length > 6 else "") ~ "\n\n[ASSISTANT_RESPONSE_0]" -%}
+{%- set answer2_text = "Done! I've updated the basic info:\n\n- **Title**: " ~ title ~ " (unchanged)\n- **Logline**: kept as-is\n- **Genres**: normalized to lowercase (" ~ (norm_genres | join(", ")) ~ ")\n- **Tags**: normalized " ~ (norm_tags | length | string) ~ " tags to consistent formatting\n\n[ASSISTANT_RESPONSE_1]" -%}
+{
+  "scenario_id": "setup_basic_info",
+  "scenario_category": "A",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["get_project_tree", "replace_basic_info"]) }},
+  "messages": [
+    {{ m.user_msg("I'd like to review and tighten up the basic info for this project. Can you take a look at what we have and suggest some improvements to the logline and tags?") }},
+    {{ m.assistant_tool_turn(0, "get_project_tree", {}) }},
+    {{ m.tool_result("get_project_tree", tree_result) }},
+    {{ m.assistant_answer(1, answer1_text) }},
+    {{ m.user_msg("Yes, go ahead and clean them up. Keep the logline as-is but normalize the tags and genres.") }},
+    {{ m.assistant_tool_turn(2, "replace_basic_info", replace_args) }},
+    {{ m.tool_result("replace_basic_info", replace_result) }},
+    {{ m.assistant_answer(3, answer2_text) }}
+  ]
+}
+{%- endif -%}

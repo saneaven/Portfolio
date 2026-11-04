@@ -1,0 +1,25 @@
+/* Montserrat — variable font (used for the landing headlines & wordmark). */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('./Montserrat/Montserrat-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('./Montserrat/Montserrat-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Pretendard — variable font for Korean / body text. */
+@font-face {
+  font-family: 'Pretendard';
+  src: url('./Pretendard/PretendardVariable.woff2') format('woff2-variations');
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+}

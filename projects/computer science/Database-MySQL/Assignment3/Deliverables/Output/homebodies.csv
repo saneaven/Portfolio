@@ -1,0 +1,4 @@
+user_id,first_name,last_name,birthday,current_city,hometown_city,gender
+10,Ethan,Taylor,1998-02-08,Miami,Miami,male
+35,Caleb,Gomez,1987-11-08,"New York","New York",male
+43,Grace,Gonzalez,2000-03-15,Chicago,Chicago,female

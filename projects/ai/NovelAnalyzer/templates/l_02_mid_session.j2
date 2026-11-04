@@ -1,0 +1,72 @@
+{#
+  scenario_id: mid_project_session
+  scenario_category: L
+  preconditions: >= 1 chapter with manuscript, >= 1 timeline track with events, >= 2 chars
+  description: |
+    Mid-project workflow: read manuscript, patch a passage, add timeline event,
+    generate scene image, discuss. Covers E+F+I+J.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set ns = namespace(chapter=none) -%}
+{%- for outline in project.outlines | default([]) -%}
+  {%- for act in outline.acts | default([]) -%}
+    {%- for ch in act.chapters | default([]) -%}
+      {%- if ch.manuscript_text | default("") | length > 300 and not ns.chapter -%}
+        {%- set ns.chapter = ch -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- set tracks = (project.timeline | default({})).tracks | default([]) -%}
+{%- set chars = project.story_entities | selectattr("kind", "equalto", "character") | list -%}
+{%- if ns.chapter and tracks | length >= 1 and tracks[0].events | length >= 1 and chars | length >= 2 -%}
+{%- set ch = ns.chapter -%}
+{%- set ms_text = ch.manuscript_text -%}
+{%- set track = tracks[0] -%}
+{%- set char = chars[0] -%}
+{%- set title = project.basic_info.title -%}
+{%- set ok = {"ok": true, "updated_at": now_iso()} -%}
+{%- set new_evt_id = uuid4() -%}
+{%- set img_id = uuid4() -%}
+{# Read manuscript #}
+{%- set read_result = {"id": ch.manuscript_id, "content": truncate(ms_text, 800)} -%}
+{# Patch manuscript #}
+{%- set old_passage = ms_text[80:150] -%}
+{%- set new_passage = old_passage ~ " [GENERATED_PROSE]" -%}
+{# Timeline event #}
+{%- set last_evt = track.events[-1] -%}
+{%- set last_date = iso_to_date_dict(last_evt.start_date) -%}
+{%- set new_date = {"year": last_date.year, "month": last_date.month, "day": (last_date.day + 2) if last_date.day < 27 else 1} if last_date else {"year": 1900, "month": 6, "day": 15} -%}
+{%- set evt_args = {"trackId": track.id, "name": "After " ~ truncate(ch.name, 30), "description": "The aftermath of the events in " ~ ch.name ~ ".", "content": "[GENERATED_CONTENT]", "startDate": new_date, "tags": normalize_tags([char.name | lower, "aftermath"])} -%}
+{%- set evt_result = {"id": new_evt_id, "trackId": track.id, "created_at": now_iso()} -%}
+{# Scene image #}
+{%- set anchor = ms_text[150:210] -%}
+{%- set img_args = {"prompt": "Scene from " ~ ch.name ~ ": " ~ truncate(ch.description, 80) ~ " Atmospheric, moody, cinematic.", "ratio": "16:9", "manuscript_id": ch.manuscript_id, "insert_before": anchor} -%}
+{%- set img_result = {"id": img_id, "manuscript_id": ch.manuscript_id, "created_at": now_iso()} -%}
+{
+  "scenario_id": "mid_project_session",
+  "scenario_category": "L",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_manuscript", "patch_manuscript", "create_timeline_event", "generate_scene_image", "search_regex", "read_outline", "call_novel_writer"]) }},
+  "messages": [
+    {{ m.user_msg("Let's work on " ~ ch.name ~ " today. Pull it up.") }},
+    {{ m.assistant_tool_turn(0, "read_manuscript", {"id": ch.manuscript_id}) }},
+    {{ m.tool_result("read_manuscript", read_result) }},
+    {{ m.assistant_answer(1, "Here's **" ~ ch.name ~ "**:\n\n> " ~ truncate(ms_text, 300) ~ "\n\nWhat do you want to work on?") }},
+    {{ m.user_msg("There's a passage around character 80 that needs more weight. Can you add some imagery there?") }},
+    {{ m.assistant_tool_turn(2, "patch_manuscript", {"id": ch.manuscript_id, "old": old_passage, "new": new_passage}) }},
+    {{ m.tool_result("patch_manuscript", ok) }},
+    {{ m.assistant_answer(3, "Patched passage in **" ~ ch.name ~ "** (characters 80–150). [ASSISTANT_RESPONSE_0]\n\nWhat's next?") }},
+    {{ m.user_msg("Add a timeline event for what happens after this chapter. Something about " ~ char.name ~ " dealing with the aftermath.") }},
+    {{ m.assistant_tool_turn(4, "create_timeline_event", evt_args) }},
+    {{ m.tool_result("create_timeline_event", evt_result) }},
+    {{ m.assistant_answer(5, "Added the aftermath event to the timeline, set " ~ ((new_date.day | string) if new_date else "a few days") ~ " after the previous event. Tagged with " ~ char.name ~ ".\n\nAnything else?") }},
+    {{ m.user_msg("Actually, generate a scene illustration for this chapter too. Something atmospheric.") }},
+    {{ m.assistant_tool_turn(6, "generate_scene_image", img_args) }},
+    {{ m.tool_result("generate_scene_image", img_result) }},
+    {{ m.assistant_answer(7, "Generated a 16:9 atmospheric scene illustration for **" ~ ch.name ~ "**. It's inserted before the mid-chapter passage.\n\nSession actions: patched passage in " ~ ch.name ~ ", added timeline event for " ~ char.name ~ ", generated scene image. [ASSISTANT_RESPONSE_1]") }},
+    {{ m.user_msg("Let's call it. But one thought — do you think the aftermath event I added is too soon after the chapter events? Shouldn't there be more time for the consequences to develop?") }},
+    {{ m.assistant_answer(8, "The aftermath event is currently set " ~ ((new_date.day | string) if new_date else "a few days") ~ " after the previous event on track **" ~ track.id ~ "**. [ASSISTANT_RESPONSE_2]") }}
+  ]
+}
+{%- endif -%}

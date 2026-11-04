@@ -1,0 +1,34 @@
+{#
+  scenario_id: pacing_analysis
+  scenario_category: J
+  preconditions: >= 1 outline with >= 3 acts
+  description: |
+    User asks for pacing critique. No tools, detailed analytical conversation.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set outlines = project.outlines | default([]) -%}
+{%- if outlines | length >= 1 and outlines[0].acts | length >= 3 -%}
+{%- set outline = outlines[0] -%}
+{%- set acts = outline.acts -%}
+{%- set title = project.basic_info.title -%}
+{%- set act_summary = [] -%}
+{%- for act in acts -%}
+  {%- set _ = act_summary.append(act.name ~ " (" ~ (act.chapters | length | string) ~ " chapters)") -%}
+{%- endfor -%}
+{
+  "scenario_id": "pacing_analysis",
+  "scenario_category": "J",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": [],
+  "messages": [
+    {{ m.user_msg("Can you analyze the pacing of " ~ title ~ "? I feel like the middle sags but I can't pinpoint why.") }},
+    {{ m.assistant_answer(0, "Let me look at the structure: " ~ (act_summary | join(", ")) ~ ".\n\n**" ~ acts[0].name ~ "** has " ~ (acts[0].chapters | length | string) ~ " chapters. " ~ truncate(acts[0].description, 100) ~ "\n\n**" ~ acts[1].name ~ "** has " ~ (acts[1].chapters | length | string) ~ " chapters. " ~ truncate(acts[1].description, 100) ~ "\n\n**" ~ acts[2].name ~ "** has " ~ (acts[2].chapters | length | string) ~ " chapters. " ~ truncate(acts[2].description, 100) ~ "\n\n[ASSISTANT_RESPONSE_0]") }},
+    {{ m.user_msg("Yeah, actually. The problems get bigger but they're all the same type of problem.") }},
+    {{ m.assistant_answer(1, "[ASSISTANT_RESPONSE_1]") }},
+    {{ m.user_msg("I think chapter " ~ ((acts[1].chapters | length // 2 + 1) | string) ~ " of " ~ acts[1].name ~ " is the right spot. The current version just escalates, but I could change the kind of conflict there.") }},
+    {{ m.assistant_answer(2, "[ASSISTANT_RESPONSE_2]") }},
+    {{ m.user_msg("Let me think about the kind of shift first. Thanks — this gave me a clear target instead of a vague sense that something was wrong.") }},
+    {{ m.assistant_answer(3, "[ASSISTANT_RESPONSE_3]") }}
+  ]
+}
+{%- endif -%}

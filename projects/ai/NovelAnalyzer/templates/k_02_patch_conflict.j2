@@ -1,0 +1,47 @@
+{#
+  scenario_id: patch_conflict_recovery
+  scenario_category: K
+  preconditions: >= 1 chapter with manuscript_text > 200
+  description: |
+    Assistant tries to patch manuscript with stale text (fails), re-reads,
+    finds correct text, retries successfully.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set ns = namespace(chapter=none) -%}
+{%- for outline in project.outlines | default([]) -%}
+  {%- for act in outline.acts | default([]) -%}
+    {%- for ch in act.chapters | default([]) -%}
+      {%- if ch.manuscript_text | default("") | length > 200 and not ns.chapter -%}
+        {%- set ns.chapter = ch -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- if ns.chapter -%}
+{%- set ch = ns.chapter -%}
+{%- set ms_text = ch.manuscript_text -%}
+{%- set real_old = ms_text[50:120] -%}
+{%- set stale_old = real_old[:30] ~ "STALE TEXT THAT DOESNT MATCH" ~ real_old[-20:] -%}
+{%- set new_text = real_old ~ " [GENERATED_PROSE]" -%}
+{%- set ok = {"ok": true, "updated_at": now_iso()} -%}
+{%- set error_result = {"error": {"code": "TEXT_NOT_FOUND", "message": "The 'old' text was not found in the manuscript. The content may have changed since last read."}} -%}
+{%- set read_result = {"id": ch.manuscript_id, "content": truncate(ms_text, 600)} -%}
+{
+  "scenario_id": "patch_conflict_recovery",
+  "scenario_category": "K",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_manuscript", "patch_manuscript"]) }},
+  "messages": [
+    {{ m.user_msg("Can you revise that passage in " ~ ch.name ~ " we were looking at earlier? Sharpen the imagery.") }},
+    {{ m.assistant_tool_turn(0, "patch_manuscript", {"id": ch.manuscript_id, "old": stale_old, "new": new_text}) }},
+    {{ m.tool_result("patch_manuscript", error_result) }},
+    {{ m.assistant_answer(1, "The patch failed �� the text I had doesn't match what's currently in the manuscript. It may have been edited since I last read it. Let me re-read and try again.") }},
+    {{ m.assistant_tool_turn(2, "read_manuscript", {"id": ch.manuscript_id}) }},
+    {{ m.tool_result("read_manuscript", read_result) }},
+    {{ m.assistant_answer(3, "Got the current version. I can see the passage now. Let me retry with the correct text.") }},
+    {{ m.assistant_tool_turn(4, "patch_manuscript", {"id": ch.manuscript_id, "old": real_old, "new": new_text}) }},
+    {{ m.tool_result("patch_manuscript", ok) }},
+    {{ m.assistant_answer(5, "Done. Successfully patched the passage in **" ~ ch.name ~ "** on the second attempt after re-reading the current manuscript. [ASSISTANT_RESPONSE_0]") }}
+  ]
+}
+{%- endif -%}

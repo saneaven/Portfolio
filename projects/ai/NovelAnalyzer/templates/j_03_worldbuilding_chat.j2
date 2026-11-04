@@ -1,0 +1,32 @@
+{#
+  scenario_id: worldbuilding_discussion
+  scenario_category: J
+  preconditions: >= 2 lorebook or location entities
+  description: |
+    User discusses worldbuilding. No tools at all (empty tools array).
+#}
+{%- import "_macros.j2" as m -%}
+{%- set lore = project.story_entities | selectattr("kind", "equalto", "lorebook") | list -%}
+{%- set locs = project.story_entities | selectattr("kind", "equalto", "location") | list -%}
+{%- set world_entities = lore + locs -%}
+{%- if world_entities | length >= 2 -%}
+{%- set w1 = world_entities[0] -%}
+{%- set w2 = world_entities[1] -%}
+{%- set title = project.basic_info.title -%}
+{
+  "scenario_id": "worldbuilding_discussion",
+  "scenario_category": "J",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": [],
+  "messages": [
+    {{ m.user_msg("I've been thinking about " ~ w1.name ~ " and how it fits into the larger world. Does the worldbuilding feel coherent to you, or are there gaps?") }},
+    {{ m.assistant_answer(0, "From what I know of " ~ title ~ ", " ~ w1.name ~ " serves as " ~ truncate(w1.description, 100) ~ ". And " ~ w2.name ~ " also exists in this world.\n\n[ASSISTANT_RESPONSE_0]") }},
+    {{ m.user_msg("The connection between " ~ w1.name ~ " and " ~ w2.name ~ " is the weakest part. They feel like they exist in parallel rather than in the same world.") }},
+    {{ m.assistant_answer(1, "Looking at " ~ w1.name ~ " (" ~ truncate(w1.description, 60) ~ ") and " ~ w2.name ~ " (" ~ truncate(w2.description, 60) ~ "):\n\n[ASSISTANT_RESPONSE_1]") }},
+    {{ m.user_msg("Honestly, " ~ w1.name ~ " came from the plot needs and " ~ w2.name ~ " came from the character needs. They were never designed to connect.") }},
+    {{ m.assistant_answer(2, "Since " ~ w1.name ~ " serves the plot and " ~ w2.name ~ " serves the characters in " ~ title ~ ":\n\n[ASSISTANT_RESPONSE_2]") }},
+    {{ m.user_msg("That makes sense. I think the thematic center is about how power erodes the boundaries people rely on. Both " ~ w1.name ~ " and " ~ w2.name ~ " could reflect that differently.") }},
+    {{ m.assistant_answer(3, "Considering how " ~ w1.name ~ " and " ~ w2.name ~ " both relate to that theme:\n\n[ASSISTANT_RESPONSE_3]") }}
+  ]
+}
+{%- endif -%}

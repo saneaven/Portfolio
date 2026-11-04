@@ -1,0 +1,11 @@
+animal/New_pig.png
+HotSpot 96 0
+FrameSize 192 115
+Frame 0 0
+Frame 192 0
+Frame 384 0
+Frame 0 115
+Frame 192 115
+Frame 384 115
+Anim animal/pig_move.anm
+Anim animal/pig_run.anm

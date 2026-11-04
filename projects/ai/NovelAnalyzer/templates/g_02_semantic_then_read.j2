@@ -1,0 +1,72 @@
+{#
+  scenario_id: semantic_search_then_read
+  scenario_category: G
+  preconditions: >= 3 story entities and >= 1 chapter with manuscript
+  description: |
+    User performs semantic search for a theme, reads found entity, then
+    reads a related manuscript. Uses real semantic_search helper.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set entities = project.story_entities -%}
+{%- set ns_ch = namespace(chapter=none) -%}
+{%- for outline in project.outlines | default([]) -%}
+  {%- for act in outline.acts | default([]) -%}
+    {%- for ch in act.chapters | default([]) -%}
+      {%- if ch.manuscript_text | default("") | length > 100 and not ns_ch.chapter -%}
+        {%- set ns_ch.chapter = ch -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- set tags = project.basic_info.tags | default([]) -%}
+{%- set theme = tags[0] if tags | length > 0 else "conflict" -%}
+{%- set sem_results = semantic_search(project, [theme], 3) -%}
+{%- if entities | length >= 3 and ns_ch.chapter and sem_results | length >= 1 -%}
+{%- set ch = ns_ch.chapter -%}
+{%- set top_hit = sem_results[0] -%}
+{# Build tool result from real search #}
+{%- set search_tool_result = {"queries": [theme], "results": sem_results, "total": sem_results | length} -%}
+{# Find the entity for the top hit if it's a story_entity #}
+{%- set ns_ent = namespace(entity=none) -%}
+{%- if top_hit.type == "story_entity" -%}
+  {%- for e in entities -%}
+    {%- if e.id == top_hit.id -%}
+      {%- set ns_ent.entity = e -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- if not ns_ent.entity -%}
+  {%- set ns_ent.entity = entities[0] -%}
+{%- endif -%}
+{%- set entity = ns_ent.entity -%}
+{%- set entity_result = {"id": entity.id, "kind": entity.kind, "name": entity.name, "description": entity.description, "content": truncate(entity.content, 500), "created_at": now_iso(), "updated_at": now_iso()} -%}
+{%- set ms_result = {"id": ch.manuscript_id, "content": truncate(ch.manuscript_text, 800)} -%}
+{# Build answer lines from real results #}
+{%- set hit_lines = [] -%}
+{%- for r in sem_results -%}
+  {%- set _ = hit_lines.append((loop.index | string) ~ ". **" ~ r.name ~ "** (" ~ r.type ~ "): " ~ truncate(r.excerpt, 100)) -%}
+{%- endfor -%}
+{%- set answer1_text = "Found references to \"" ~ theme ~ "\":\n\n" ~ hit_lines | join("\n") ~ "\n\nWant me to read any of these in full?" -%}
+{%- set answer2_text = "Here's **" ~ entity.name ~ "**:\n\n" ~ truncate(entity.content, 300) ~ "\n\nThis connects to the \"" ~ theme ~ "\" theme. Want me to also pull up the manuscript passage?" -%}
+{%- set answer3_text = "Here's the relevant passage from **" ~ ch.name ~ "**:\n\n> " ~ truncate(ch.manuscript_text, 300) ~ "\n\nWant me to search for more or look at other chapters?" -%}
+{
+  "scenario_id": "semantic_search_then_read",
+  "scenario_category": "G",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["search_semantic", "read_story_entity", "read_outline", "read_manuscript"]) }},
+  "messages": [
+    {{ m.user_msg("Search for everything related to \"" ~ theme ~ "\" in the project. I want to see where that theme shows up.") }},
+    {{ m.assistant_tool_turn(0, "search_semantic", {"queries": [theme ~ " theme references"]}) }},
+    {{ m.tool_result("search_semantic", search_tool_result) }},
+    {{ m.assistant_answer(1, answer1_text) }},
+    {{ m.user_msg("Read the " ~ entity.kind ~ " entry for " ~ entity.name ~ ".") }},
+    {{ m.assistant_tool_turn(2, "read_story_entity", {"id": entity.id, "kind": entity.kind}) }},
+    {{ m.tool_result("read_story_entity", entity_result) }},
+    {{ m.assistant_answer(3, answer2_text) }},
+    {{ m.user_msg("Now show me the manuscript passage too.") }},
+    {{ m.assistant_tool_turn(4, "read_manuscript", {"id": ch.manuscript_id}) }},
+    {{ m.tool_result("read_manuscript", ms_result) }},
+    {{ m.assistant_answer(5, answer3_text) }}
+  ]
+}
+{%- endif -%}

@@ -1,0 +1,75 @@
+{#
+  scenario_id: timeline_date_shift
+  scenario_category: H
+  preconditions: >= 1 timeline track with >= 3 events
+  description: |
+    User wants to shift the timeline forward by N years. Read timeline,
+    patch each event's dates with shifted values.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set tracks = (project.timeline | default({})).tracks | default([]) -%}
+{%- if tracks | length >= 1 and tracks[0].events | default([]) | length >= 3 -%}
+{%- set track = tracks[0] -%}
+{%- set events = track.events -%}
+{%- set shift_years = 50 -%}
+{%- set title = project.basic_info.title -%}
+{%- set ok = {"ok": true, "updated_at": now_iso()} -%}
+{# Read timeline result #}
+{%- set tl_events = [] -%}
+{%- for evt in events[:5] -%}
+  {%- set d = iso_to_date_dict(evt.start_date) -%}
+  {%- set _ = tl_events.append({"id": evt.id, "name": truncate(evt.content, 50), "startDate": d, "tags": normalize_tags(evt.tags | default([]))}) -%}
+{%- endfor -%}
+{%- set read_result = {"tracks": [{"id": track.id, "name": truncate(track.content, 60) if track.content else "Main", "events": tl_events}]} -%}
+{# Prepare patch calls for first 3 events #}
+{%- set evt0 = events[0] -%}
+{%- set evt1 = events[1] -%}
+{%- set evt2 = events[2] -%}
+{%- set d0 = iso_to_date_dict(evt0.start_date) -%}
+{%- set d1 = iso_to_date_dict(evt1.start_date) -%}
+{%- set d2 = iso_to_date_dict(evt2.start_date) -%}
+{%- set sd0 = {"year": d0.year + shift_years, "month": d0.month, "day": d0.day} if d0 else {"year": 1950, "month": 1, "day": 1} -%}
+{%- set sd1 = {"year": d1.year + shift_years, "month": d1.month, "day": d1.day} if d1 else {"year": 1950, "month": 2, "day": 1} -%}
+{%- set sd2 = {"year": d2.year + shift_years, "month": d2.month, "day": d2.day} if d2 else {"year": 1950, "month": 3, "day": 1} -%}
+{#- Real search for year references in manuscripts -#}
+{%- set year_str = (d0.year | string) if d0 else "1900" -%}
+{%- set ns_search = namespace(results=[]) -%}
+{%- for outline in project.outlines | default([]) -%}
+  {%- for act in outline.acts | default([]) -%}
+    {%- for ch in act.chapters | default([]) -%}
+      {%- if ch.manuscript_text | default("") | length > 50 -%}
+        {%- set snippets = find_all_snippets(ch.manuscript_text, year_str, 40, 1) -%}
+        {%- for snip in snippets -%}
+          {%- if ns_search.results | length < 3 -%}
+            {%- set ns_search.results = ns_search.results + [{"type": "manuscript", "location": ch.name, "excerpt": snip}] -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- set search_result = {"pattern": year_str, "results": ns_search.results, "total": ns_search.results | length, "page": 1} -%}
+{
+  "scenario_id": "timeline_date_shift",
+  "scenario_category": "H",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_timeline", "read_timeline_event", "patch_timeline_event", "search_regex", "patch_manuscript", "patch_story_entity", "patch_outline"]) }},
+  "messages": [
+    {{ m.user_msg("I want to shift the entire timeline forward by " ~ (shift_years | string) ~ " years. Can you show me what we have and then update all the dates?") }},
+    {{ m.assistant_tool_turn(0, "read_timeline", {}) }},
+    {{ m.tool_result("read_timeline", read_result) }},
+    {{ m.assistant_answer(1, "Timeline has " ~ (events | length | string) ~ " events. Dates start from " ~ ((d0.year | string) if d0 else "unknown") ~ ". Shifting each by +" ~ (shift_years | string) ~ " years.") }},
+    {{ m.user_msg("Go ahead. Do them all.") }},
+    {{ m.assistant_tool_turn(2, "patch_timeline_event", {"id": evt0.id, "startDate": sd0}) }},
+    {{ m.tool_result("patch_timeline_event", ok) }},
+    {{ m.assistant_tool_turn(3, "patch_timeline_event", {"id": evt1.id, "startDate": sd1}) }},
+    {{ m.tool_result("patch_timeline_event", ok) }},
+    {{ m.assistant_tool_turn(4, "patch_timeline_event", {"id": evt2.id, "startDate": sd2}) }},
+    {{ m.tool_result("patch_timeline_event", ok) }},
+    {{ m.assistant_answer(5, "Shifted 3 events. Checking for year references in manuscripts.") }},
+    {{ m.assistant_tool_turn(6, "search_regex", {"pattern": year_str}) }},
+    {{ m.tool_result("search_regex", search_result) }},
+    {{ m.assistant_answer(7, "Shifted " ~ (3 | string) ~ " events by +" ~ (shift_years | string) ~ " years (e.g. " ~ ((d0.year | string) if d0 else "1900") ~ " → " ~ (sd0.year | string) ~ "). " ~ (ns_search.results | length | string) ~ " manuscript reference(s) to \"" ~ year_str ~ "\" found. Remaining " ~ ((events | length - 3) | string) ~ " events need the same treatment. [ASSISTANT_RESPONSE_0]") }}
+  ]
+}
+{%- endif -%}

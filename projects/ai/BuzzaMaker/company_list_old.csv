@@ -1,0 +1,502 @@
+Ticker,Name,Listed_Year,Sector
+PEP,"Pepsico, Inc.",1972,무알콜 음료
+TXN,Texas Instruments Incorporated,1972,반도체
+HTO,H2O America,1972,수자원 유틸리티
+TER,"Teradyne, Inc.",1973,반도체 장비 및 테스트
+COKE,"Coca-Cola Consolidated, Inc.",1973,무알콜 음료
+LNT,Alliant Energy Corporation,1973,전력 유틸리티
+EVRG,"Evergy, Inc.",1973,전력 유틸리티
+CPB,The Campbell's Company,1973,식품 가공
+AVT,"Avnet, Inc.",1973,전자 장비 및 부품
+SGC,"Superior Group of Companies, In",1973,의류 및 액세서리
+ALCO,"Alico, Inc.",1973,어업 및 농업
+APOG,"Apogee Enterprises, Inc.",1973,건설 자재 및 비품
+WDFC,WD-40 Company,1973,가정용 제품
+EXC,Exelon Corporation,1973,전력 유틸리티
+OTTR,Otter Tail Corporation,1973,전력 유틸리티
+VLGEA,"Village Super Market, Inc.",1973,식품 소매 및 유통
+KLIC,"Kulicke and Soffa Industries, I",1973,반도체 장비 및 테스트
+DIOD,Diodes Incorporated,1973,반도체
+MSEX,Middlesex Water Company,1973,수자원 유틸리티
+PKOH,Park-Ohio Holdings Corp.,1973,산업용 기계 및 장비
+XEL,Xcel Energy Inc.,1973,전력 유틸리티
+MAT,"Mattel, Inc.",1976,장난감 및 어린이 제품
+HELE,Helen of Troy Limited,1976,"가전제품, 도구 및 가정 용품"
+TRNS,"Transcat, Inc.",1977,경영 지원 서비스
+WDC,Western Digital Corporation,1978,컴퓨터 하드웨어
+APA,APA Corporation,1979,"오일, 가스 탐사 및 생산"
+KMB,Kimberly-Clark Corporation,1980,개인 생활 필수 용품
+HST,"Host Hotels & Resorts, Inc.",1980,특수 REITs
+UMBF,UMB Financial Corporation,1980,은행
+CBSH,"Commerce Bancshares, Inc.",1980,은행
+VTRS,Viatris Inc.,1980,제약
+KEQU,Kewaunee Scientific Corporation,1980,비즈니스 지원 용품
+SMTC,Semtech Corporation,1980,반도체
+TWIN,"Twin Disc, Incorporated",1980,산업용 기계 및 장비
+AAME,Atlantic American Corporation,1980,생명 및 건강 보험
+MGEE,MGE Energy Inc.,1980,전력 유틸리티
+PCH,PotlatchDeltic Corporation - Co,1980,특수 REITs
+TAYD,"Taylor Devices, Inc.",1980,산업용 기계 및 장비
+PATK,"Patrick Industries, Inc.",1980,건설 자재 및 비품
+SIGI,"Selective Insurance Group, Inc.",1980,손해보험
+FRD,Friedman Industries Inc.,1980,철 및 강철
+AGYS,"Agilysys, Inc.",1980,소프트웨어
+KOSS,Koss Corporation,1980,가정용 전자 제품
+USLM,"United States Lime & Minerals, ",1980,건설 자재
+ACNT,Ascent Industries Co.,1980,철 및 강철
+SIEB,Siebert Financial Corp.,1980,투자 은행 및 중개 서비스
+BSET,"Bassett Furniture Industries, I",1980,가정용 가구
+MZTI,The Marzetti Company,1980,식품 가공
+FLXS,"Flexsteel Industries, Inc.",1980,가정용 가구
+NDSN,Nordson Corporation,1980,산업용 기계 및 장비
+AROW,Arrow Financial Corporation,1980,은행
+FELE,"Franklin Electric Co., Inc.",1980,산업용 기계 및 장비
+POWL,"Powell Industries, Inc.",1980,전기 부품 및 장비
+ZION,Zions Bancorporation N.A.,1980,은행
+HAS,"Hasbro, Inc.",1980,장난감 및 어린이 제품
+BPOP,"Popular, Inc.",1980,은행
+HBAN,Huntington Bancshares Incorpora,1980,은행
+HURC,"Hurco Companies, Inc.",1980,산업용 기계 및 장비
+ADP,"Automatic Data Processing, Inc.",1980,IT 서비스 및 컨설팅
+AAPL,Apple Inc.,1980,전화 및 소형 장치
+CMCSA,Comcast Corporation,1980,무선 통신 서비스
+CSX,CSX Corporation,1980,지상 화물 및 물류
+ADI,"Analog Devices, Inc.",1980,반도체
+MARPS,Marine Petroleum Trust,1980,"오일, 가스 탐사 및 생산"
+HWKN,"Hawkins, Inc.",1980,다각적 화학 산업
+KELYA,"Kelly Services, Inc.",1980,고용 서비스
+FEIM,"Frequency Electronics, Inc.",1980,전기 부품 및 장비
+PNRG,PrimeEnergy Resources Corporati,1980,"오일, 가스 탐사 및 생산"
+WEYS,"Weyco Group, Inc.",1980,제화
+WABC,Westamerica Bancorporation,1980,은행
+FARM,Farmer Brothers Company,1980,식품 가공
+CSWC,Capital Southwest Corporation,1980,투자 관리 및 펀드 운영
+UG,"United-Guardian, Inc.",1980,제약
+ESCA,"Escalade, Incorporated",1980,오락용 제품
+DSGR,"Distribution Solutions Group, I",1980,산업용 기계 및 장비
+ABEO,Abeona Therapeutics Inc.,1980,제약
+CMTL,Comtech Telecommunications Corp,1980,통신 및 네트워킹
+NWL,Newell Brands Inc.,1980,"가전제품, 도구 및 가정 용품"
+BRID,Bridgford Foods Corporation,1980,식품 가공
+DOMH,Dominari Holdings Inc.,1980,투자 은행 및 중개 서비스
+TRMK,Trustmark Corporation,1980,은행
+CECO,CECO Environmental Corp.,1980,환경 서비스 및 장비
+KLAC,KLA Corporation,1980,반도체 장비 및 테스트
+ARTW,"Art's-Way Manufacturing Co., In",1980,중장비 및 차량
+INTG,The Intergroup Corporation,1980,"호텔, 모텔 및 크루즈 라인"
+LEE,"Lee Enterprises, Incorporated",1980,소비자 출판
+COHU,"Cohu, Inc.",1980,반도체 장비 및 테스트
+MLKN,"MillerKnoll, Inc.",1980,비즈니스 지원 용품
+EDUC,Educational Development Corpora,1980,소비자 출판
+PCAR,PACCAR Inc.,1980,중장비 및 차량
+INTC,Intel Corporation,1980,반도체
+AMAT,"Applied Materials, Inc.",1980,반도체 장비 및 테스트
+UFCS,"United Fire Group, Inc",1980,손해보험
+AMD,"Advanced Micro Devices, Inc.",1980,반도체
+USEG,U.S. Energy Corp.,1980,"오일, 가스 탐사 및 생산"
+RAND,Rand Capital Corporation,1980,투자 관리 및 펀드 운영
+FITB,Fifth Third Bancorp,1980,은행
+CINF,Cincinnati Financial Corporatio,1980,손해보험
+WEN,Wendy's Company (The),1980,레스토랑 및 바
+ATRO,Astronics Corporation,1980,항공우주 및 방위
+ALNT,Allient Inc.,1980,전기 부품 및 장비
+USAU,U.S. Gold Corp.,1980,금
+SENEB,Seneca Foods Corp.,1980,식품 가공
+EML,Eastern Company (The),1980,산업용 기계 및 장비
+VIRC,Virco Manufacturing Corporation,1980,비즈니스 지원 용품
+NTRS,Northern Trust Corporation,1980,투자 관리 및 펀드 운영
+GNTX,Gentex Corporation,1981,"자동차, 트럭 및 오토바이 부품"
+RGLD,"Royal Gold, Inc.",1981,금
+FSTR,L.B. Foster Company,1981,중장비 및 차량
+ALOT,"AstroNova, Inc.",1981,컴퓨터 하드웨어
+CBRL,Cracker Barrel Old Country Stor,1981,레스토랑 및 바
+NSSC,"NAPCO Security Technologies, In",1981,통신 및 네트워킹
+ELSE,"Electro-Sensors, Inc.",1981,산업용 기계 및 장비
+ERIC,Ericsson,1981,통신 및 네트워킹
+FONR,Fonar Corporation,1981,첨단 의료 장비 및 기술
+SUNE,"SUNation Energy, Inc.",1981,전력 유틸리티
+IDCC,"InterDigital, Inc.",1981,통신 및 네트워킹
+SEIC,SEI Investments Company,1981,투자 관리 및 펀드 운영
+VSEC,VSE Corporation,1982,항공우주 및 방위
+CSPI,CSP Inc.,1982,IT 서비스 및 컨설팅
+WAFD,"WaFd, Inc.",1982,은행
+PAYX,"Paychex, Inc.",1983,고용 서비스
+COO,"The Cooper Companies, Inc.",1983,"의료 장비, 물품 및 유통"
+MLCI,Mount Logan Capital Inc.,1983,투자 관리 및 펀드 운영
+ANIX,"Anixa Biosciences, Inc.",1983,생명 공학 및 의학 연구
+SLM,SLM Corporation,1983,소비자 대출
+ASYS,"Amtech Systems, Inc.",1983,반도체 장비 및 테스트
+CAR,"Avis Budget Group, Inc.",1983,지상 및 해상 여객 운송
+DXR,Daxor Corporation,1983,폐쇄형 펀드
+VALU,"Value Line, Inc.",1983,전문 정보 서비스
+RELL,"Richardson Electronics, Ltd.",1983,전자 장비 및 부품
+CASY,"Caseys General Stores, Inc.",1983,식품 소매 및 유통
+JBHT,"J.B. Hunt Transport Services, I",1983,지상 화물 및 물류
+KTCC,Key Tronic Corporation,1983,전자 장비 및 부품
+AMGN,Amgen Inc.,1983,제약
+RDI,Reading International Inc,1983,여가 및 오락시설
+BELFA,Bel Fuse Inc.,1983,전자 장비 및 부품
+HCSG,"Healthcare Services Group, Inc.",1983,경영 지원 서비스
+CTAS,Cintas Corporation,1983,경영 지원 서비스
+SRCE,1st Source Corporation,1983,은행
+TRST,TrustCo Bank Corp NY,1983,은행
+TILE,"Interface, Inc.",1983,건설 자재 및 비품
+FFBC,First Financial Bancorp.,1983,은행
+CVBF,CVB Financial Corporation,1983,은행
+RCMT,"RCM Technologies, Inc.",1983,고용 서비스
+SBCF,Seacoast Banking Corporation of,1984,은행
+KELYB,"Kelly Services, Inc.",1984,고용 서비스
+MU,"Micron Technology, Inc.",1984,반도체
+MAYS,"J. W. Mays, Inc.",1984,"부동산 임대, 개발 및 운영"
+AIRT,"Air T, Inc.",1984,"배달, 우편, 항공 화물 및 육상 물류"
+LRCX,Lam Research Corporation,1984,반도체 장비 및 테스트
+MGRC,McGrath RentCorp,1984,경영 지원 서비스
+ONB,Old National Bancorp,1984,은행
+BMRA,"Biomerica, Inc.",1984,"의료 장비, 물품 및 유통"
+MLAB,"Mesa Laboratories, Inc.",1984,"의료 장비, 물품 및 유통"
+SWKS,"Skyworks Solutions, Inc.",1984,반도체
+LNW,"Light & Wonder, Inc.",1984,카지노 및 도박
+IBCP,Independent Bank Corporation,1985,은행
+LYTS,LSI Industries Inc.,1985,건설 자재 및 비품
+SFNC,Simmons First National Corporat,1985,은행
+ADSK,"Autodesk, Inc.",1985,소프트웨어
+DRS,"Leonardo DRS, Inc.",1985,항공우주 및 방위
+JKHY,"Jack Henry & Associates, Inc.",1985,IT 서비스 및 컨설팅
+ARKR,Ark Restaurants Corp.,1985,레스토랑 및 바
+ASRV,AmeriServ Financial Inc.,1985,은행
+FULT,Fulton Financial Corporation,1985,은행
+ROST,"Ross Stores, Inc.",1985,의류 및 액세서리 소매
+MNST,Monster Beverage Corporation,1985,무알콜 음료
+PEBK,Peoples Bancorp of North Caroli,1985,은행
+GROW,"U.S. Global Investors, Inc.",1985,투자 관리 및 펀드 운영
+DJCO,Daily Journal Corp. (S.C.),1986,온라인 서비스
+DGICB,"Donegal Group, Inc.",1986,손해보험
+MSFT,Microsoft Corporation,1986,소프트웨어
+HTLD,"Heartland Express, Inc.",1986,지상 화물 및 물류
+INDB,Independent Bank Corp.,1986,은행
+WSFS,WSFS Financial Corporation,1986,은행
+ITIC,Investors Title Company,1986,손해보험
+FRPH,"FRP Holdings, Inc.",1986,"부동산 임대, 개발 및 운영"
+PDEX,"Pro-Dex, Inc.",1986,"의료 장비, 물품 및 유통"
+BCPC,Balchem Corporation,1986,특수 화학제
+FCNCA,"First Citizens BancShares, Inc.",1986,은행
+TROW,"T. Rowe Price Group, Inc.",1986,투자 관리 및 펀드 운영
+REFR,Research Frontiers Incorporated,1986,엔터테인먼트 제작
+RMCF,Rocky Mountain Chocolate Factor,1986,식품 가공
+RGEN,Repligen Corporation,1986,"의료 장비, 물품 및 유통"
+COST,Costco Wholesale Corporation,1986,할인점
+FISV,"Fiserv, Inc.",1986,경영 지원 서비스
+CCEP,Coca-Cola Europacific Partners ,1986,무알콜 음료
+PLXS,Plexus Corp.,1986,전자 장비 및 부품
+SKYW,"SkyWest, Inc.",1986,항공사
+PAMT,PAMT CORP,1986,지상 화물 및 물류
+LAKE,"Lakeland Industries, Inc.",1986,의류 및 액세서리
+AMWD,American Woodmark Corporation,1986,건설 자재 및 비품
+MRTN,"Marten Transport, Ltd.",1986,지상 화물 및 물류
+CLFD,"Clearfield, Inc.",1986,통신 및 네트워킹
+OSUR,"OraSure Technologies, Inc.",1986,"의료 장비, 물품 및 유통"
+DLHC,DLH Holdings Corp.,1986,IT 서비스 및 컨설팅
+XOMA,XOMA Royalty Corporation,1986,엔터테인먼트 제작
+JJSF,J & J Snack Foods Corp.,1986,식품 가공
+CLDX,"Celldex Therapeutics, Inc.",1986,생명 공학 및 의학 연구
+WERN,"Werner Enterprises, Inc.",1986,지상 화물 및 물류
+AXGN,"AxoGen, Inc.",1986,첨단 의료 장비 및 기술
+STKL,"SunOpta, Inc.",1986,식품 가공
+ASTE,"Astec Industries, Inc.",1986,중장비 및 차량
+ADBE,Adobe Inc.,1986,소프트웨어
+FAST,Fastenal Company,1987,산업용 기계 및 장비
+PPC,Pilgrim's Pride Corporation,1987,식품 가공
+TATT,TAT Technologies Ltd.,1987,전기 부품 및 장비
+ICCC,ImmuCell Corporation,1987,제약
+CDNS,"Cadence Design Systems, Inc.",1987,소프트웨어
+CTBI,"Community Trust Bancorp, Inc.",1987,은행
+CRMT,"America's Car-Mart, Inc.",1987,"자동차 차량, 부품 및 서비스 소매"
+UBSI,"United Bankshares, Inc.",1987,은행
+IEP,Icahn Enterprises L.P. - Deposi,1987,"오일, 가스 정제 및 마케팅"
+WSBC,"WesBanco, Inc.",1987,은행
+MIDD,The Middleby Corporation,1987,산업용 기계 및 장비
+HRTX,"Heron Therapeutics, Inc.",1987,생명 공학 및 의학 연구
+SNFCA,Security National Financial Cor,1987,은행
+WASH,"Washington Trust Bancorp, Inc.",1987,은행
+NBN,Northeast Bank,1987,은행
+PLAB,"Photronics, Inc.",1987,반도체 장비 및 테스트
+CHCO,City Holding Company,1987,은행
+XRAY,DENTSPLY SIRONA Inc.,1987,"의료 장비, 물품 및 유통"
+FBNC,First Bancorp,1987,은행
+BKR,Baker Hughes Company,1987,오일 관련 서비스 및 장비
+AVNW,"Aviat Networks, Inc.",1987,통신 및 네트워킹
+IMKTA,"Ingles Markets, Incorporated",1987,식품 소매 및 유통
+JOUT,Johnson Outdoors Inc.,1987,오락용 제품
+DXLG,"Destination XL Group, Inc.",1987,의류 및 액세서리 소매
+FUND,"Sprott Focus Trust, Inc. - Clos",1988,폐쇄형 펀드
+HIFS,Hingham Institution for Savings,1988,은행
+VOD,Vodafone Group Plc,1988,무선 통신 서비스
+MGPI,"MGP Ingredients, Inc.",1988,증류주 및 포도주
+MERC,Mercer International Inc.,1988,종이 제품
+IPAR,"Interparfums, Inc.",1988,개인 생활 필수 용품
+ODP,The ODP Corporation,1988,기타 전문 소매
+SSP,E.W. Scripps Company (The),1988,방송
+LWAY,"Lifeway Foods, Inc.",1988,식품 가공
+CLRO,"ClearOne, Inc.",1989,통신 및 네트워킹
+EA,Electronic Arts Inc.,1989,소프트웨어
+MITK,"Mitek Systems, Inc.",1989,소프트웨어
+NEOG,Neogen Corporation,1989,"의료 장비, 물품 및 유통"
+BLFS,"BioLife Solutions, Inc.",1989,"의료 장비, 물품 및 유통"
+NEON,Neonode Inc.,1989,전자 장비 및 부품
+DAIO,Data I/O Corporation,1989,컴퓨터 하드웨어
+GIII,"G-III Apparel Group, LTD.",1989,의류 및 액세서리
+FRME,First Merchants Corporation,1989,은행
+GSBC,"Great Southern Bancorp, Inc.",1989,은행
+BOOM,DMC Global Inc.,1989,건설 자재 및 비품
+DGII,Digi International Inc.,1989,통신 및 네트워킹
+CDZI,"Cadiz, Inc.",1989,수자원 유틸리티
+CRUS,"Cirrus Logic, Inc.",1989,반도체
+CGNX,Cognex Corporation,1989,산업용 기계 및 장비
+PPIH,Perma-Pipe International Holdin,1989,철 및 강철
+LSCC,Lattice Semiconductor Corporati,1989,반도체
+TECH,Bio-Techne Corp,1989,생명 공학 및 의학 연구
+GEN,Gen Digital Inc.,1989,소프트웨어
+PTC,PTC Inc.,1989,소프트웨어
+TRMB,Trimble Inc.,1990,소프트웨어
+HOLX,"Hologic, Inc.",1990,첨단 의료 장비 및 기술
+VICR,Vicor Corporation,1990,전기 부품 및 장비
+NRIM,Northrim BanCorp Inc,1990,은행
+BANF,BancFirst Corporation,1990,은행
+CSCO,"Cisco Systems, Inc.",1990,통신 및 네트워킹
+VLY,Valley National Bancorp,1990,은행
+MMSI,"Merit Medical Systems, Inc.",1990,"의료 장비, 물품 및 유통"
+MTRX,Matrix Service Company,1990,건설 및 엔지니어링
+CATY,Cathay General Bancorp,1990,은행
+EXPO,"Exponent, Inc.",1990,경영 지원 서비스
+QCOM,QUALCOMM Incorporated,1991,반도체
+FIZZ,National Beverage Corp.,1991,무알콜 음료
+JBSS,"John B. Sanfilippo & Son, Inc.",1991,식품 가공
+PRGS,Progress Software Corporation,1991,소프트웨어
+QDEL,QuidelOrtho Corporation,1991,첨단 의료 장비 및 기술
+LCUT,"Lifetime Brands, Inc.",1991,"가전제품, 도구 및 가정 용품"
+RGS,Regis Corporation,1991,개인 서비스
+MNRO,"Monro, Inc.",1991,"자동차 차량, 부품 및 서비스 소매"
+WRLD,World Acceptance Corporation,1991,소비자 대출
+AMSC,American Superconductor Corpora,1991,전기 부품 및 장비
+MGIC,Magic Software Enterprises Ltd.,1991,소프트웨어
+EZPW,"EZCORP, Inc.",1991,소비자 대출
+REGN,"Regeneron Pharmaceuticals, Inc.",1991,제약
+ERNA,Ernexa Therapeutics Inc.,1991,생명 공학 및 의학 연구
+ATNI,"ATN International, Inc.",1991,통합 통신 서비스
+ALTS,ALT5 Sigma Corporation,1991,핀테크
+HWC,Hancock Whitney Corporation,1991,은행
+TTEK,"Tetra Tech, Inc.",1991,환경 서비스 및 장비
+BOKF,BOK Financial Corporation,1991,은행
+FCFS,"FirstCash Holdings, Inc.",1991,소비자 대출
+CRVL,CorVel Corp.,1991,의료 시설 및 서비스
+ALKS,Alkermes plc,1991,생명 공학 및 의학 연구
+DORM,"Dorman Products, Inc.",1991,"자동차, 트럭 및 오토바이 부품"
+ZBRA,Zebra Technologies Corporation,1991,전자 장비 및 부품
+STRL,"Sterling Infrastructure, Inc.",1991,건설 및 엔지니어링
+IONS,"Ionis Pharmaceuticals, Inc.",1991,생명 공학 및 의학 연구
+BIIB,Biogen Inc.,1991,제약
+ODFL,"Old Dominion Freight Line, Inc.",1991,지상 화물 및 물류
+IDXX,"IDEXX Laboratories, Inc.",1991,"의료 장비, 물품 및 유통"
+LDWY,"Lendway, Inc.",1991,어업 및 농업
+VRTX,Vertex Pharmaceuticals Incorpor,1991,제약
+GILD,"Gilead Sciences, Inc.",1992,제약
+ROP,"Roper Technologies, Inc.",1992,소프트웨어
+OFIX,Orthofix Medical Inc.,1992,"의료 장비, 물품 및 유통"
+ULBI,Ultralife Corporation,1992,전기 부품 및 장비
+THFF,First Financial Corporation,1992,은행
+SCHL,Scholastic Corporation,1992,소비자 출판
+KOPN,Kopin Corporation,1992,반도체
+FCEL,"FuelCell Energy, Inc.",1992,재생 가능 에너지 장비 및 서비스
+JACK,Jack In The Box Inc.,1992,레스토랑 및 바
+CENT,Central Garden & Pet Company,1992,식품 가공
+ARCB,ArcBest Corporation,1992,지상 화물 및 물류
+STAA,STAAR Surgical Company,1992,"의료 장비, 물품 및 유통"
+INTZ,Intrusion Inc.,1992,IT 서비스 및 컨설팅
+POCI,"Precision Optics Corporation, I",1992,"의료 장비, 물품 및 유통"
+ACFN,"Acorn Energy, Inc.",1992,IT 서비스 및 컨설팅
+STBA,"S&T Bancorp, Inc.",1992,은행
+NBTB,NBT Bancorp Inc.,1992,은행
+CAKE,The Cheesecake Factory Incorpor,1992,레스토랑 및 바
+MEOH,Methanex Corporation,1992,상품 화학
+ICUI,"ICU Medical, Inc.",1992,"의료 장비, 물품 및 유통"
+LGND,Ligand Pharmaceuticals Incorpor,1992,제약
+MBOT,Microbot Medical Inc.,1992,생명 공학 및 의학 연구
+NTIC,Northern Technologies Internati,1992,산업용 기계 및 장비
+SNPS,"Synopsys, Inc.",1992,소프트웨어
+GTIM,Good Times Restaurants Inc.,1992,레스토랑 및 바
+LFUS,"Littelfuse, Inc.",1992,전자 장비 및 부품
+COLB,"Columbia Banking System, Inc.",1992,은행
+AAON,"AAON, Inc.",1992,전기 부품 및 장비
+PESI,Perma-Fix Environmental Service,1992,환경 서비스 및 장비
+FUNC,First,1992,은행
+ASUR,Asure Software Inc,1992,소프트웨어
+CACC,Credit Acceptance Corporation,1992,소비자 대출
+LIN,Linde plc,1992,상품 화학
+SBUX,Starbucks Corporation,1992,레스토랑 및 바
+STRS,Stratus Properties Inc.,1992,"부동산 임대, 개발 및 운영"
+CPSS,"Consumer Portfolio Services, In",1992,소비자 대출
+TRIB,Trinity Biotech plc,1992,"의료 장비, 물품 및 유통"
+QCRH,"QCR Holdings, Inc.",1993,은행
+PZZA,"Papa John's International, Inc.",1993,레스토랑 및 바
+BBSI,"Barrett Business Services, Inc.",1993,고용 서비스
+UBCP,"United Bancorp, Inc.",1993,은행
+SNT,Senstar Technologies Corporatio,1993,전기 부품 및 장비
+FOSL,"Fossil Group, Inc.",1993,의류 및 액세서리
+ROCK,"Gibraltar Industries, Inc.",1993,건설 자재 및 비품
+GABC,"German American Bancorp, Inc.",1993,은행
+TCBK,TriCo Bancshares,1993,은행
+SGA,"Saga Communications, Inc.",1993,방송
+WINA,Winmark Corporation,1993,기타 전문 소매
+MCRI,"Monarch Casino & Resort, Inc.",1993,카지노 및 도박
+UFPT,"UFP Technologies, Inc.",1993,"의료 장비, 물품 및 유통"
+AMRN,Amarin Corporation plc,1993,생명 공학 및 의학 연구
+NATH,"Nathan's Famous, Inc.",1993,레스토랑 및 바
+THRM,Gentherm Inc,1993,"자동차, 트럭 및 오토바이 부품"
+PEBO,Peoples Bancorp Inc.,1993,은행
+OSBC,"Old Second Bancorp, Inc.",1993,은행
+MCHP,Microchip Technology Incorporat,1993,반도체
+GILT,Gilat Satellite Networks Ltd.,1993,통신 및 네트워킹
+FWRD,Forward Air Corporation,1993,"배달, 우편, 항공 화물 및 육상 물류"
+RVSB,Riverview Bancorp Inc,1993,은행
+SCVL,"Shoe Carnival, Inc.",1993,의류 및 액세서리 소매
+TLF,"Tandy Leather Factory, Inc.",1993,직물 및 가죽제품
+NAII,Natural Alternatives Internatio,1993,제약
+HHS,"Harte Hanks, Inc.",1993,광고 및 마케팅
+CAPS,Capstone Holding Corp.,1993,건설 자재
+LSTR,"Landstar System, Inc.",1993,지상 화물 및 물류
+FFIN,"First Financial Bankshares, Inc",1993,은행
+VIAV,Viavi Solutions Inc.,1993,통신 및 네트워킹
+ANIK,Anika Therapeutics Inc.,1993,"의료 장비, 물품 및 유통"
+RAVE,"Rave Restaurant Group, Inc.",1993,레스토랑 및 바
+HGBL,Heritage Global Inc.,1993,투자 관리 및 펀드 운영
+IAC,IAC Inc.,1993,온라인 서비스
+SHOO,"Steven Madden, Ltd.",1993,제화
+INOD,Innodata Inc.,1993,IT 서비스 및 컨설팅
+PTEN,"Patterson-UTI Energy, Inc.",1993,오일 및 가스 시추
+SYBT,"Stock Yards Bancorp, Inc.",1993,은행
+FTEK,"Fuel Tech, Inc.",1993,환경 서비스 및 장비
+FLL,"Full House Resorts, Inc.",1993,카지노 및 도박
+CASH,"Pathward Financial, Inc.",1993,은행
+UEIC,Universal Electronics Inc.,1993,가정용 전자 제품
+UFPI,"UFP Industries, Inc.",1993,임업 및 목재 제품
+MTCH,"Match Group, Inc.",1993,온라인 서비스
+CHDN,"Churchill Downs, Incorporated",1993,카지노 및 도박
+URBN,"Urban Outfitters, Inc.",1993,의류 및 액세서리 소매
+ARWR,"Arrowhead Pharmaceuticals, Inc.",1993,생명 공학 및 의학 연구
+CNTY,"Century Casinos, Inc.",1993,카지노 및 도박
+ITRI,"Itron, Inc.",1993,전자 장비 및 부품
+RCKY,"Rocky Brands, Inc.",1993,제화
+INCY,Incyte Corporation,1993,제약
+ORLY,"O'Reilly Automotive, Inc.",1993,"자동차 차량, 부품 및 서비스 소매"
+SANM,Sanmina Corporation,1993,전자 장비 및 부품
+REG,Regency Centers Corporation,1993,상업용 REITs
+NSYS,Nortech Systems Incorporated,1993,반도체
+INTU,Intuit Inc.,1993,핀테크
+AZN,Astrazeneca PLC,1993,제약
+CMCT,Creative Media,1993,상업용 REITs
+RIME,"Algorhythm Holdings, Inc.",1994,IT 서비스 및 컨설팅
+CARV,"Carver Bancorp, Inc.",1994,은행
+PRPH,"ProPhase Labs, Inc.",1994,의료 시설 및 서비스
+OVBC,Ohio Valley Banc Corp.,1994,은행
+SMTI,Sanara MedTech Inc.,1994,제약
+RGCO,RGC Resources Inc.,1994,천연가스 유틸리티
+FRAF,Franklin Financial Services Cor,1994,은행
+MPAA,"Motorcar Parts of America, Inc.",1994,"자동차, 트럭 및 오토바이 부품"
+SYPR,"Sypris Solutions, Inc.",1994,"자동차, 트럭 및 오토바이 부품"
+PNBK,Patriot National Bancorp Inc.,1994,은행
+LARK,Landmark Bancorp Inc.,1994,은행
+TENX,"Tenax Therapeutics, Inc.",1994,생명 공학 및 의학 연구
+CPSH,CPS Technologies Corp.,1994,전기 부품 및 장비
+DWSN,Dawson Geophysical Company,1994,오일 관련 서비스 및 장비
+PCYO,Pure Cycle Corporation,1994,수자원 유틸리티
+KRMD,"KORU Medical Systems, Inc.",1994,"의료 장비, 물품 및 유통"
+HDSN,"Hudson Technologies, Inc.",1994,전기 부품 및 장비
+ARTNA,Artesian Resources Corporation,1994,수자원 유틸리티
+CZNC,Citizens & Northern Corp,1994,은행
+BSRR,Sierra Bancorp,1994,은행
+ZEUS,"Olympic Steel, Inc.",1994,철 및 강철
+CIVB,"Civista Bancshares, Inc.",1994,은행
+ACNB,ACNB Corporation,1994,은행
+FCBC,"First Community Bankshares, Inc",1994,은행
+SMBC,"Southern Missouri Bancorp, Inc.",1994,은행
+ADTN,"ADTRAN Holdings, Inc.",1994,통신 및 네트워킹
+HAIN,"The Hain Celestial Group, Inc.",1994,식품 가공
+GNSS,Genasys Inc.,1994,통신 및 네트워킹
+CCBG,Capital City Bank Group,1994,은행
+SSYS,"Stratasys, Ltd.",1994,전자 장비 및 부품
+MATW,Matthews International Corporat,1994,개인 생활 필수 용품
+CCNE,CNB Financial Corporation,1994,은행
+FWDI,"Forward Industries, Inc.",1994,경영 지원 서비스
+HAFC,Hanmi Financial Corporation,1994,은행
+HNRG,Hallador Energy Company,1994,민자 발전 사업
+SCSC,"ScanSource, Inc.",1994,컴퓨터 하드웨어
+DAKT,"Daktronics, Inc.",1994,전자 장비 및 부품
+HERZ,"Herzfeld Credit Income Fund, In",1994,폐쇄형 펀드
+CNOB,"ConnectOne Bancorp, Inc.",1994,은행
+NKTR,Nektar Therapeutics,1994,생명 공학 및 의학 연구
+BCRX,"BioCryst Pharmaceuticals, Inc.",1994,생명 공학 및 의학 연구
+RFIL,"RF Industries, Ltd.",1994,전기 부품 및 장비
+MIND,"MIND Technology, Inc.",1994,오일 관련 서비스 및 장비
+SILC,Silicom Ltd,1994,통신 및 네트워킹
+LFVN,Lifevantage Corporation,1994,제약
+ACHC,"Acadia Healthcare Company, Inc.",1994,의료 시설 및 서비스
+VECO,Veeco Instruments Inc.,1994,반도체 장비 및 테스트
+NWBI,"Northwest Bancshares, Inc.",1994,은행
+PENN,"PENN Entertainment, Inc.",1994,카지노 및 도박
+WULF,TeraWulf Inc.,1994,블록 체인 및 암호화폐
+SIRI,SiriusXM Holdings Inc.,1994,방송
+TSEM,Tower Semiconductor Ltd.,1994,반도체
+LECO,"Lincoln Electric Holdings, Inc.",1994,산업용 기계 및 장비
+WWD,"Woodward, Inc.",1994,항공우주 및 방위
+FLEX,Flex Ltd.,1994,전자 장비 및 부품
+TSCO,Tractor Supply Company,1994,기타 전문 소매
+WVVI,"Willamette Valley Vineyards, In",1994,증류주 및 포도주
+EFOI,"Energy Focus, Inc.",1994,건설 자재 및 비품
+SNGX,"Soligenix, Inc.",1994,생명 공학 및 의학 연구
+NNBR,"NN, Inc.",1994,산업용 기계 및 장비
+AIFF,"Firefly Neuroscience, Inc.",1994,IT 서비스 및 컨설팅
+CPRT,"Copart, Inc.",1994,온라인 서비스
+CHNR,"China Natural Resources, Inc.",1995,수자원 유틸리티
+ASTC,Astrotech Corporation,1995,전자 장비 및 부품
+OBLG,Oblong Inc.,1995,전자 장비 및 부품
+TAIT,Taitron Components Incorporated,1995,전자 장비 및 부품
+PBHC,"Pathfinder Bancorp, Inc.",1995,은행
+AUBN,"Auburn National Bancorporation,",1995,은행
+SMID,Smith-Midland Corporation,1995,건설 자재
+RICK,"RCI Hospitality Holdings, Inc.",1995,레스토랑 및 바
+DSWL,"Deswell Industries, Inc.",1995,가정용 전자 제품
+ACHV,"Achieve Life Sciences, Inc.",1995,생명 공학 및 의학 연구
+SVC,Service Properties Trust - Shar,1995,특수 REITs
+NVEC,NVE Corporation,1995,반도체
+STRT,STRATTEC SECURITY CORPORATION,1995,"자동차, 트럭 및 오토바이 부품"
+CLMB,"Climb Global Solutions, Inc.",1995,IT 서비스 및 컨설팅
+CWCO,Consolidated Water Co. Ltd.,1995,수자원 유틸리티
+FFIC,Flushing Financial Corporation,1995,은행
+NWPX,"NWPX Infrastructure, Inc.",1995,철 및 강철
+MYGN,"Myriad Genetics, Inc.",1995,"의료 장비, 물품 및 유통"
+BLDP,"Ballard Power Systems, Inc.",1995,재생 가능 에너지 장비 및 서비스
+IART,Integra LifeSciences Holdings C,1995,"의료 장비, 물품 및 유통"
+UPBD,"Upbound Group, Inc.",1995,기타 전문 소매
+OPK,"Opko Health, Inc.",1995,의료 시설 및 서비스
+HLIT,Harmonic Inc.,1995,통신 및 네트워킹
+SBGI,"Sinclair, Inc.",1995,방송
+NVAX,"Novavax, Inc.",1995,생명 공학 및 의학 연구
+NHTC,Natural Health Trends Corp. - C,1995,기타 전문 소매
+STGW,Stagwell Inc.,1995,광고 및 마케팅
+AZTA,"Azenta, Inc.",1995,생명 공학 및 의학 연구
+BANR,Banner Corporation,1995,은행
+NSIT,"Insight Enterprises, Inc.",1995,IT 서비스 및 컨설팅
+IBOC,International Bancshares Corpor,1995,은행
+SNEX,StoneX Group Inc.,1995,투자 은행 및 중개 서비스
+ACIW,"ACI Worldwide, Inc.",1995,핀테크
+CIGI,Colliers International Group In,1995,부동산 서비스
+AEIS,"Advanced Energy Industries, Inc",1995,전기 부품 및 장비
+HSIC,"Henry Schein, Inc.",1995,"의료 장비, 물품 및 유통"
+POOL,Pool Corporation,1995,오락용 제품
+ERIE,Erie Indemnity Company,1995,손해보험
+NTAP,"NetApp, Inc.",1995,컴퓨터 하드웨어
+DLTR,"Dollar Tree, Inc.",1995,할인점
+SMSI,"Smith Micro Software, Inc.",1995,소프트웨어
+GYRO,"Gyrodyne , LLC",1995,"부동산 임대, 개발 및 운영"
+ACGL,Arch Capital Group Ltd.,1995,손해보험
+ASML,ASML Holding N.V. - New York Re,1995,반도체 장비 및 테스트

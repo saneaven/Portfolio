@@ -1,0 +1,29 @@
+{#
+  scenario_id: character_portrait
+  scenario_category: I
+  preconditions: >= 1 character entity
+  description: |
+    User asks for a character portrait. Single tool call.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set chars = project.story_entities | selectattr("kind", "equalto", "character") | list -%}
+{%- if chars | length >= 1 -%}
+{%- set char = chars[0] -%}
+{%- set img_id = uuid4() -%}
+{%- set prompt_text = "Portrait of " ~ char.name ~ ". " ~ truncate(char.description, 120) ~ " Detailed literary illustration, painterly style, dramatic lighting." -%}
+{%- set img_args = {"prompt": prompt_text, "ratio": "2:3", "object_id": char.id} -%}
+{%- set img_result = {"id": img_id, "object_id": char.id, "url": "https://storage.novelbuds.app/images/" ~ img_id ~ ".png", "created_at": now_iso()} -%}
+{%- set answer_text = "Here's the portrait of **" ~ char.name ~ "** generated in 2:3 portrait ratio using their description (" ~ truncate(char.description, 80) ~ "). [ASSISTANT_RESPONSE_0]" -%}
+{
+  "scenario_id": "character_portrait",
+  "scenario_category": "I",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["generate_object_image"]) }},
+  "messages": [
+    {{ m.user_msg("Generate a portrait for " ~ char.name ~ ".") }},
+    {{ m.assistant_tool_turn(0, "generate_object_image", img_args) }},
+    {{ m.tool_result("generate_object_image", img_result) }},
+    {{ m.assistant_answer(1, answer_text) }}
+  ]
+}
+{%- endif -%}

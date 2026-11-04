@@ -1,0 +1,8 @@
+all:
+	latex -interaction=nonstopmode -halt-on-error report.tex
+	if test -f "report.dvi"; then dvipdf report.dvi; fi
+0:
+	file report.pdf | grep "PDF document" > studentout$@
+	diff out$@ studentout$@ $(DIFFLAGS) > difference$@
+clean:
+	rm -f report.aux report.dvi report.pdf report.log studentout* difference*

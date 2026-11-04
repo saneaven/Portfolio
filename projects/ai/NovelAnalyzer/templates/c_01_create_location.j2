@@ -1,0 +1,49 @@
+{#
+  scenario_id: create_location
+  scenario_category: C
+  preconditions: project has at least one location entity
+  description: |
+    User asks to create a new location entity based on thematic needs.
+    Two-turn conversation: search existing, then create.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set locs = project.story_entities | selectattr("kind", "equalto", "location") | list -%}
+{%- if locs | length >= 1 -%}
+{%- set existing_loc = locs[0] -%}
+{%- set new_id = uuid4() -%}
+{%- set title = project.basic_info.title -%}
+{%- set new_name = "The Outskirts of " ~ existing_loc.name -%}
+{%- set new_desc = "[GENERATED_CONTENT]" -%}
+{%- set new_content = "[GENERATED_CONTENT]" -%}
+{#- Real semantic search -#}
+{%- set sem_results = semantic_search(project, ["outskirts edge boundary " ~ existing_loc.name], 3) -%}
+{%- if sem_results | length == 0 -%}
+  {%- set sem_results = [{"type": "story_entity", "id": existing_loc.id, "name": existing_loc.name, "excerpt": truncate(existing_loc.description, 120), "score": 0.5}] -%}
+{%- endif -%}
+{%- set search_result = {"queries": ["outskirts edge boundary " ~ existing_loc.name], "results": sem_results, "total": sem_results | length} -%}
+{%- set create_args = {"kind": "location", "name": new_name, "description": new_desc, "content": new_content} -%}
+{%- set create_result = {"id": new_id, "kind": "location", "name": new_name, "description": new_desc, "content": new_content, "created_at": now_iso(), "updated_at": now_iso()} -%}
+{#- Answer text with real data references -#}
+{%- set hit_lines = [] -%}
+{%- for r in sem_results -%}
+  {%- set _ = hit_lines.append((loop.index | string) ~ ". **" ~ r.name ~ "** (" ~ r.type ~ "): " ~ truncate(r.excerpt, 100)) -%}
+{%- endfor -%}
+{%- set answer1_text = "Found " ~ (sem_results | length | string) ~ " related reference(s):\n\n" ~ hit_lines | join("\n") ~ "\n\n[ASSISTANT_RESPONSE_0]" -%}
+{%- set answer2_text = "Created **" ~ new_name ~ "** as a new location entity. [ASSISTANT_RESPONSE_1]" -%}
+{
+  "scenario_id": "create_location",
+  "scenario_category": "C",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["search_semantic", "create_story_entity"]) }},
+  "messages": [
+    {{ m.user_msg("I want to add a location that represents the outskirts or edges of " ~ existing_loc.name ~ ". Something liminal and unsettling. Can you check what we already have that relates to this?") }},
+    {{ m.assistant_tool_turn(0, "search_semantic", {"queries": ["outskirts edge boundary wilderness " ~ existing_loc.name]}) }},
+    {{ m.tool_result("search_semantic", search_result) }},
+    {{ m.assistant_answer(1, answer1_text) }},
+    {{ m.user_msg("Yes, create it.") }},
+    {{ m.assistant_tool_turn(2, "create_story_entity", create_args) }},
+    {{ m.tool_result("create_story_entity", create_result) }},
+    {{ m.assistant_answer(3, answer2_text) }}
+  ]
+}
+{%- endif -%}

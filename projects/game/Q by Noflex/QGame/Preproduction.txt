@@ -1,0 +1,13 @@
+Hello we are team Noflex, today we are gonna presentation about preproduction prototype of our game
+
+My name is Minjae Kyung, I’m Product Manager in this team
+
+First, let's recall our game concept.
+Simply, it’s sideview platformer rogue-like game.
+Player will encounter rooms with enemy and platforms, and that rooms are randomly arranged in level. 
+And, game’s goal is to collect all the cubes bricks.
+
+We inspired our game’s concept from movie “Cube”
+And also we added some SF stuff that cude is on the orbit.
+
+Next, yoonki will explain a demo

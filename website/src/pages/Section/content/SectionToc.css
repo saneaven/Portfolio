@@ -1,0 +1,46 @@
+.section-toc {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid oklch(from var(--main-light) l c h / 0.12);
+}
+
+.section-toc__link {
+  position: relative;
+  display: block;
+  padding: clamp(6px, 0.8vh, 9px) 0 clamp(6px, 0.8vh, 9px) clamp(12px, 1vw, 16px);
+  font-family: var(--heading);
+  font-weight: 400;
+  font-size: clamp(13px, 0.95vw, 15px);
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: oklch(from var(--main-light) l c h / 0.55);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.section-toc__link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1.5px;
+  width: 2px;
+  background: linear-gradient(to bottom in oklch, var(--cb-from), var(--cb-to));
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.section-toc__link:hover {
+  color: oklch(from var(--main-light) l c h / 0.85);
+}
+
+.section-toc__link[aria-current='location'] {
+  color: var(--main-light);
+}
+
+.section-toc__link[aria-current='location']::before {
+  opacity: 1;
+}

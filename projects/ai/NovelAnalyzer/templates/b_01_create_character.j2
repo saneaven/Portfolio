@@ -1,0 +1,37 @@
+{#
+  scenario_id: create_character_with_portrait
+  scenario_category: B
+  preconditions: project has at least one character
+  description: |
+    User asks to create a new supporting character, then requests a portrait.
+    Short conversation with two tool-calling sequences.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set chars = project.story_entities | selectattr("kind", "equalto", "character") | list -%}
+{%- if chars | length >= 1 -%}
+{%- set primary = chars[0] -%}
+{%- set new_id = uuid4() -%}
+{%- set role = random_choice(["mentor", "rival", "confidant", "foil"]) -%}
+{%- set new_name = "The " ~ role | capitalize ~ " of " ~ primary.name -%}
+{%- set new_desc = "[GENERATED_CONTENT]" -%}
+{%- set new_content = "[GENERATED_CONTENT]" -%}
+{%- set create_args = {"kind": "character", "name": new_name, "description": new_desc, "content": new_content} -%}
+{%- set create_result = {"id": new_id, "kind": "character", "name": new_name, "description": new_desc, "content": new_content, "created_at": now_iso(), "updated_at": now_iso()} -%}
+{%- set img_args = {"prompt": "Portrait of " ~ new_name ~ ", a " ~ role ~ " character with quiet intensity and a distinctive appearance, literary illustration style", "ratio": "1:1", "object_id": new_id} -%}
+{%- set img_result = {"id": uuid4(), "object_id": new_id, "url": "https://storage.novelbuds.app/images/" ~ uuid4() ~ ".png", "created_at": now_iso()} -%}
+{%- set answer_text = "Done! I've created **" ~ new_name ~ "** as a new character and generated a portrait for them.\n\n[ASSISTANT_RESPONSE_0]" -%}
+{
+  "scenario_id": "create_character_with_portrait",
+  "scenario_category": "B",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["create_story_entity", "generate_object_image"]) }},
+  "messages": [
+    {{ m.user_msg("I need a new character who acts as a " ~ role ~ " to " ~ primary.name ~ ". Create them and generate a portrait too.") }},
+    {{ m.assistant_tool_turn(0, "create_story_entity", create_args) }},
+    {{ m.tool_result("create_story_entity", create_result) }},
+    {{ m.assistant_tool_turn(1, "generate_object_image", img_args) }},
+    {{ m.tool_result("generate_object_image", img_result) }},
+    {{ m.assistant_answer(2, answer_text) }}
+  ]
+}
+{%- endif -%}

@@ -1,0 +1,8 @@
+user_id,first_name,last_name,birthday,current_city,hometown_city,gender,user_id,first_name,last_name,birthday,current_city,hometown_city,gender
+4,Noah,Garcia,1995-01-03,Chicago,Houston,male,38,Gabriel,Garcia,1991-07-02,"New York",Chicago,male
+17,Avery,Hernandez,1991-08-08,"New York",Chicago,female,48,Benjamin,Hernandez,1990-03-11,"New York",Chicago,male
+21,Aria,Lee,1990-05-16,"Los Angeles",Houston,female,77,Avery,Lee,1990-09-07,"New York",Chicago,female
+22,William,Garcia,1997-11-11,"San Francisco",Miami,male,38,Gabriel,Garcia,1991-07-02,"New York",Chicago,male
+43,Grace,Gonzalez,2000-03-15,Chicago,Chicago,female,94,Ryan,Gonzalez,1994-08-01,"Los Angeles",Houston,male
+49,Avery,Perez,1995-09-10,Houston,"San Francisco",female,67,Henry,Perez,1992-12-03,"San Francisco",Miami,male
+51,Ethan,Lee,1993-10-21,"Los Angeles",Houston,male,93,Olivia,Lee,2000-04-15,Miami,"New York",female

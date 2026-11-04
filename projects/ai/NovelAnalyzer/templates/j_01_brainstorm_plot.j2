@@ -1,0 +1,35 @@
+{#
+  scenario_id: brainstorm_plot
+  scenario_category: J
+  preconditions: >= 1 outline with >= 2 acts
+  description: |
+    User and assistant brainstorm plot ideas. Tools available but NONE called.
+    Teaches the model that tool availability is permission, not obligation.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set outlines = project.outlines | default([]) -%}
+{%- if outlines | length >= 1 and outlines[0].acts | length >= 2 -%}
+{%- set outline = outlines[0] -%}
+{%- set act1 = outline.acts[0] -%}
+{%- set act2 = outline.acts[1] -%}
+{%- set title = project.basic_info.title -%}
+{%- set chars = project.story_entities | selectattr("kind", "equalto", "character") | list -%}
+{%- set protag = chars[0].name if chars | length > 0 else "the protagonist" -%}
+{%- set genres = project.basic_info.genres | default([]) | join(", ") -%}
+{
+  "scenario_id": "brainstorm_plot",
+  "scenario_category": "J",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_outline", "read_story_entity", "search_semantic", "read_manuscript", "patch_outline"]) }},
+  "messages": [
+    {{ m.user_msg("I'm stuck on the transition between " ~ act1.name ~ " and " ~ act2.name ~ ". It feels like there's a gap. What if we added something unexpected to bridge them?") }},
+    {{ m.assistant_answer(0, "Looking at what you've built so far: " ~ act1.name ~ " establishes " ~ protag ~ "'s situation, and " ~ act2.name ~ " escalates the conflict.\n\n[ASSISTANT_RESPONSE_0]") }},
+    {{ m.user_msg("Option 2 is interesting. But I don't want it to feel contrived — the choice has to grow organically from what's already there.") }},
+    {{ m.assistant_answer(1, "For " ~ title ~ ", given the " ~ genres ~ " genre context, considering what " ~ protag ~ " wants most in " ~ act1.name ~ ":\n\n[ASSISTANT_RESPONSE_1]") }},
+    {{ m.user_msg("They've been avoiding confronting the truth about " ~ (chars[1].name if chars | length > 1 else "their past") ~ ". Every time it comes up they deflect or change the subject.") }},
+    {{ m.assistant_answer(2, "The avoidance pattern you've set up in " ~ act1.name ~ " with " ~ protag ~ " deflecting — that's the setup for the bridge.\n\n[ASSISTANT_RESPONSE_2]") }},
+    {{ m.user_msg("Not yet — I want to sit with this for a bit. But I think the direction is right. The avoidance-to-confrontation arc makes the transition feel earned rather than manufactured.") }},
+    {{ m.assistant_answer(3, "When you're ready to draft it, you might want to re-read the last chapter of " ~ act1.name ~ " and the first chapter of " ~ act2.name ~ " back-to-back.\n\n[ASSISTANT_RESPONSE_3]") }}
+  ]
+}
+{%- endif -%}

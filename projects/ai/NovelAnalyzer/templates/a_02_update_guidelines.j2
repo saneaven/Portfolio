@@ -1,0 +1,35 @@
+{#
+  scenario_id: update_guidelines
+  scenario_category: A
+  preconditions: project has non-empty authorNote
+  description: |
+    User wants to review and update the author note / writing guidelines.
+    Two-turn conversation: first view, then update.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set note = project.guidelines.authorNote | default("") -%}
+{%- if note | length > 20 -%}
+{%- set title = project.basic_info.title -%}
+{%- set note_preview = note[:300] ~ ("..." if note | length > 300 else "") -%}
+{%- set tree_result = {"title": title, "guidelines": {"authorNote": note}, "entity_count": project.story_entities | length} -%}
+{%- set new_note = note ~ "\n\n[GENERATED_CONTENT]" -%}
+{%- set replace_result = {"ok": true, "updated_at": now_iso()} -%}
+{%- set answer1_text = "Here's the current author note for **" ~ title ~ "**:\n\n> " ~ note_preview ~ "\n\n[ASSISTANT_RESPONSE_0]" -%}
+{%- set answer2_text = "[ASSISTANT_RESPONSE_1]" -%}
+{
+  "scenario_id": "update_guidelines",
+  "scenario_category": "A",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["get_project_tree", "replace_guidelines"]) }},
+  "messages": [
+    {{ m.user_msg("Can you show me what we have in the writing guidelines? I want to add some craft notes.") }},
+    {{ m.assistant_tool_turn(0, "get_project_tree", {}) }},
+    {{ m.tool_result("get_project_tree", tree_result) }},
+    {{ m.assistant_answer(1, answer1_text) }},
+    {{ m.user_msg("Yeah, add a note about maintaining consistent tense and avoiding info-dumps. Keep the existing note and just append to it.") }},
+    {{ m.assistant_tool_turn(2, "replace_guidelines", {"authorNote": new_note}) }},
+    {{ m.tool_result("replace_guidelines", replace_result) }},
+    {{ m.assistant_answer(3, answer2_text) }}
+  ]
+}
+{%- endif -%}

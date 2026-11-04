@@ -1,0 +1,72 @@
+{#
+  scenario_id: split_chapter
+  scenario_category: H
+  preconditions: at least 1 chapter with manuscript_text > 500 chars
+  description: |
+    User wants to split one chapter into two. Read chapter, identify split point,
+    create new outline node, truncate original manuscript, create new manuscript.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set ns = namespace(chapter=none, act=none) -%}
+{%- for outline in project.outlines | default([]) -%}
+  {%- for act in outline.acts | default([]) -%}
+    {%- for ch in act.chapters | default([]) -%}
+      {%- if ch.manuscript_text | default("") | length > 500 and not ns.chapter -%}
+        {%- set ns.chapter = ch -%}
+        {%- set ns.act = act -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- if ns.chapter -%}
+{%- set ch = ns.chapter -%}
+{%- set act = ns.act -%}
+{%- set ms_text = ch.manuscript_text -%}
+{%- set split_point = (ms_text | length // 2) -%}
+{%- set first_half = ms_text[:split_point] -%}
+{%- set second_half = ms_text[split_point:] -%}
+{%- set new_ch_id = uuid4() -%}
+{%- set new_ms_id = uuid4() -%}
+{%- set new_ch_name = ch.name ~ " (Part 2)" -%}
+{%- set ok = {"ok": true, "updated_at": now_iso()} -%}
+{# Read outline #}
+{%- set read_outline_result = {"id": ch.id, "kind": "chapter", "name": ch.name, "description": ch.description[:200], "content": ch.content[:200]} -%}
+{# Read manuscript #}
+{%- set read_ms_result = {"id": ch.manuscript_id, "content": ms_text[:800]} -%}
+{# Novel planner sub-agent #}
+{%- set planner_input = "Chapter '" ~ ch.name ~ "' is being split into two parts. Original description: " ~ ch.description[:200] ~ ". The split happens roughly at the midpoint of the prose. Write a brief description for the second half that captures what happens from the split point onward." -%}
+{%- set planner_result = "[SUBAGENT_RESPONSE]" -%}
+{# Create new chapter outline #}
+{%- set ch_position = (act.chapters | length) -%}
+{%- set create_outline_args = {"kind": "chapter", "name": new_ch_name, "description": "[GENERATED_CONTENT]", "content": "[GENERATED_CONTENT]", "parentId": act.id, "position": ch_position} -%}
+{%- set create_outline_result = {"id": new_ch_id, "kind": "chapter", "name": new_ch_name, "parentId": act.id, "position": ch_position, "created_at": now_iso(), "updated_at": now_iso()} -%}
+{# Replace original manuscript (truncated to first half) #}
+{%- set replace_ms_args = {"id": ch.manuscript_id, "content": first_half} -%}
+{# Patch original outline description #}
+{%- set patch_desc = ch.description[:60] if ch.description else ch.name -%}
+{%- set patch_outline_args = {"id": ch.id, "field": "description", "old": patch_desc, "new": patch_desc ~ " [GENERATED_CONTENT]"} -%}
+{
+  "scenario_id": "split_chapter",
+  "scenario_category": "H",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": {{ build_tools(["read_outline", "read_manuscript", "create_outline", "replace_manuscript", "patch_outline", "call_novel_planner"]) }},
+  "messages": [
+    {{ m.user_msg("I want to split " ~ ch.name ~ " into two chapters. It's too long and the pacing drags in the middle. Can you read it and figure out a good split point?") }},
+    {{ m.assistant_tool_turn(0, "read_outline", {"id": ch.id}) }},
+    {{ m.tool_result("read_outline", read_outline_result) }},
+    {{ m.assistant_tool_turn(1, "read_manuscript", {"id": ch.manuscript_id}) }},
+    {{ m.tool_result("read_manuscript", read_ms_result) }},
+    {{ m.assistant_answer(2, "I've read **" ~ ch.name ~ "** — it's " ~ (ms_text | length | string) ~ " characters long. [ASSISTANT_RESPONSE_0] Let me have the Novel Planner draft a description for the new second chapter.") }},
+    {{ m.assistant_tool_turn(3, "call_novel_planner", {"input": planner_input}) }},
+    {{ m.tool_result("call_novel_planner", planner_result) }},
+    {{ m.assistant_answer(4, "Planner provided description for Part 2. [ASSISTANT_RESPONSE_1] Let me now:\n1. Create a new chapter entry for Part 2\n2. Truncate the original manuscript to the first half\n3. Update the original chapter's description") }},
+    {{ m.assistant_tool_turn(5, "create_outline", create_outline_args) }},
+    {{ m.tool_result("create_outline", create_outline_result) }},
+    {{ m.assistant_tool_turn(6, "replace_manuscript", replace_ms_args) }},
+    {{ m.tool_result("replace_manuscript", ok) }},
+    {{ m.assistant_tool_turn(7, "patch_outline", patch_outline_args) }},
+    {{ m.tool_result("patch_outline", ok) }},
+    {{ m.assistant_answer(8, "Split complete. Created \"" ~ new_ch_name ~ "\" in " ~ act.name ~ ", truncated original manuscript to ~" ~ (split_point | string) ~ " chars, and updated the original chapter description. [ASSISTANT_RESPONSE_2]") }}
+  ]
+}
+{%- endif -%}

@@ -1,0 +1,30 @@
+{#
+  scenario_id: theme_exploration
+  scenario_category: J
+  preconditions: project has >= 3 tags
+  description: |
+    User explores themes and symbolism. Short literary discussion, no tools.
+#}
+{%- import "_macros.j2" as m -%}
+{%- set tags = project.basic_info.tags | default([]) -%}
+{%- if tags | length >= 3 -%}
+{%- set title = project.basic_info.title -%}
+{%- set t1 = tags[0] -%}
+{%- set t2 = tags[1] -%}
+{%- set t3 = tags[2] -%}
+{%- set genres = project.basic_info.genres | default([]) | join(", ") -%}
+{
+  "scenario_id": "theme_exploration",
+  "scenario_category": "J",
+  "system": {{ m.system_prompt(project) | tojson }},
+  "tools": [],
+  "messages": [
+    {{ m.user_msg("What do you think the central themes of " ~ title ~ " are? I tagged it with " ~ t1 ~ ", " ~ t2 ~ ", and " ~ t3 ~ " but I'm not sure those capture the real thematic core.") }},
+    {{ m.assistant_answer(0, "Your tags are " ~ t1 | capitalize ~ ", " ~ t2 ~ ", and " ~ t3 ~ " in " ~ title ~ ", a " ~ genres ~ " work.\n\n[ASSISTANT_RESPONSE_0]") }},
+    {{ m.user_msg("I think it presents it as irresolvable. The characters try to reconcile " ~ t1 ~ " and " ~ t3 ~ " but can't.") }},
+    {{ m.assistant_answer(1, "So in " ~ title ~ ", the tags " ~ t1 ~ " and " ~ t3 ~ " are presented as irreconcilable, with " ~ t2 ~ " as a related element.\n\n[ASSISTANT_RESPONSE_1]") }},
+    {{ m.user_msg("Not quite. It leans toward resolution more than I want. I need to pull it back.") }},
+    {{ m.assistant_answer(2, "[ASSISTANT_RESPONSE_2]") }}
+  ]
+}
+{%- endif -%}
