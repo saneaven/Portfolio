@@ -22,14 +22,3 @@ Game installers and trained model checkpoints are on the [Releases](https://gith
 - **[Q by Noflex](projects/game/Q%20by%20Noflex/README.md)**: a side-view roguelike platformer on a custom C++ engine with an ECS core and parallel system scheduler.
 
 Browse everything by category: [Artificial Intelligence](projects/ai/README.md), [Game Programming](projects/game/README.md), [Computer Science](projects/computer%20science/README.md).
-
-## Run the site
-
-```bash
-git clone https://github.com/saneaven/Portfolio.git
-cd Portfolio/website
-npm install
-npm run dev
-```
-
-`npm run build` type-checks the project and writes the prerendered site to `website/dist/`.
