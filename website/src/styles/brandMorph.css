@@ -150,11 +150,6 @@
   height: var(--home-control-h);
   margin-inline: 12px;
   background: oklch(from var(--main-light) l c h / 0.28);
-  transition: opacity 0.3s ease;
-}
-
-.brand-controls[data-mode='about'] .brand-controls__sep {
-  opacity: 0;
 }
 
 .brand-controls__switch {
@@ -166,10 +161,6 @@
   font-size: clamp(11px, 0.9vw, 13px);
   letter-spacing: 0.2em;
   white-space: nowrap;
-}
-
-.brand-controls[data-mode='about'] .brand-controls__switch {
-  margin-left: auto;
 }
 
 .brand-controls__label {

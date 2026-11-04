@@ -1,4 +1,4 @@
-import { cloneElement, useRef, useState, useSyncExternalStore, type CSSProperties, type MouseEvent } from 'react'
+import { cloneElement, useRef, useState, type CSSProperties, type MouseEvent } from 'react'
 import { useLocation, useNavigate, useOutlet } from 'react-router-dom'
 import { AnimatePresence, MotionConfig, animate, motion, type Variants } from 'motion/react'
 import SaneavenLogo from '../../components/SaneavenLogo'
@@ -14,13 +14,6 @@ import '../../styles/brandMorph.css'
 const OUTRO_DUR = 0.4
 const OUTRO_TRANSITION = { duration: OUTRO_DUR, ease: EASE_IN }
 const MORPH = { duration: 0.55, ease: EASE_IN_OUT }
-
-const MOBILE_QUERY = '(max-width: 768px)'
-const subscribeMobile = (onChange: () => void) => {
-  const query = window.matchMedia(MOBILE_QUERY)
-  query.addEventListener('change', onChange)
-  return () => query.removeEventListener('change', onChange)
-}
 
 // The outer layer owns category exits; the inner brand owns the Home/About morph.
 const brandExit: Variants = {
@@ -45,12 +38,6 @@ export default function BrandShell() {
   const navigate = useNavigate()
   const location = useLocation()
   const mode = location.pathname === '/about-me' ? 'about' : 'home'
-  const isMobile = useSyncExternalStore(
-    subscribeMobile,
-    () => window.matchMedia(MOBILE_QUERY).matches,
-    () => false,
-  )
-
   const [leaving, setLeaving] = useState<'game' | 'ai' | null>(null)
   const started = useRef(false)
   // Match the home scene's exit clock before unmounting the shell.
@@ -109,9 +96,6 @@ export default function BrandShell() {
 
         <motion.div
           className="brand-controls"
-          data-mode={mode}
-          layoutRoot
-          layoutScroll
           variants={controlsVariants}
           initial="hidden"
           animate={leaving ?? 'rest'}
@@ -127,20 +111,16 @@ export default function BrandShell() {
             ))}
           </ul>
           <span className="brand-controls__sep" aria-hidden="true" />
-          <motion.a
+          <a
             className="brand-controls__switch"
             href={siteHref(brandTo)}
             aria-label={mode === 'about' ? 'Home' : 'About Me'}
             draggable={false}
             onClick={onBrandClick}
-            // Mobile changes the label without moving the button.
-            layout={isMobile ? false : 'position'}
-            layoutDependency={mode}
-            transition={MORPH}
           >
             <span className="brand-controls__label" data-on={mode === 'home'}>About Me</span>
             <span className="brand-controls__label" data-on={mode === 'about'}>Home</span>
-          </motion.a>
+          </a>
         </motion.div>
 
         {/* A path key lets each outlet finish its exit before the next view enters. */}
