@@ -1,7 +1,7 @@
 import { motion, type Variants } from 'motion/react'
 import { EASE_OUT, EASE_IN } from '../../styles/motion'
 import profileImage from '../../assets/section/profile/profile.png'
-import { INTRO, NAME, ROLE } from '../../data/about'
+import { DOCUMENTS, INTRO, NAME, ROLE } from '../../data/about'
 import SectionScrollbar from '../Section/SectionScrollbar'
 import './AboutMe.css'
 
@@ -84,6 +84,18 @@ export default function AboutView() {
                 <motion.p key={i} className="about__para" variants={rise}>
                   {paragraph}
                 </motion.p>
+              ))}
+            </motion.div>
+
+            {/* Root-relative so `download` stays same-origin on preview hosts too. */}
+            <motion.div className="about__docs" variants={rise}>
+              {DOCUMENTS.map((d) => (
+                <a key={d.href} className="about__doc" href={d.href} download aria-label={`Download ${d.label} (PDF)`}>
+                  {d.label}
+                  <svg viewBox="0 0 24 24" aria-hidden>
+                    <path d="M12 4 V15 M7 10 L12 15 L17 10 M5 20 H19" />
+                  </svg>
+                </a>
               ))}
             </motion.div>
           </motion.div>

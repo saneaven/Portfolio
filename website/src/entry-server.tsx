@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom'
 import App from './App.tsx'
-import { INTRO } from './data/about'
+import { DOCUMENTS, INTRO } from './data/about'
 import { NOT_FOUND_TITLE, ROUTES, SHELL_ROUTES, SITE_DESCRIPTION, SITE_NAME, SITE_URL, routeMeta } from './data/routes'
 import { CATEGORIES, toSectionPath } from './data/sections'
 
@@ -71,6 +71,7 @@ export function llmsTxt() {
     '## About',
     '',
     link('About Me', '/about-me', 'Intro, tech stack and contact links'),
+    ...DOCUMENTS.map((d) => link(d.label, d.href, d.note)),
     link('Home', '/home', 'Entry point to both categories'),
     '',
   ].join('\n')

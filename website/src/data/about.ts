@@ -8,3 +8,9 @@ export const INTRO: string[] = [
   `Machine learning sharpened a different muscle. The real work lives in hundreds of small, unglamorous decisions: how you clean the data, when you stop tuning, what you measure. It taught me to trust that process, not just the result.`,
   `Now I'm looking for a team where I can own AI/ML systems end to end and solve hard problems together.`,
 ]
+
+// Served from public/downloads at fixed URLs, so keep the filenames when replacing a file.
+export const DOCUMENTS = [
+  { label: 'Resume', href: '/downloads/Minjae_Kyung_Resume.pdf', note: 'One-page resume (PDF)' },
+  { label: 'CV', href: '/downloads/Minjae_Kyung_CV.pdf', note: 'Curriculum vitae with education, research interests and selected projects (PDF)' },
+]

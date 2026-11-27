@@ -29,10 +29,9 @@ export default function SectionScrollbar({ visible }: { visible: boolean }) {
   }, [])
 
   useEffect(() => {
-    measure()
     window.addEventListener('scroll', measure, { passive: true })
     window.addEventListener('resize', measure)
-    // Docking and media loads can change the document height without scrolling.
+    // The observer measures initially, then when docking or media change the document height.
     const ro = new ResizeObserver(measure)
     ro.observe(document.documentElement)
     return () => {

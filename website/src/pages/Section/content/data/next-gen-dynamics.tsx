@@ -9,9 +9,9 @@ const nextGenDynamics: ContentBlocks = [
     eyebrow: 'AI · Reinforcement Learning',
     title: 'Teaching a six-legged robot to walk, navigate and chase — learned in simulation.',
     subtitle:
-      'Spider Bot AI trains a 24-DoF hexapod on NVIDIA\'s GPU physics simulator to cross procedurally generated rough terrain and carry out three behaviours — waypoint, patrol and chase — from one reinforcement-learning policy, then exports it to ONNX for sim-to-real deployment.',
+      'Spider Bot AI trains a 24-DoF hexapod on NVIDIA\'s GPU physics simulator to cross procedurally generated rough terrain and carry out three behaviours — waypoint, patrol and chase — from one reinforcement-learning policy. The trained policy was exported to ONNX.',
     meta: [
-      { label: 'Role', value: 'Solo redesign & reimplementation from a teammate\'s initial code' },
+      { label: 'Role', value: 'Co-developed the project from the start. Continued development after my teammate left.' },
       { label: 'Focus', value: 'Deep RL — recurrent multi-modal PPO' },
       { label: 'Stack', value: 'Isaac Lab · skrl PPO_RNN · PyTorch · Docker' },
     ],
@@ -56,8 +56,8 @@ const nextGenDynamics: ContentBlocks = [
             body: 'Perlin-noise hills, random cube/sphere obstacles and terraced zones are generated procedurally, sampled for flat spawn points, and converted to USD meshes — with SHA-256 config hashing for deterministic, reproducible caching. In patrol, a decaying staleness map drives the robot toward long-unvisited ground.',
           },
           {
-            title: 'Sim-to-real via ONNX',
-            body: 'On export, the running-standardisation statistics are baked into the model and the GRU hidden state is exposed as explicit I/O, so raw sensor input drives single-step recurrent inference with no external normalisation — built for edge deployment.',
+            title: 'ONNX export',
+            body: 'The exported model includes observation normalisation and exposes the GRU hidden state as an input and output for single-step recurrent inference.',
           },
         ],
       },
@@ -70,7 +70,7 @@ const nextGenDynamics: ContentBlocks = [
   {
     type: 'section',
     eyebrow: 'Simulation & Environment',
-    title: 'A robot, its senses and its world — built from scratch',
+    title: 'Robot model, sensors, and simulation environment',
     blocks: [
       {
         type: 'minis',
@@ -81,11 +81,11 @@ const nextGenDynamics: ContentBlocks = [
           },
           {
             title: 'Custom 24-DoF hexapod',
-            body: 'A self-built URDF: 6 legs × 4 joints, each modelled as an implicit PD actuator with its own range and torque limits. The network outputs target joint positions (offset from a default pose, scale 0.75) rather than raw torque, at 60 Hz control over 120 Hz physics.',
+            body: 'A custom URDF defines six legs with four joints each. Each joint has an implicit PD actuator with its own range and torque limits. The network outputs target joint positions (offset from a default pose, scale 0.75) at 60 Hz control over 120 Hz physics.',
           },
           {
             title: 'Multi-modal sensing',
-            body: 'Overlapping contact sensors on all 8 feet, a 64×64 raycast height scanner, a 32-channel 360° LiDAR and a frame transformer combine proprioception with a read on the surrounding terrain.',
+            body: 'Contact sensing on the robot’s links, a 64×64 raycast height scanner, a 32-channel 360° LiDAR and a frame transformer combine proprioception with observations of the surrounding terrain.',
           },
           {
             title: 'Reproducibility & containerisation',
@@ -98,19 +98,19 @@ const nextGenDynamics: ContentBlocks = [
   {
     type: 'section',
     eyebrow: 'Training',
-    title: 'From parallel rollouts to a deployable policy',
+    title: 'From parallel rollouts to ONNX export',
     blocks: [
       {
         type: 'pipeline',
         title: 'PPO_RNN training loop',
-        body: 'Many environments roll out in parallel on PhysX, GAE estimates advantages, and a clipped PPO objective updates the recurrent policy. KL-adaptive learning rate and running standardisation keep it stable, torch.distributed (DDP/NCCL) scales it across GPUs, and the trained policy exports to ONNX for sim-to-real.',
+        body: 'Many environments roll out in parallel on PhysX, GAE estimates advantages, and a clipped PPO objective updates the recurrent policy. A KL-adaptive learning rate and running standardisation stabilise training, and torch.distributed (DDP/NCCL) scales it across GPUs. The trained policy is exported to ONNX.',
         steps: [
           'Rollout · 32 steps',
           'Standardize obs & reward',
           'GAE λ=0.95',
           'PPO update · clip 0.2',
           'KL-adaptive LR',
-          'ONNX export → deploy',
+          'ONNX export',
         ],
       },
     ],
@@ -140,8 +140,8 @@ const nextGenDynamics: ContentBlocks = [
             items: ['24-DoF hexapod URDF', 'Implicit PD actuators', 'Joint-position control'],
           },
           {
-            layer: 'Deploy & infra',
-            items: ['ONNX (sim-to-real)', 'torch.distributed DDP', 'Docker Compose', 'TensorBoard', 'Python 3.12'],
+            layer: 'Export & infrastructure',
+            items: ['ONNX export', 'torch.distributed DDP', 'Docker Compose', 'TensorBoard', 'Python 3.12'],
           },
         ],
       },
@@ -160,7 +160,7 @@ const nextGenDynamics: ContentBlocks = [
   },
   {
     type: 'closing',
-    text: 'Redesigned and rebuilt end to end — robot model, simulation, reward design, recurrent policy and the training-to-deployment pipeline.',
+    text: 'Refactored the existing codebase, including my teammate’s early code, and redesigned the robot model, simulation environment, reward system, and recurrent PPO policy.',
   },
 ]
 

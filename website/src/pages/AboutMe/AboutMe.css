@@ -150,6 +150,46 @@
   color: oklch(from var(--main-light) l c h / 0.82);
 }
 
+/* Download pills share the floating contact bar's surface. */
+.about__docs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: clamp(4px, 1vh, 12px);
+}
+
+.about__doc {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  padding: 0.75em 1.3em;
+  border: 1px solid oklch(from var(--main-light) l c h / 0.16);
+  border-radius: 999px;
+  background: oklch(from var(--main-dark) calc(l + 0.07) c h / 0.72);
+  color: inherit;
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: clamp(11px, 0.9vw, 13px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.about__doc:hover {
+  border-color: oklch(from var(--main-light) l c h / 0.4);
+  box-shadow: 0 0 18px -6px oklch(from var(--main-light) l c h / 0.35);
+}
+
+.about__doc svg {
+  width: 1.15em;
+  height: 1.15em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.8;
+}
+
 .about__tech {
   padding-top: clamp(20px, 3vh, 32px);
   border-top: 1px solid var(--cb-line);
@@ -254,7 +294,8 @@
     align-items: center;
   }
 
-  .about__chips {
+  .about__chips,
+  .about__docs {
     justify-content: center;
   }
 }
